@@ -71,7 +71,7 @@ const data = {
             },
             {
               title: "Advisor",
-              url: "/crm/leads",
+              url: "/crm/advisor",
             }
           ],
 
@@ -80,17 +80,17 @@ const data = {
           title: "Deals",
           url: "/crm/deals",
         },
-         {
+        {
           title: "Contacts",
           // url: "/crm/leads",
           items: [
             {
               title: "Client",
-              url: "/crm/leads",
+              url: "/crm/contacts",
             },
             {
               title: "Advisor",
-              url: "/crm/leads",
+              url: "/crm/advisor",
             }
           ],
 

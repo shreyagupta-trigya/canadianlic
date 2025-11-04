@@ -10,6 +10,8 @@ import LeadLayout from "@/features/crm/pages/leads/layout/LeadLayout";
 import ContactLayout from "@/features/crm/pages/contacts/layout/ContactLayout";
 import AccountLayout from "@/features/crm/pages/accounts/layout/AccountLayout";
 import OfferingLayout from "@/features/crm/pages/offerings/layout/OfferingLayout";
+import AdvisorsListNew from "@/features/crm/pages/advisor/AdvisorsListNew";
+import LeadAdvisorForm from "@/features/crm/pages/advisor/LeadAdvisorForm";
 import ActivityMasterLayout from "@/features/activityMaster/layouts/ActivityMasterLayout";
 import ActivityMasterList from "@/features/activityMaster/pages/activityMasters/layout/ActivityMasterList";
 import DeliveryChallanActivityForm from "@/features/crm/pages/deliveryChallan/relatedList/deliveryChallanActivity/DeliveryChallanActivityForm";
@@ -350,6 +352,10 @@ export default function AppRoutes() {
               <Route path="create" element={<OfferingForm />} />
               <Route path="details/:id" element={<OfferingDetailsView />} />
               <Route path="update/:id" element={<OfferingForm />} />
+            </Route>
+            <Route path="advisor">
+              <Route path="" element={<AdvisorsListNew />} />
+              <Route path="advisor-leads-form" element={<LeadAdvisorForm />} />
             </Route>
            <Route path="list" element={<ActivityMasterList />} />
           </Route>

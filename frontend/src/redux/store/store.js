@@ -16,6 +16,8 @@ import packageReducer from "../slices/sales/PackageSlice"
 import creditReducer from "../slices/invoices/creditNoteSlice"
 import invoiceReducer from "../slices/invoices/invoiceSlice"
 import paymentReducer from "../slices/invoices/paymentsSlice"
+import advisorsReducer from "../slices/advisor/advisorSlice"
+
 import referralClientReducer from "../slices/referralClient/referralClientSlice"
 // Only persist the user state, and only its "user" key
 const userPersistConfig = {
@@ -28,6 +30,7 @@ const userPersistConfig = {
 const rootReducer = combineReducers({
     leads: leadsReducer,
     offerings: offeringsReducer,
+    advisors: advisorsReducer,
     deals: dealsReducer,
     contacts: contactReducer,
     accounts: accountReducer,

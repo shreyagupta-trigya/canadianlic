@@ -1,0 +1,77 @@
+[
+  {
+    "ROWID": "1",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "phone": "123-456-7890",
+    "ciprNumber": "CIPR12345",
+    "status": "Active",
+    "location": "Toronto",
+    "advDob": "1980-01-01",
+    "advDoh": "2005-06-15",
+    "advCessD": "2020-12-31",
+    "advEOPolNum": "EOPOL67890",
+    "advLicNum": "LIC123456",
+    "isLlqpLicensed": "Yes",
+    "insuranceLeadOwner": "Jane Smith",
+    "insuranceLeadSource": "Referral",
+    "leadStatusStage": "Qualified",
+    "assignedAdvisor": "Mike Johnson",
+    "gender": "Male",
+    "isThisaReassignment": "No",
+    "company": {
+      "companyName": "ABC Insurance"
+    }
+  },
+  {
+    "ROWID": "2",
+    "firstName": "Jane",
+    "lastName": "Smith",
+    "email": "jane.smith@example.com",
+    "phone": "987-654-3210",
+    "ciprNumber": "CIPR67890",
+    "status": "Inactive",
+    "location": "Vancouver",
+    "advDob": "1975-05-20",
+    "advDoh": "2000-03-10",
+    "advCessD": null,
+    "advEOPolNum": "EOPOL54321",
+    "advLicNum": "LIC789012",
+    "isLlqpLicensed": "No",
+    "insuranceLeadOwner": "Bob Wilson",
+    "insuranceLeadSource": "Website",
+    "leadStatusStage": "New",
+    "assignedAdvisor": "Sarah Lee",
+    "gender": "Female",
+    "isThisaReassignment": "Yes",
+    "company": {
+      "companyName": "XYZ Financial"
+    }
+  },
+  {
+    "ROWID": "3",
+    "firstName": "Mike",
+    "lastName": "Johnson",
+    "email": "mike.johnson@example.com",
+    "phone": "555-123-4567",
+    "ciprNumber": "CIPR11223",
+    "status": "Active",
+    "location": "Calgary",
+    "advDob": "1985-11-30",
+    "advDoh": "2010-08-22",
+    "advCessD": null,
+    "advEOPolNum": "EOPOL99887",
+    "advLicNum": "LIC345678",
+    "isLlqpLicensed": "Yes",
+    "insuranceLeadOwner": "Alice Brown",
+    "insuranceLeadSource": "Social Media",
+    "leadStatusStage": "In Progress",
+    "assignedAdvisor": "Tom Davis",
+    "gender": "Male",
+    "isThisaReassignment": "No",
+    "company": {
+      "companyName": "DEF Advisors"
+    }
+  }
+]
