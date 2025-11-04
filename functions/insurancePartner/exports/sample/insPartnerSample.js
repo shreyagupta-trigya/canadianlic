@@ -1,0 +1,25 @@
+// Insurance Partner Information Data Set
+module.exports = [{
+  partnerOwner: "Alice Johnson",
+  partnerName: "ABC Insurance Group",
+  phone: "+1-234-567-8901",
+  email: "contact@abcinsurance.com",
+  fax: "+1-234-567-8902",
+  PhoneBurnerLastCallOutcome: "No Answer - Rescheduled",
+  additionalContactInformation: "Secondary contact at +1-234-567-8903",
+  advisorListing: "John Doe, Jane Smith",
+  phoneBurnerLastCallTime: "2024-08-25T10:30:00Z",
+  PhoneBurnerFollowUpDate: "2024-09-05",
+  emailOptOut: "No",
+  additionalEmail: "support@abcinsurance.com",
+  additionalPhone: "+1-234-567-8904",
+  accountManager: "Michael Roberts",
+  accountManagerPhone: "+1-234-567-8905",
+  street: "123 Main Street",
+  state: "California",
+  country: "USA",
+  city: "Los Angeles",
+  postalCode: "90001",
+  description:
+    "A leading insurance partner with a focus on customer satisfaction and reliability.",
+}];

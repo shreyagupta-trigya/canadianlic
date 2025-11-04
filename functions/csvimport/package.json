@@ -1,0 +1,9 @@
+{
+	"name": "csvimport",
+	"version": "1.0.0",
+	"main": "index.js",
+	"author": "mrppuri@canadianlic.com",
+	"dependencies": {
+		"zcatalyst-sdk-node": "beta"
+	}
+}

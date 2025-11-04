@@ -1,0 +1,98 @@
+[
+  {
+    "id": "PKG-92373",
+    "img": "https://res.cloudinary.com/dxwlavykb/image/upload/v1751520759/Screenshot_2024-10-07_152818_zswouw.png",
+    "status": "not_shipped",
+    "company": "BOYS ELECTRICAL CO.",
+    "amount": "115000.00",
+    "salesOrder": "SO-25-6465",
+    "method": "",
+    "date": "30 Jun 2025",
+    "name": "BOYS ELECTRICAL CO.",
+    "quantity": 5
+  },
+  {
+    "id": "PKG-06440",
+    "img": "https://res.cloudinary.com/dxwlavykb/image/upload/v1751520758/c9d7d5a59c364904ada0ad3c015fa756_w49b8v.jpg",
+    "status": "shipped",
+    "company": "Logistics Co.",
+    "amount": "1200.00",
+    "salesOrder": "SO-25-7777",
+    "method": "Courier",
+    "date": "02 Jul 2025",
+    "name": "Logistics Co.",
+    "quantity": 2
+  },
+  {
+    "id": "PKG-05352",
+    "img": "https://res.cloudinary.com/dxwlavykb/image/upload/v1751520758/Screenshot_2024-07-01_112237_p8mx51.png",
+    "status": "not_shipped",
+    "company": "ELECTRICAL CO.",
+    "amount": "115000.00",
+    "salesOrder": "SO-25-6465",
+    "method": "",
+    "date": "30 Jun 2025",
+    "name": "ELECTRICAL CO.",
+    "quantity": 3
+  },
+  {
+    "id": "PKG-06298",
+    "status": "shipped",
+    "img": "https://res.cloudinary.com/dxwlavykb/image/upload/v1751520655/199db57cb1094f079c53ad3c0168e0fc_uj8d3b.jpg",
+    "company": "amazon Co.",
+    "amount": "1200.00",
+    "salesOrder": "SO-25-7777",
+    "method": "Courier",
+    "date": "02 Jul 2025",
+    "name": "amazon Co.",
+    "quantity": 10
+  },
+  {
+    "id": "PKG-92373",
+    "img": "https://res.cloudinary.com/dxwlavykb/image/upload/v1751520759/Screenshot_2024-10-07_152818_zswouw.png",
+    "status": "not_shipped",
+    "company": "BOYS ELECTRICAL CO.",
+    "amount": "115000.00",
+    "salesOrder": "SO-25-6465",
+    "method": "",
+    "date": "30 Jun 2025",
+    "name": "BOYS ELECTRICAL CO.",
+    "quantity": 5
+  },
+  {
+    "id": "PKG-06440",
+    "img": "https://res.cloudinary.com/dxwlavykb/image/upload/v1751520758/c9d7d5a59c364904ada0ad3c015fa756_w49b8v.jpg",
+    "status": "shipped",
+    "company": "Logistics Co.",
+    "amount": "1200.00",
+    "salesOrder": "SO-25-7777",
+    "method": "Courier",
+    "date": "02 Jul 2025",
+    "name": "Logistics Co.",
+    "quantity": 2
+  },
+  {
+    "id": "PKG-05352",
+    "img": "https://res.cloudinary.com/dxwlavykb/image/upload/v1751520758/Screenshot_2024-07-01_112237_p8mx51.png",
+    "status": "not_shipped",
+    "company": "ELECTRICAL CO.",
+    "amount": "115000.00",
+    "salesOrder": "SO-25-6465",
+    "method": "",
+    "date": "30 Jun 2025",
+    "name": "ELECTRICAL CO.",
+    "quantity": 3
+  },
+  {
+    "id": "PKG-06298",
+    "status": "shipped",
+    "img": "https://res.cloudinary.com/dxwlavykb/image/upload/v1751520655/199db57cb1094f079c53ad3c0168e0fc_uj8d3b.jpg",
+    "company": "amazon Co.",
+    "amount": "1200.00",
+    "salesOrder": "SO-25-7777",
+    "method": "Courier",
+    "date": "02 Jul 2025",
+    "name": "amazon Co.",
+    "quantity": 10
+  }
+]

@@ -1,0 +1,38 @@
+{
+  "functions": {
+    "targets": [
+      "referralFunction",
+      "usersFunction",
+      "canvasfunctions",
+      "contact",
+      "advisorfunction",
+      "token",
+      "insurancePartner",
+      "locations",
+      "Policy",
+      "investment",
+      "attachments",
+      "utilsfunction",
+      "canadianlic_function",
+      "uatServerFunction",
+      "crmintegration",
+      "crmIntegration",
+      "mailfunction",
+      "productfunction",
+      "canadianlicapi",
+      "deals",
+      "lead",
+      "csvimport",
+      "demotheme_function",
+      "advisorFunction"
+    ],
+    "ignore": [],
+    "source": "functions"
+  },
+  "client": {
+    "source": "client/app/dist",
+    "scripts": {
+      "preserve": "pwd && cd ../ && npm run build"
+    }
+  }
+}

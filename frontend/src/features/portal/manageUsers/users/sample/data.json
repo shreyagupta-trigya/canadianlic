@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "employeeName": "Amit Sharma",
+    "permission": "Admin",
+    "email": "amit.sharma@example.com",
+    "employeeStatus": "Active",
+    "user": "DDP",
+    "createdTime": "2025-09-10T09:30:00Z",
+    "modifiedTime": "2025-09-11T14:15:00Z",
+    "createdBy": "Trigya Innovations"
+  },
+  {
+    "id": 2,
+    "employeeName": "Priya Singh",
+    "permission": "Viewer",
+    "email": "priya.singh@example.com",
+    "employeeStatus": "Inactive",
+    "user": "DAP",
+    "createdTime": "2025-09-09T10:00:00Z",
+    "modifiedTime": "2025-09-11T13:45:00Z",
+    "createdBy": "Trigya Innovations"
+  },
+  {
+    "id": 3,
+    "employeeName": "Rahul Mehta",
+    "permission": "Editor",
+    "email": "rahul.mehta@example.com",
+    "employeeStatus": "Active",
+    "user": "FOB",
+    "createdTime": "2025-09-08T08:20:00Z",
+    "modifiedTime": "2025-09-10T16:10:00Z",
+    "createdBy": "Trigya Innovations"
+  },
+  {
+    "id": 4,
+    "employeeName": "Sneha Patel",
+    "permission": "Admin",
+    "email": "sneha.patel@example.com",
+    "employeeStatus": "Active",
+    "user": "CIF",
+    "createdTime": "2025-09-07T07:50:00Z",
+    "modifiedTime": "2025-09-09T15:05:00Z",
+    "createdBy": "Trigya Innovations"
+  },
+  {
+    "id": 5,
+    "employeeName": "Vikas Nair",
+    "permission": "Viewer",
+    "email": "vikas.nair@example.com",
+    "employeeStatus": "Inactive",
+    "user": "EXW",
+    "createdTime": "2025-09-06T09:15:00Z",
+    "modifiedTime": "2025-09-08T12:25:00Z",
+    "createdBy": "Trigya Innovations"
+  }
+]

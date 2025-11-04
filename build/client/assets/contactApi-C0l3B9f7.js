@@ -1,0 +1,1 @@
+import{bz as a}from"./index-Ben2u2GE.js";const n=async t=>await a.post("/crm/create-contact",t),r=async(t,e)=>await a.put(`/crm/update-contact/${e}`,t),o=async t=>await a.delete(`/crm/delete-contact/${t}`);export{n as c,o as d,r as u};

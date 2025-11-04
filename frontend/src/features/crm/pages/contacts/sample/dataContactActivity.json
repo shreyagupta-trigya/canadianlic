@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "subject": "Complete Project Report",
+    "start_date": "30-09-2025",
+    "due_date": "15-10-2025",
+    "priority": "High",
+    "task_status": "Open",
+    "task_owner": "Trigya Innovation"
+  },
+  {
+    "id": 2,
+    "subject": "Finalize Budget Plan",
+    "start_date": "01-10-2025",
+    "due_date": "10-10-2025",
+    "priority": "Medium",
+    "task_status": "Open",
+    "task_owner": "Trigya Innovation"
+  },
+  {
+    "id": 3,
+    "subject": "Conduct User Testing",
+    "start_date": "05-10-2025",
+    "due_date": "20-10-2025",
+    "priority": "Low",
+    "task_status": "In Progress",
+    "task_owner": "Trigya Innovation"
+  },
+  {
+    "id": 4,
+    "subject": "Update Website Content",
+    "start_date": "02-10-2025",
+    "due_date": "12-10-2025",
+    "priority": "High",
+    "task_status": "Completed",
+    "task_owner": "Trigya Innovation"
+  },
+  {
+    "id": 5,
+    "subject": "Prepare Marketing Strategy",
+    "start_date": "03-10-2025",
+    "due_date": "18-10-2025",
+    "priority": "Medium",
+    "task_status": "Open",
+    "task_owner": "Trigya Innovation"
+  },
+  {
+    "id": 6,
+    "subject": "Prepare Monthly Financial Report",
+    "start_date": "01-10-2025",
+    "due_date": "05-10-2025",
+    "priority": "High",
+    "task_status": "Closed",
+    "task_owner": "Trigya Innovation"
+  }
+]

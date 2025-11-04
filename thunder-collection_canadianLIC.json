@@ -1,0 +1,188 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "canadianLIC",
+    "dateExported": "2024-03-21T06:23:57.465Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "40034833-573f-495b-8803-d4a51fa10c03",
+            "colId": "b1a3ba17-1182-455d-9e07-be01961a8582",
+            "containerId": "",
+            "name": "R1 Signup",
+            "url": "http://localhost:3000/server/usersFunction/app/signup",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-03-13T04:20:44.180Z",
+            "modified": "2024-03-15T13:29:10.831Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{ \n  \"userName\":\"Somya Bhardwaj\",\n  \"userEmail\":\"somyabhardwaj004@gmail.com\",\n  \"userPassword\":\"257425\",\n  \"userOTP\":\"gbthp5\"\n   }",
+                "form": []
+            },
+            "reqType": "post",
+            "tests": []
+        },
+        {
+            "_id": "84fdab3b-dcc6-466d-9abb-b04b6486c3fd",
+            "colId": "b1a3ba17-1182-455d-9e07-be01961a8582",
+            "containerId": "",
+            "name": "R2 login",
+            "url": "http://localhost:3000/server/usersFunction/app/login",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-03-14T03:32:29.015Z",
+            "modified": "2024-03-18T17:53:44.491Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"userEmail\":\"somya.bhardwaaj@trigya.co\",\n  \"userPassword\":\"632710\"\n}",
+                "form": []
+            },
+            "reqType": "post",
+            "tests": []
+        },
+        {
+            "_id": "9db5a8ad-6320-4584-86c3-dbea0e251ac2",
+            "colId": "b1a3ba17-1182-455d-9e07-be01961a8582",
+            "containerId": "",
+            "name": "R3- resetpassword",
+            "url": "http://localhost:3000/server/usersFunction/app/verify-otp",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-03-14T11:03:12.640Z",
+            "modified": "2024-03-15T20:03:02.271Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{ \n  \"userOTP\":\"5xgr72\",\n  \"userPassword\":\"hello somya\"\n}",
+                "form": []
+            },
+            "reqType": "post",
+            "tests": []
+        },
+        {
+            "_id": "902f9c98-c5af-4cd2-848a-28df750f926c",
+            "colId": "b1a3ba17-1182-455d-9e07-be01961a8582",
+            "containerId": "",
+            "name": "create user",
+            "url": "http://localhost:3000/server/usersFunction/createuser",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2024-03-15T04:01:12.257Z",
+            "modified": "2024-03-21T06:05:59.649Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n    \"firstName\": \"Peter\",\n    \"lastName\": \"Antony\",\n    \"email\": \"peterj@trigya.co\",\n    \"phone\": \"+919047090872\",\n    \"address1\": \"123 Main St\",\n    \"address2\": \"Apt 202\",\n    \"city\": \"Springfield\",\n    \"state\": \"IL\",\n    \"zip\": \"12345\",\n    \"twitterHandle\": \"@johndoe\",\n    \"facebookAccount\": \"johndoe\",\n    \"instagramAccount\": \"johndoe_gram\",\n    \"publicEmail\": \"contact@johndoe.com\",\n    \"bio\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut est eget sapien lacinia luctus.\",\n    \"role\":\"superAdmin\"\n  }",
+                "form": []
+            },
+            "reqType": "put",
+            "tests": []
+        },
+        {
+            "_id": "f3d741ba-de9c-4efb-bce6-d87de67ff692",
+            "colId": "b1a3ba17-1182-455d-9e07-be01961a8582",
+            "containerId": "",
+            "name": "Route 4 verify email",
+            "url": "http://localhost:3000/server/usersFunction/app/verify-email",
+            "method": "POST",
+            "sortNum": 50000,
+            "created": "2024-03-15T04:24:03.417Z",
+            "modified": "2024-03-18T18:25:34.705Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{ \n  \"userEmail\":\"somyabhardwaj004@gmail.com\",\n   \"userOTP\":\"848438\"\n  }",
+                "form": []
+            },
+            "reqType": "post",
+            "tests": []
+        },
+        {
+            "_id": "f486d219-2a10-4bc2-894e-85e62e4072cb",
+            "colId": "b1a3ba17-1182-455d-9e07-be01961a8582",
+            "containerId": "",
+            "name": "R5 send-otp",
+            "url": "http://localhost:3000/server/usersFunction/app/send-otp",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2024-03-15T11:24:18.660Z",
+            "modified": "2024-03-17T17:15:55.151Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{ \n  \"userEmail\":\"somyabhardwaj004@gmail.com\"\n  }",
+                "form": []
+            },
+            "reqType": "post",
+            "tests": []
+        },
+        {
+            "_id": "86405923-a6c4-4e6e-8f9a-33281128c63c",
+            "colId": "b1a3ba17-1182-455d-9e07-be01961a8582",
+            "containerId": "",
+            "name": "R6 phone-otp",
+            "url": "http://localhost:3000/server/usersFunction/app/phone-otp",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2024-03-17T17:02:13.592Z",
+            "modified": "2024-03-19T16:53:23.510Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"phoneNumber\": \"+918960274119\"}",
+                "form": []
+            },
+            "reqType": "post",
+            "tests": []
+        },
+        {
+            "_id": "a70a2094-5336-42cd-a098-1082a8d5f005",
+            "colId": "b1a3ba17-1182-455d-9e07-be01961a8582",
+            "containerId": "",
+            "name": "R7verify-phone-otp",
+            "url": "http://localhost:3000/server/usersFunction/app/verify-phone-otp",
+            "method": "POST",
+            "sortNum": 80000,
+            "created": "2024-03-18T09:57:00.602Z",
+            "modified": "2024-03-18T18:50:29.728Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"phoneNumber\":\"+918960274119\",\n   \"otpCode\" : \"435429\"\n}",
+                "form": []
+            },
+            "reqType": "post",
+            "tests": []
+        },
+        {
+            "_id": "a3e4a5e7-5ecb-4c76-8332-4d05bf7cf6ac",
+            "colId": "b1a3ba17-1182-455d-9e07-be01961a8582",
+            "containerId": "",
+            "name": "r8 user data get",
+            "url": "http://localhost:3000/server/usersFunction/app/getuserdata",
+            "method": "POST",
+            "sortNum": 100000,
+            "created": "2024-03-19T08:55:56.234Z",
+            "modified": "2024-03-19T11:42:44.669Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"userEmail\":\"somya.bhardwaaj@trigya.co\"\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}

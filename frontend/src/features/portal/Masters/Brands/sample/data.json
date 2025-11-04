@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "date": "2025-09-12",
+    "brandName": "Brand A",
+    "createdTime": "2025-09-10T09:30:00Z",
+    "modifiedTime": "2025-09-11T14:15:00Z"
+  },
+  {
+    "id": 2,
+    "date": "2025-09-11",
+    "brandName": "Brand B",
+    "createdTime": "2025-09-09T10:00:00Z",
+    "modifiedTime": "2025-09-11T13:45:00Z"
+  },
+  {
+    "id": 3,
+    "date": "2025-09-10",
+    "brandName": "Brand C",
+    "createdTime": "2025-09-08T08:20:00Z",
+    "modifiedTime": "2025-09-10T16:10:00Z"
+  },
+  {
+    "id": 4,
+    "date": "2025-09-09",
+    "brandName": "Brand D",
+    "createdTime": "2025-09-07T07:50:00Z",
+    "modifiedTime": "2025-09-09T15:05:00Z"
+  }
+]

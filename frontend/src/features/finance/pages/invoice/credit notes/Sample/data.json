@@ -1,0 +1,112 @@
+[
+  {
+    "date": "18 Jul 2025",
+    "creditNote": "ION-CN-25-1122",
+    "referenceNumber": "",
+    "customerName": "AIREKO ENERGY SOLUTION US LLC",
+    "invoice": "INV-25-7982",
+    "status": "OPEN",
+    "amount": "$769.30",
+    "balance": "$769.30"
+  },
+  {
+    "date": "18 Jul 2025",
+    "creditNote": "ION-CN-25-1121",
+    "referenceNumber": "",
+    "customerName": "BOYS ELECTRICAL CONTRACTORS",
+    "invoice": "INV-25-7766",
+    "status": "OPEN",
+    "amount": "$856.00",
+    "balance": "$856.00"
+  },
+  {
+    "date": "16 Jul 2025",
+    "creditNote": "ION-CN-25-1120",
+    "referenceNumber": "",
+    "customerName": "BOYS ELECTRICAL CONTRACTORS",
+    "invoice": "INV-25-7222",
+    "status": "OPEN",
+    "amount": "$2,070.18",
+    "balance": "$2,070.18"
+  },
+  {
+    "date": "16 Jul 2025",
+    "creditNote": "ION-CN-25-1119",
+    "referenceNumber": "",
+    "customerName": "BOYS ELECTRICAL CONTRACTORS",
+    "invoice": "INV-25-7754, INV-25-7470, INV-25-7672",
+    "status": "OPEN",
+    "amount": "$6,360.00",
+    "balance": "$6,180.20"
+  },
+  {
+    "date": "15 Jul 2025",
+    "creditNote": "ION-CN-25-1118",
+    "referenceNumber": "",
+    "customerName": "AIREKO ENERGY SOLUTION US LLC",
+    "invoice": "INV-25-8092",
+    "status": "OPEN",
+    "amount": "$635.61",
+    "balance": "$635.61"
+  },
+  {
+    "date": "02 Jul 2025",
+    "creditNote": "ION-CN-25-1117",
+    "referenceNumber": "",
+    "customerName": "CASH SALE",
+    "invoice": "INV-25-8312",
+    "status": "CLOSED",
+    "amount": "$149.10",
+    "balance": "$0.00"
+  },
+  {
+    "date": "25 Jun 2025",
+    "creditNote": "ION-CN-25-1116",
+    "referenceNumber": "",
+    "customerName": "BOYS ELECTRICAL CONTRACTORS",
+    "invoice": "INV-25-8272",
+    "status": "CLOSED",
+    "amount": "$351.45",
+    "balance": "$0.00"
+  },
+  {
+    "date": "25 Jun 2025",
+    "creditNote": "ION-CN-25-1115",
+    "referenceNumber": "",
+    "customerName": "CASH SALE",
+    "invoice": "INV-24-6981",
+    "status": "CLOSED",
+    "amount": "$363.17",
+    "balance": "$0.00"
+  },
+  {
+    "date": "25 Jun 2025",
+    "creditNote": "ION-CN-25-1114",
+    "referenceNumber": "",
+    "customerName": "AIREKO ENERGY SOLUTION US LLC",
+    "invoice": "INV-25-8271",
+    "status": "CLOSED",
+    "amount": "$95.57",
+    "balance": "$0.00"
+  },
+  {
+    "date": "25 Jun 2025",
+    "creditNote": "ION-CN-25-1113",
+    "referenceNumber": "",
+    "customerName": "CASH SALE",
+    "invoice": "INV-25-8233",
+    "status": "CLOSED",
+    "amount": "$20.51",
+    "balance": "$0.00"
+  },
+  {
+    "date": "24 Jun 2025",
+    "creditNote": "ION-CN-25-1112",
+    "referenceNumber": "",
+    "customerName": "KBK CONSTRUCTION AND DEVELOPMENT LLC",
+    "invoice": "INV-24-6422",
+    "status": "CLOSED",
+    "amount": "$3,225.00",
+    "balance": "$0.00"
+  }
+]

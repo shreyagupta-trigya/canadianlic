@@ -1,0 +1,42 @@
+[
+  {
+    "noteTitle": "Initial Lead Contact",
+    "addedBy": "user123",
+    "id": "1",
+    "description": "Called the lead to discuss insurance options. They showed interest in life insurance plans.",
+    "time": "2023-10-01T10:00:00Z",
+    "AddedByName": "John Doe"
+  },
+  {
+    "noteTitle": "Follow-up Meeting",
+    "addedBy": "user456",
+    "id": "2",
+    "description": "Scheduled a follow-up meeting for next week to review policy details and answer questions.",
+    "time": "2023-10-05T14:30:00Z",
+    "AddedByName": "Jane Smith"
+  },
+  {
+    "noteTitle": "Email Sent",
+    "addedBy": "user123",
+    "id": "3",
+    "description": "Sent an email with brochure and quote information. Awaiting response.",
+    "time": "2023-10-08T09:15:00Z",
+    "AddedByName": "John Doe"
+  },
+  {
+    "noteTitle": "Demo Session",
+    "addedBy": "user789",
+    "id": "4",
+    "description": "Conducted a demo session online. Lead has questions about premium calculations.",
+    "time": "2023-10-12T16:00:00Z",
+    "AddedByName": "Alice Johnson"
+  },
+  {
+    "noteTitle": "Lead Feedback",
+    "addedBy": "user456",
+    "id": "5",
+    "description": "Received positive feedback on the service. Lead is considering signing up soon.",
+    "time": "2023-10-15T11:45:00Z",
+    "AddedByName": "Jane Smith"
+  }
+]

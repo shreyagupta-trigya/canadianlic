@@ -1,0 +1,1 @@
+import{bz as a}from"./index-Ben2u2GE.js";const t=async e=>(await a.post("/finance/create-sales-order",e)).data,n=async e=>(await a.delete(`/finance/delete-sales-order/${e}`)).data;export{t as c,n as d};

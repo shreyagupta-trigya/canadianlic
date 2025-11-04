@@ -1,0 +1,57 @@
+[
+  {
+    "id": 1,
+    "deptName": "Engineering",
+    "projectNo": "PRJ-2025-001",
+    "projectTitle": "Office Building Renovation",
+    "clientName": "ABC Constructions Ltd.",
+    "requestedBy": "John Doe",
+    "requisitionRefNo": "REQ-1001",
+    "requisitionDate": "2025-08-01",
+    "status": "Approved"
+  },
+  {
+    "id": 2,
+    "deptName": "Procurement",
+    "projectNo": "PRJ-2025-002",
+    "projectTitle": "Highway Expansion Project",
+    "clientName": "Global Infra Pvt. Ltd.",
+    "requestedBy": "Sarah Williams",
+    "requisitionRefNo": "REQ-1002",
+    "requisitionDate": "2025-08-05",
+    "status": "Pending"
+  },
+  {
+    "id": 3,
+    "deptName": "Finance",
+    "projectNo": "PRJ-2025-003",
+    "projectTitle": "Solar Power Plant Setup",
+    "clientName": "Sun Energy Corp.",
+    "requestedBy": "Michael Smith",
+    "requisitionRefNo": "REQ-1003",
+    "requisitionDate": "2025-08-10",
+    "status": "Rejected"
+  },
+  {
+    "id": 4,
+    "deptName": "Operations",
+    "projectNo": "PRJ-2025-004",
+    "projectTitle": "Metro Rail Development",
+    "clientName": "City Transport Authority",
+    "requestedBy": "Emily Johnson",
+    "requisitionRefNo": "REQ-1004",
+    "requisitionDate": "2025-08-15",
+    "status": "Approved"
+  },
+  {
+    "id": 5,
+    "deptName": "IT",
+    "projectNo": "PRJ-2025-005",
+    "projectTitle": "ERP System Upgrade",
+    "clientName": "Tech Solutions Inc.",
+    "requestedBy": "David Lee",
+    "requisitionRefNo": "REQ-1005",
+    "requisitionDate": "2025-08-20",
+    "status": "Pending"
+  }
+]

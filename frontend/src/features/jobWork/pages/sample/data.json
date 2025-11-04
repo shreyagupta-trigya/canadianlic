@@ -1,0 +1,47 @@
+[
+  {
+    "jobWorkNo": "JW-001",
+    "jobWorkDate": "2025-10-14",
+    "dueDate": "2025-10-20",
+    "jobType": "Mixing",
+    "batchNo": "B-1023",
+    "quantity": 500,
+    "unit": "kg",
+    "status": "Pending",
+    "rate": 25,
+    "totalCost": 12500,
+    "gst": "18%",
+    "totalAmount": 14750,
+    "remarks": "Urgent job"
+  },
+  {
+    "jobWorkNo": "JW-002",
+    "jobWorkDate": "2025-10-12",
+    "dueDate": "2025-10-18",
+    "jobType": "Filling",
+    "batchNo": "B-1024",
+    "quantity": 200,
+    "unit": "L",
+    "status": "Completed",
+    "rate": 40,
+    "totalCost": 8000,
+    "gst": "12%",
+    "totalAmount": 8960,
+    "remarks": ""
+  },
+  {
+    "jobWorkNo": "JW-003",
+    "jobWorkDate": "2025-10-10",
+    "dueDate": "2025-10-15",
+    "jobType": "Packing",
+    "batchNo": "B-1025",
+    "quantity": 100,
+    "unit": "pcs",
+    "status": "In Progress",
+    "rate": 15,
+    "totalCost": 1500,
+    "gst": "5%",
+    "totalAmount": 1575,
+    "remarks": "QC check pending"
+  }
+]

@@ -1,0 +1,6 @@
+module.exports = [
+  { id: 1, name: "John Doe", email: "john.doe@example.com", age: 25,insuranceLeadOwner: "John Doe",insuranceLeadSource: "Referral",firstName: "John",lastName: "Doe",mobile: "123-456-7890",insuranceLeadStatus: "New",whatsapp: "123-456-7890",leadStatusStage: "Initial Contact",email: "john.doe@example.com",assignedAdvisor: "Jane Doe",emailIsValid: true,removeFromCampaign: false,},
+  { id: 2, name: "Jane Doe", email: "jane.doe@example.com", age: 30,insuranceLeadOwner: "Jane Doe",insuranceLeadSource: "Referral",firstName: "Jane",lastName: "Doe",mobile: "123-456-7890",insuranceLeadStatus: "New",whatsapp: "123-456-7890",leadStatusStage: "Initial Contact",email: "jane.doe@example.com",assignedAdvisor: "Jane Doe",emailIsValid: true,removeFromCampaign: false,},
+  { id: 3, name: "Bob Smith", email: "bob.smith@example.com", age: 22,insuranceLeadOwner: "Bob Smith",insuranceLeadSource: "Website",firstName: "Bob",lastName: "Smith",mobile: "555-1234",insuranceLeadStatus: "New",whatsapp: "555-1234",leadStatusStage: "Initial Contact",email: "bob.smith@example.com",assignedAdvisor: "Jane Doe",emailIsValid: true,removeFromCampaign: false,},
+  
+];

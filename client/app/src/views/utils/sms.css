@@ -1,0 +1,120 @@
+.scrollable-container {
+  min-height: 62vh;
+  overflow-y: auto;
+}
+
+.chat-message {
+  background: #f9f9f9;
+  padding: 10px;
+}
+
+.send-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+  .chat-history {
+    overflow-y: auto;
+    height: 300px;
+  }
+  
+  .message-data {
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    background-color: #B1C9EF;
+  }
+  
+  .message-data-time {
+    color: lighten($gray, 8%);
+    padding-left: 6px;
+  }
+  
+  .message {
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    background-color: #628ECB;
+    color: white;
+  }
+  
+  .me .message {
+    background-color: #B1C9EF;
+    color: white;
+  }
+  
+  .other-message .message {
+    background-color: #f0f0f0;
+    color: #333;
+  }
+  textarea{
+    border:none;    
+}
+textarea:focus {
+  border-color: #25D366;
+}
+  
+  .chat-message {
+    margin-top: 20px;
+    display:flex;
+    /* border: 1px solid rgb(192,192,192, 0.5); */
+    background-color:#fff;
+    border-radius: 5px;
+}
+.send-button {
+  background:none;
+  border: none;
+  border-radius: 100%;
+  cursor: pointer;
+  padding: 0;
+  
+}
+
+.send-button i {
+  color: #fff;
+  padding:0.5rem;
+  border-radius: 100%;
+  background-color: #184e88;
+}
+  .avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: rgb(154, 154, 243);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;  
+    font-weight: bold;
+    color: #fff;  
+    margin-right: 8px;
+  }
+  
+  .avatar-container {
+    display: flex;
+    align-items: center;
+  }
+
+  @media screen and (max-width: 900px) {
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgb(154, 154, 243);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;  
+    font-weight: bold;
+    color: #fff;  
+    margin-right: 8px;
+  }
+  
+  .avatar-container {
+    display: flex;
+    align-items: center;
+  }
+}

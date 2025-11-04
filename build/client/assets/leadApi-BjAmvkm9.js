@@ -1,0 +1,1 @@
+import{bz as t}from"./index-Ben2u2GE.js";const c=async e=>await t.post("/crm/create-lead",e),n=async(e,a)=>await t.put(`/crm/update-lead/${a}`,e),d=async e=>await t.delete(`/crm/delete-lead/${e}`);export{c,d,n as u};

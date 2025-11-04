@@ -1,0 +1,30 @@
+{
+    "defaults": {
+        "project": 1,
+        "env": 1
+    },
+    "actives": {
+        "project": 1,
+        "env": 1
+    },
+    "projects": [
+        {
+            "idx": 1,
+            "id": "5951000000086054",
+            "name": "canadian-lic",
+            "domain": {
+                "id": "10097526759",
+                "name": "canadian-lic-844912243.development"
+            },
+            "timezone": "America/Toronto",
+            "env": [
+                {
+                    "idx": 1,
+                    "id": "844912243",
+                    "name": "Development",
+                    "type": 3
+                }
+            ]
+        }
+    ]
+}

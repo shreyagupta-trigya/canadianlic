@@ -1,0 +1,30 @@
+const referralData = {
+    "Referral Data Id":"referralDataId",
+    "Referral Name":"referralName",
+    "Annual Referral Slab":"annualReferralSlab",
+    "Referral Level":"referralLevel",
+    "Year":"year",
+    "1st Policy Issue Date":"1stPolicyIssueDate",
+    "Client":"client",
+    "Product Category Referred":"productCategoryReferred",
+    "Referral Payout":"referralPayout",
+    "Exchange Rate":"exchangeRate",
+    "Layout":"layout",
+    "Currency":"currency",
+    "Referral Owner":"referralOwner",
+    "Referred By Client":"referredByClient",
+    "Referred By Other":"referredByOther",
+    "Product Category Reffered":"productCategoryReffered",
+    "Email":"email",
+    "Ref Call":"refCall",
+    "Phone":"phone",
+    "Last Name":"lastName",
+    "Comment":"comment",
+    "Approved Status":"approvedStatus",
+    "Lead Id":"leadId",
+    "Referred By":"referredBy",
+    "Referral Leads":"referralLeads",
+    "First Policy Issue Date":"firstPolicyIssueDate"
+};
+
+module.exports = { referralData };

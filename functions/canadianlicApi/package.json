@@ -1,0 +1,20 @@
+{
+	"name": "canadianlicapi",
+	"version": "1.0.0",
+	"main": "index.js",
+	"author": "shobhnath@trigya.co",
+	"dependencies": {
+		"axios": "^1.7.9",
+		"cors": "^2.8.5",
+		"crypto-js": "^4.2.0",
+		"csv-parser": "^3.2.0",
+		"csv-writer": "^1.6.0",
+		"dotenv": "^16.4.5",
+		"express": "^4.21.1",
+		"multer": "^1.4.5-lts.1",
+		"node-cache": "^5.1.2",
+		"vue-tel-input": "^9.2.0",
+		"xlsx": "^0.18.5",
+		"zcatalyst-sdk-node": "^3.0.0-beta.5"
+	}
+}

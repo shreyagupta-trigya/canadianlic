@@ -1,0 +1,1 @@
+import{bz as r}from"./index-Ben2u2GE.js";const o=async e=>await r.post("/user/create-role",e),n=async e=>await r.delete(`/user/delete-role/${e}`),c=async(e,s)=>await r.put(`/user/update-role/${s}`,e);export{o as c,n as d,c as u};

@@ -1,0 +1,21 @@
+{
+  "source": "functions/backend_function",
+  "execution": {
+    "runtime": "node18",
+    "handler": "index.js"
+  },
+  "policies": [
+    {
+      "name": "datastore",
+      "enabled": true
+    },
+    {
+      "name": "cache",
+      "enabled": true
+    },
+    {
+      "name": "file_store",
+      "enabled": true
+    }
+  ]
+}
