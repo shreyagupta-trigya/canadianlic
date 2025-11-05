@@ -1,0 +1,32 @@
+// models/usersModel.js
+const locations = {
+    "Location ID": "sourceId",
+    "Location Owner": "locationOwner",
+    "Rating": "rating",
+    "Location Name": "locationName",
+    "Phone": "phone",
+    "Fax": "fax",
+    "Website": "website",
+    "Employees": "employees",
+    "AnnualRevenue": "annualRevenue",
+    "Billing Street": "street",
+    "Shipping Street": "shippingStreet",
+    "Billing City": "city",
+    "Billing State": "state",
+    "Shipping State": "shipmentState",
+    "Billing Code": "postalCode	",
+    "Shipping Code": "shipmentPostalCode",
+    "Billing Country": "country",
+    "Shipping Country": "shipmentCountry",
+    "Description": "description",
+    "Currency": "currency",
+    "Exchange Rate": "exchangeRate",
+    "Average Monthly Revenue": "mRevenue",
+    "Client Average Monthly Yield": "caMonthlyYield",
+    "Advisor Average Monthly Yield": "aaMonthlyYield",
+    "Advisor Average Annual Yield": "aaAnnualYield",
+    "Total Rolling Revenue": "trRevenue",
+    "Client Average Annual Yield": "caAnnualYield",
+};
+
+module.exports = {locations};

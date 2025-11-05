@@ -51,7 +51,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
-import { LeadsConvertForm } from "./LeadsConvertForm";
+// import { LeadsConvertForm } from "./LeadsConvertForm";
 import LeadActivityList from "./relatedList/leadActivity/LeadActivityList";
 const GridEditableField = ({ label, children, className }) => (
   <div className={`flex flex-col space-y-1 ${className}`}>
@@ -350,7 +350,7 @@ const LeadsDetailsView = () => {
                                             Cancel Edit
                                         </Button>
                                     )}
-                                    <LeadsConvertForm details={details} />
+                                    {/* <LeadsConvertForm details={details} /> */}
                                 </CardHeader>
                             </Card>
                         }

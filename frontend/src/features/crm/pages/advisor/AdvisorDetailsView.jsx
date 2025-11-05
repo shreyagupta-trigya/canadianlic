@@ -293,51 +293,51 @@ const AdvisorDetailsView = () => {
           </div>
           <Accordion type="multiple" className="w-full" defaultValue={["lead-information"]} >
             <AccordionItem value="lead-information" className="mb-1 ">
-              <AccordionTrigger className="text-xl">LeadInformation</AccordionTrigger>
+              <AccordionTrigger className="text-xl">Lead Information</AccordionTrigger>
               <AccordionContent >
-                <LeadInformation LeadInformation={formData} onNext={() => {}} onPrevious={() => {}} />
+                <LeadInformation formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="description-info" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">DescriptonInfo</AccordionTrigger>
+              <AccordionTrigger className="text-xl">Description Info</AccordionTrigger>
               <AccordionContent>
-                <DescriptonInfo DescriptonInfo={formData} onNext={() => {}} onPrevious={() => {}} />
+                <DescriptonInfo formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="family-tree" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">FamilyTree</AccordionTrigger>
+              <AccordionTrigger className="text-xl">Family Tree</AccordionTrigger>
               <AccordionContent>
-                <FamilyTree FamilyTree={formData} onNext={() => {}} onPrevious={() => {}} />
+                <FamilyTree formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="address-information" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">AddressInformation</AccordionTrigger>
+              <AccordionTrigger className="text-xl">Address Information</AccordionTrigger>
               <AccordionContent>
-                <AddressInformation AddressInformation={formData} onNext={() => {}} onPrevious={() => {}} />
+                <AddressInformation formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="umt-details" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">UMTDetails</AccordionTrigger>
+              <AccordionTrigger className="text-xl">UMT Details</AccordionTrigger>
               <AccordionContent>
-                <UMTDetails UMTDetails={formData} onNext={() => {}} onPrevious={() => {}} />
+                <UMTDetails formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="festival-form" className="mb-1 ">
-              <AccordionTrigger className="text-xl">FestivalForm</AccordionTrigger>
+              <AccordionTrigger className="text-xl">Festival Form</AccordionTrigger>
               <AccordionContent>
-                <FestivalForm FestivalForm={formData} onNext={() => {}} onPrevious={() => {}} />
+                <FestivalForm formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="service-request-details" className="mb-1 ">
-              <AccordionTrigger className="text-xl">ServiceRequestDetails</AccordionTrigger>
+              <AccordionTrigger className="text-xl">Service Request Details</AccordionTrigger>
               <AccordionContent>
-                <ServiceRequestDetails ServiceRequestDetails={formData} onNext={() => {}} onPrevious={() => {}} />
+                <ServiceRequestDetails formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="lead-management-information" className="mb-1 ">
-              <AccordionTrigger className="text-xl">LeadManagementInformation</AccordionTrigger>
+              <AccordionTrigger className="text-xl">Lead Management Information</AccordionTrigger>
               <AccordionContent>
-                <LeadManagementInformation LeadManagementInformation={formData} onNext={() => {}} onPrevious={() => {}} />
+                <LeadManagementInformation formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
               </AccordionContent>
             </AccordionItem>
           </Accordion>

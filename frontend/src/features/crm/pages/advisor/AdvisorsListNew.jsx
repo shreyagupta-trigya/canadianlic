@@ -125,6 +125,7 @@ import MassUpdateModal from "./MassUpdateModal";
 import MassUpdateEmailModal from "./MassUpdateEmailModal";
 // import AdvisorColumnManageDrawer from "./drawer/AdvisorColumnManageDrawer";
 import LeadDrawer from "@/features/crm/pages/leads/LeadDrawer";
+import { EllipsisVertical } from "lucide-react";
 
 function DragHandle({ id }) {
   const { attributes, listeners } = useSortable({
@@ -642,7 +643,7 @@ const AdvisorsListNew = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
-                <i className="fa-solid fa-ellipsis dropdown-toggle"></i>
+                <EllipsisVertical />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-32">
@@ -1034,9 +1035,8 @@ const AdvisorsListNew = () => {
                                     <div
                                       onMouseDown={header.getResizeHandler()}
                                       onTouchStart={header.getResizeHandler()}
-                                      className={`absolute right-0 top-0 h-full w-1 cursor-col-resize select-none touch-none ${
-                                        header.column.getIsResizing() ? 'bg-primary' : 'bg-border hover:bg-primary/50'
-                                      }`}
+                                      className={`absolute right-0 top-0 h-full w-1 cursor-col-resize select-none touch-none ${header.column.getIsResizing() ? 'bg-primary' : 'bg-border hover:bg-primary/50'
+                                        }`}
                                     />
                                   )}
                                 </TableHead>

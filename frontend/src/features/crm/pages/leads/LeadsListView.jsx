@@ -123,6 +123,7 @@ import MassUpdateModal from "./MassUpdateModal";
 import MassUpdateEmailModal from "./MassUpdateEmailModal";
 import LeadColumnManageDrawer from "./LeadColumnManageDrawer";
 import LeadConvertDeal from "./LeadConvertDeal";
+import { EllipsisVertical } from "lucide-react";
 
 function DragHandle({ id }) {
   const { attributes, listeners } = useSortable({
@@ -601,18 +602,18 @@ const LeadsListView = () => {
       id: "actions",
       header: "Action",
       cell: ({ row }) => (
-        <div className="d-flex justify-content-center align-items-center gap-2">
+        <div className="d-flex justify-content-center align-items-center gap-2 ">
           <Button
             onClick={() => navigate(`/crm/leads/details/${row.original.ROWID}`, { state: row.original })}
             variant="link"
-            className="text-foreground cursor-pointer w-fit px-0 text-left"
+            className="text-foreground cursor-pointer w-fit px-0 text-left "
           >
-            <i className="fas fa-eye text-gray-400" aria-hidden="true"></i>
+            <i className="fas fa-eye text-gray-400 " aria-hidden="true"></i>
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
-                <i className="fa-solid fa-ellipsis dropdown-toggle"></i>
+                <EllipsisVertical/>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-32">

@@ -1,8 +1,0 @@
-{
-  "execution": { "main": "index.js" },
-  "deployment": {
-    "stack": "node18",
-    "name": "usersFunction",
-    "type": "advancedio"
-  }
-}
