@@ -1,52 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { religionOptions, festivalsOptions } from '../utils/picklist';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { religionOptions, festivalsOptions, religionFestivals, religions } from '../utils/picklist';
+import Select from 'react-select';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrashIcon } from 'lucide-react';
+import { Select as ShadcnSelect, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-const celebratedFestivalsOptionsMap = {
-  "-None-": [],
-  Buddhism: ["Lhosar"],
-  Unknown: [],
-  Hinduism: [
-    'Diwali', 'Holi', 'Navratri', 'Janmashtami', 'Rama Navami', 'Makar Sankranti',
-    'Pongal', 'Ganesh Chaturthi', 'Durga Puja', 'Raksha Bandhan', 'Karva Chauth', 'Mahashivratri'
-  ],
-  Sikhism: [
-    'Gurpurab', 'Baisakhi', 'Maghi', 'Hola Mohalla', 'Diwali (Bandi Chhor Divas)',
-    'Martyrdom of Guru Arjan Dev Ji', 'Martyrdom of Guru Tegh Bahadur Ji',
-    "Guru Nanak Jayanti", "Guru Gobind Singh Jayanti", "Guru Granth Sahib Prakash Divas",
-    "Vaisakhi", "Lohri", "Thanksgiving", "New Year"
-  ],
-  Christianity: [
-    'Christmas', 'Easter', 'Good Friday', 'Palm Sunday', 'Ash Wednesday',
-    'Maundy Thursday', 'Pentecost', "All Saints' Day", 'Ascension Day', 'Epiphany'
-  ],
-  Islam: [
-    'Eid al-Fitr', 'Eid al-Adha', 'Ramadan', 'Laylat al-Qadr',
-    'Islamic New Year', 'Milad-un-Nabi', 'Ashura'
-  ],
-  Judaism: ["Passover"],
-  General: [
-    "Canada Day",
-    "New Year",
-    "Family Day",
-    "Victoria Day",
-    "Father's Day",
-    "Mother's Day",
-    "Thank's giving",
-  ],
-};
+
 
 const FestivalForm = ({ FestivalForm, onNext, onPrevious }) => {
-  const [formData, setFormData] = useState({ ...FestivalForm });
+  const [formData, setFormData] = useState({ ...FestivalForm, religion: FestivalForm.religion || [], festival: FestivalForm.festival || [] });
   const [subform, setSubform] = useState([]);
 
   useEffect(() => {
-    setFormData({ ...FestivalForm });
+    setFormData({ ...FestivalForm, religion: FestivalForm.religion || [], festival: FestivalForm.festival || [] });
     setSubform(FestivalForm.festivalsData || []);
   }, [FestivalForm]);
 
@@ -71,13 +40,25 @@ const FestivalForm = ({ FestivalForm, onNext, onPrevious }) => {
     setSubform(updated);
   };
 
-  const celebratedFestivalsOptions = () => {
-    const selectedReligion = formData.religion;
-    if (!selectedReligion || selectedReligion === "-None-" || selectedReligion === "Unknown") {
-      return celebratedFestivalsOptionsMap["General"];
-    }
-    return celebratedFestivalsOptionsMap[selectedReligion] || celebratedFestivalsOptionsMap["General"];
+  const availableFestivals = () => {
+    if (!formData.religion || formData.religion.length === 0) return [];
+    return formData.religion.reduce((all, rel) => {
+      const list = religionFestivals[rel] || [];
+      return all.concat(list);
+    }, []);
   };
+
+  useEffect(() => {
+    if (!formData.religion || formData.religion.length === 0) {
+      setFormData(prev => ({ ...prev, festival: [] }));
+      return;
+    }
+    const allFestivals = formData.religion.reduce((acc, religion) => {
+      const festivals = religionFestivals[religion] || [];
+      return acc.concat(festivals);
+    }, []);
+    setFormData(prev => ({ ...prev, festival: allFestivals }));
+  }, [formData.religion]);
 
   const handleNext = () => {
     onNext({ ...formData, festivalsData: subform });
@@ -97,33 +78,25 @@ const FestivalForm = ({ FestivalForm, onNext, onPrevious }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">Religion</label>
-              <Select value={formData.religion || ''} onValueChange={(value) => setFormData(prev => ({ ...prev, religion: value }))}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select Religion" />
-                </SelectTrigger>
-                <SelectContent>
-                  {religionOptions.map((option, index) => (
-                    <SelectItem key={index} value={option}>
-                      {option}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Select
+                isMulti
+                options={religions.map(rel => ({ value: rel, label: rel }))}
+                value={formData.religion.map(rel => ({ value: rel, label: rel }))}
+                onChange={(selected) => setFormData(prev => ({ ...prev, religion: selected.map(s => s.value) }))}
+                placeholder="Select Religion"
+                className="custom-vselect"
+              />
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Celebrated Festivals</label>
-              <Select value={formData.celebratedFestivals || ''} onValueChange={(value) => setFormData(prev => ({ ...prev, celebratedFestivals: value }))}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select Celebrated Festivals" />
-                </SelectTrigger>
-                <SelectContent>
-                  {celebratedFestivalsOptions().map((option, index) => (
-                    <SelectItem key={index} value={option}>
-                      {option}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Select
+                isMulti
+                options={availableFestivals().map(fest => ({ value: fest, label: fest }))}
+                value={formData.festival.map(fest => ({ value: fest, label: fest }))}
+                onChange={(selected) => setFormData(prev => ({ ...prev, festival: selected.map(s => s.value) }))}
+                placeholder="Select Celebrated Festivals"
+                className="custom-vselect"
+              />
             </div>
           </div>
         </CardContent>
@@ -159,18 +132,23 @@ const FestivalForm = ({ FestivalForm, onNext, onPrevious }) => {
                       </Button>
                     </TableCell>
                     <TableCell>
-                      <Select value={parent.festivalName || ''} onValueChange={(value) => handleSubformChange(index, 'festivalName', value)}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select Festival" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {festivalsOptions.map((option, idx) => (
-                            <SelectItem key={idx} value={option}>
-                              {option}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <div className="choices" data-type="select-one" tabIndex="0" role="listbox" aria-haspopup="true" aria-expanded="false">
+                        <div className="select-box">
+                          <select
+                            value={parent.festivalName || ''}
+                            onChange={(e) => handleSubformChange(index, 'festivalName', e.target.value)}
+                            className="multisteps-form__select form-control choices__input border p-2 rounded-md"
+                            name="choices-state"
+                          >
+                            <option value="">Select Festival</option>
+                            {festivalsOptions.map((option, idx) => (
+                              <option key={idx} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
                     </TableCell>
                     <TableCell>
                       <Input
