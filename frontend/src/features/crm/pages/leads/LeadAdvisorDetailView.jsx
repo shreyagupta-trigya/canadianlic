@@ -30,13 +30,10 @@ import { toast } from "react-toastify";
 import { updateLead, updateLeadInList } from "@/redux/slices/leads/leadsSlice";
 import LeadActivityList from "./relatedList/leadActivity/LeadActivityList";
 import LeadForm from "./LeadForm";
-import LeadInformation from "./leadFormComponents/LeadInformation";
-import DescriptionInfo from "./leadFormComponents/DescriptionInfo";
-import FamilyTree from "./leadFormComponents/FamilyTree";
-import AddressInformation from "./leadFormComponents/AddressInformation";
-import UMTDetails from "./leadFormComponents/UMTDetails";
-import FestivalForm from "./leadFormComponents/FestivalForm";
-import ServiceRequestDetails from "./leadFormComponents/ServiceRequestDetails";
+import LeadManagementInformation from "../advisor/leadAdvisorFormComponents/LeadManagementInformation";
+import FestivalForm from "../advisor/leadAdvisorFormComponents/FestivalForm";
+import ServiceRequestDetails from "../advisor/leadAdvisorFormComponents/ServiceRequestDetails";
+import LeadInformation from "../advisor/leadAdvisorFormComponents/LeadInformation";
 import Notes from "./utils/Notes";
 import Attachment from "./utils/Attachment";
 import Whatsapp from "./utils/Whatsapp";
@@ -56,7 +53,7 @@ import RingCentralCMS from "@/utils/commonRelatedList/ringCentralCMS/RingCentral
 // import CloseActivity from "@/utils/commonRelatedList/closeActivity/CloseActivity";
 import { EllipsisVertical } from "lucide-react";
 
-const LeadsDetailsView = () => {
+const LeadAdvisorDetailView = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [newComment, setNewComment] = useState("");
@@ -69,6 +66,48 @@ const LeadsDetailsView = () => {
   const [showUpdateBtn, setShowUpdateBtn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [originalFormData, setOriginalFormData] = useState({});
+
+  // New state variables for Vue migration
+  const [mobileView, setMobileView] = useState(window.innerWidth <= 900);
+  const [navVisible, setNavVisible] = useState(false);
+  const [selectedTab, setSelectedTab] = useState("Overview");
+  const [selectedActionTab, setSelectedActionTab] = useState("");
+  const [isUserVisible, setIsUserVisible] = useState(true);
+  const [showInfo1, setShowInfo1] = useState(true);
+  const [showInfo2, setShowInfo2] = useState(true);
+  const [showInfo3, setShowInfo3] = useState(true);
+  const [showInfo4, setShowInfo4] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [items] = useState([
+    "send sms",
+    "whatsapp chat",
+    "reschedule call after 1 day",
+    "reschedule call after 2 days",
+    "reschedule call after 3 days",
+    "reschedule call after 4 days",
+    "new appointment",
+    "remote assist",
+    "send with zoho sign",
+    "email booking url",
+    "ringcentral sms",
+    "closed all activities",
+    "settings widget",
+    "dialmycallfblife-critical ins",
+    "phoneburner",
+    "convert to deal",
+    "discountedratesandimmigration",
+    "supervisa send to bot",
+    "send to lda",
+    "update phone number",
+    "update whatsapp number",
+    "convert in advisor leads",
+    "get chatgpt response",
+    "update call status in leads",
+    "create remote assist",
+    "stop communication",
+    "virtual guru ai call",
+  ]);
+  const [filteredItems, setFilteredItems] = useState(items);
 
 
 
@@ -179,6 +218,23 @@ const LeadsDetailsView = () => {
     }
   }, [details]);
 
+  // New useEffect for Vue migration
+  useEffect(() => {
+    const handleResize = () => {
+      setMobileView(window.innerWidth <= 900);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    setFilteredItems(
+      items.filter((item) =>
+        item.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    );
+  }, [searchQuery, items]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -242,9 +298,228 @@ const LeadsDetailsView = () => {
     setDynamicTabValue(value);
     setActiveTab(value);
   };
+
+  // New methods for Vue migration
+  const showNav = () => {
+    setNavVisible(!navVisible);
+  };
+
+  const showUser = () => {
+    setIsUserVisible(!isUserVisible);
+  };
+
+  const toggleInfo = (info) => {
+    if (info === 1) setShowInfo1(!showInfo1);
+    if (info === 2) setShowInfo2(!showInfo2);
+    if (info === 3) setShowInfo3(!showInfo3);
+    if (info === 4) setShowInfo4(!showInfo4);
+  };
+
+  const selectTab = (tab) => {
+    setSelectedTab(tab);
+    setSelectedActionTab("");
+  };
+
+  const selectActionTab = (actionTab) => {
+    setSelectedActionTab(actionTab);
+  };
+
+  const handleItemClick = (item) => {
+    console.log("Selected item:", item);
+    // Handle quick action item click
+  };
+
   return (
     <>
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full flex-col justify-start gap-2">
+      <div className="leads-details-view">
+      {/* Navbar */}
+      <div className={`navbar ${mobileView ? 'mobile' : 'desktop'}`}>
+        {mobileView && (
+          <div className="mobile-nav-toggle" onClick={showNav}>
+            <span>{navVisible ? '✕' : '☰'}</span>
+          </div>
+        )}
+        <div className={`nav-tabs ${navVisible || !mobileView ? 'visible' : 'hidden'}`}>
+          <div className={`tab ${selectedTab === 'Overview' ? 'active' : ''}`} onClick={() => selectTab('Overview')}>
+            Overview
+          </div>
+          <div className={`tab ${selectedTab === 'Conversations' ? 'active' : ''}`} onClick={() => selectTab('Conversations')}>
+            Conversations <Badge>{comments.length}</Badge>
+          </div>
+          <div className={`tab ${selectedTab === 'Attachments' ? 'active' : ''}`} onClick={() => selectTab('Attachments')}>
+            Attachments
+          </div>
+          <div className={`tab ${selectedTab === 'Communication' ? 'active' : ''}`} onClick={() => selectTab('Communication')}>
+            Comms <Badge>3</Badge>
+          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <div className="tab more-tabs">
+                More <span>▼</span>
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => selectTab('ReferralLead')}>Referral Lead</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => selectTab('ReferralClient')}>Referral Client</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => selectTab('Offering')}>Offering</DropdownMenuItem>
+              {/* Add more dropdown items */}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+        {selectedTab === 'Communication' && !mobileView && (
+          <div className="sub-nav">
+            <div className={`sub-tab ${selectedActionTab === 'Whatsapp' ? 'active' : ''}`} onClick={() => selectActionTab('Whatsapp')}>
+              WhatsApp <Badge>1</Badge>
+            </div>
+            <div className={`sub-tab ${selectedActionTab === 'SMS' ? 'active' : ''}`} onClick={() => selectActionTab('SMS')}>
+              SMS <Badge>1</Badge>
+            </div>
+            <div className={`sub-tab ${selectedActionTab === 'Email' ? 'active' : ''}`} onClick={() => selectActionTab('Email')}>
+              Email <Badge>1</Badge>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Main Content */}
+      <div className="main-content">
+        <div className="content-area">
+          {selectedTab === 'Overview' && (
+            <div className="overview-content">
+              <div className="flex justify-end mb-4 gap-2">
+                {showUpdateBtn ? (
+                  <>
+                    <Button
+                      loadingText={"Updating..."}
+                      loading={loading}
+                      onClick={handleUpdate}
+                      variant={"primary"}
+                      className="mr-2"
+                    >
+                      Update
+                    </Button>
+                    <Button onClick={handleClearChanges} variant={"outline"}>
+                      Cancel
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      onClick={() => setIsDisabled(false)}
+                      variant={"primary"}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      onClick={handleUpdate}
+                      variant={"primary"}
+                    >
+                      Save
+                    </Button>
+                  </>
+                )}
+              </div>
+              <Accordion type="multiple" className="w-full" defaultValue={["lead-information"]} >
+                <AccordionItem value="lead-information" className="mb-1 ">
+                  <AccordionTrigger className="text-xl">Lead Information</AccordionTrigger>
+                  <AccordionContent >
+                    <LeadInformation formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="lead-management-information" className="mb-1 ">
+                  <AccordionTrigger className="text-xl">Lead Management Information</AccordionTrigger>
+                  <AccordionContent >
+                    <LeadManagementInformation formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="festival-form" className=" mb-1 ">
+                  <AccordionTrigger className="text-xl">Festival Form</AccordionTrigger>
+                  <AccordionContent>
+                    <FestivalForm formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="service-request-details" className=" mb-1 ">
+                  <AccordionTrigger className="text-xl">Service Request Details</AccordionTrigger>
+                  <AccordionContent>
+                    <ServiceRequestDetails formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            </div>
+          )}
+          {selectedTab === 'Conversations' && <Notes />}
+          {selectedTab === 'Attachments' && <Attachment id={details?.ROWID} />}
+          {selectedTab === 'Communication' && (
+            <div className="communication-content">
+              {selectedActionTab === 'Whatsapp' && <Whatsapp />}
+              {selectedActionTab === 'SMS' && <SMS />}
+              {selectedActionTab === 'Email' && <Email />}
+            </div>
+          )}
+          {selectedTab === 'ReferralLead' && <ReferralLead />}
+          {selectedTab === 'ReferralClient' && <ReferralClient />}
+          {selectedTab === 'Offering' && <Offering />}
+          {/* Add more tab content conditions */}
+        </div>
+
+        {/* Right Sidebar */}
+        <div className={`right-sidebar ${isUserVisible ? 'visible' : 'hidden'}`}>
+          <div className="sidebar-toggle" onClick={showUser}>
+            <span>{isUserVisible ? '◀' : '▶'}</span>
+          </div>
+          <div className="sidebar-content">
+            <div className="user-section">
+              <h3>User</h3>
+              {/* User content */}
+            </div>
+            <Accordion type="single" collapsible>
+              <AccordionItem value="referrals">
+                <AccordionTrigger onClick={() => toggleInfo(3)}>
+                  Referrals
+                </AccordionTrigger>
+                <AccordionContent>
+                  {/* Referrals content */}
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="policies">
+                <AccordionTrigger onClick={() => toggleInfo(4)}>
+                  Policies
+                </AccordionTrigger>
+                <AccordionContent>
+                  {/* Policies content */}
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </div>
+        </div>
+      </div>
+
+      {/* Quick Actions */}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button className="quick-actions-btn">
+            Quick Actions
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="quick-actions-menu">
+          <input
+            type="text"
+            placeholder="Search actions..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="search-input"
+          />
+          {filteredItems.map((item, index) => (
+            <DropdownMenuItem key={index} onClick={() => handleItemClick(item)}>
+              {item}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+      </div>
+
+      {/* Old Tabs Implementation - Keep for now */}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full flex-col justify-start gap-2" style={{ display: 'none' }}>
         <div className="flex items-center px-1 lg:px-1">
           <TabsList className="hidden lg:flex">
             {fixedTabs.map(({ value, label }) => (
@@ -309,37 +584,19 @@ const LeadsDetailsView = () => {
                 <LeadInformation formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="description-info" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">Description Info</AccordionTrigger>
-              <AccordionContent>
-                <DescriptionInfo formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
+            <AccordionItem value="lead-management-information" className="mb-1 ">
+              <AccordionTrigger className="text-xl">Lead Management Information</AccordionTrigger>
+              <AccordionContent >
+                <LeadManagementInformation formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="family-tree" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">Family Tree</AccordionTrigger>
-              <AccordionContent>
-                <FamilyTree formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="address-information" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">Address Information</AccordionTrigger>
-              <AccordionContent>
-                <AddressInformation formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="umt-details" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">UMT Details</AccordionTrigger>
-              <AccordionContent>
-                <UMTDetails formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="festival-form" className="mb-1 ">
+            <AccordionItem value="festival-form" className=" mb-1 ">
               <AccordionTrigger className="text-xl">Festival Form</AccordionTrigger>
               <AccordionContent>
                 <FestivalForm formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="service-request-details" className="mb-1 ">
+            <AccordionItem value="service-request-details" className=" mb-1 ">
               <AccordionTrigger className="text-xl">Service Request Details</AccordionTrigger>
               <AccordionContent>
                 <ServiceRequestDetails formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
@@ -395,8 +652,8 @@ const LeadsDetailsView = () => {
           {/* Add more conditionals as needed */}
         </TabsContent>
       </Tabs>
-   
+
     </>
   );
 };
-export default LeadsDetailsView;
+export default LeadAdvisorDetailView;

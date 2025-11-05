@@ -10,14 +10,12 @@ import { Select as ShadcnSelect, SelectContent, SelectItem, SelectTrigger, Selec
 
 
 
-const FestivalForm = ({ FestivalForm, onNext, onPrevious }) => {
-  const [formData, setFormData] = useState({ ...FestivalForm, religion: FestivalForm.religion || [], festival: FestivalForm.festival || [] });
+const FestivalForm = ({ formData, setFormData, isDisabled }) => {
   const [subform, setSubform] = useState([]);
 
   useEffect(() => {
-    setFormData({ ...FestivalForm, religion: FestivalForm.religion || [], festival: FestivalForm.festival || [] });
-    setSubform(FestivalForm.festivalsData || []);
-  }, [FestivalForm]);
+    setSubform(formData.festivalsData || []);
+  }, [formData]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -60,13 +58,7 @@ const FestivalForm = ({ FestivalForm, onNext, onPrevious }) => {
     setFormData(prev => ({ ...prev, festival: allFestivals }));
   }, [formData.religion]);
 
-  const handleNext = () => {
-    onNext({ ...formData, festivalsData: subform });
-  };
 
-  const handlePrevious = () => {
-    onPrevious({ ...formData, festivalsData: subform });
-  };
 
   return (
     <div className="space-y-6">

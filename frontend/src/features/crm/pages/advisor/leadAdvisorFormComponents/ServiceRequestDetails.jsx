@@ -19,24 +19,13 @@ import {
   groupInsurance
 } from '../utils/picklist';
 
-const ServiceRequestDetails = ({ ServiceRequestDetails, id, onNext, onPrevious }) => {
-  const [formData, setFormData] = useState({ ...ServiceRequestDetails });
-
-  useEffect(() => {
-    setFormData({ ...ServiceRequestDetails });
-  }, [ServiceRequestDetails]);
+const ServiceRequestDetails = ({ formData, setFormData, isDisabled }) => {
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleNext = () => {
-    onNext(formData);
-  };
 
-  const handlePrevious = () => {
-    onPrevious();
-  };
 
   const immigrationServicesGroups = {
     'Visas & Entry': [

@@ -27,21 +27,20 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { updateLead, updateLeadInList } from "@/redux/slices/leads/leadsSlice";
-import LeadActivityList from "./relatedList/leadActivity/LeadActivityList";
-import LeadForm from "./LeadForm";
-import LeadInformation from "./leadFormComponents/LeadInformation";
-import DescriptionInfo from "./leadFormComponents/DescriptionInfo";
-import FamilyTree from "./leadFormComponents/FamilyTree";
-import AddressInformation from "./leadFormComponents/AddressInformation";
-import UMTDetails from "./leadFormComponents/UMTDetails";
-import FestivalForm from "./leadFormComponents/FestivalForm";
-import ServiceRequestDetails from "./leadFormComponents/ServiceRequestDetails";
-import Notes from "./utils/Notes";
-import Attachment from "./utils/Attachment";
-import Whatsapp from "./utils/Whatsapp";
-import Email from "./utils/Email";
-import SMS from "./utils/SMS";
+// import { updateAdvisor, updateAdvisorInList } from "@/redux/slices/advisor/advisorSlice";
+import LeadInformation from "./leadAdvisorFormComponents/LeadInformation";
+import DescriptonInfo from "./leadAdvisorFormComponents/DescriptonInfo";
+import FamilyTree from "./leadAdvisorFormComponents/FamilyTree";
+import AddressInformation from "./leadAdvisorFormComponents/AddressInformation";
+import UMTDetails from "./leadAdvisorFormComponents/UMTDetails";
+import FestivalForm from "./leadAdvisorFormComponents/FestivalForm";
+import ServiceRequestDetails from "./leadAdvisorFormComponents/ServiceRequestDetails";
+import LeadManagementInformation from "./leadAdvisorFormComponents/LeadManagementInformation";
+import Notes from "../leads/utils/Notes";
+import Attachment from "../leads/utils/Attachment";
+import Whatsapp from "../leads/utils/Whatsapp";
+import Email from "../leads/utils/Email";
+import SMS from "../leads/utils/SMS";
 import ReferralClient from "@/utils/commonRelatedList/referralClient/ReferralClient";
 import Compagion from "@/utils/commonRelatedList/compagions/Compagion";
 import ReferralLead from "@/utils/commonRelatedList/referralLead/ReferralLead";
@@ -56,7 +55,7 @@ import RingCentralCMS from "@/utils/commonRelatedList/ringCentralCMS/RingCentral
 // import CloseActivity from "@/utils/commonRelatedList/closeActivity/CloseActivity";
 import { EllipsisVertical } from "lucide-react";
 
-const LeadsDetailsView = () => {
+const AdvisorDetailsView = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [newComment, setNewComment] = useState("");
@@ -69,8 +68,6 @@ const LeadsDetailsView = () => {
   const [showUpdateBtn, setShowUpdateBtn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [originalFormData, setOriginalFormData] = useState({});
-
-
 
   const [comments, setComments] = useState([
     {
@@ -110,12 +107,9 @@ const LeadsDetailsView = () => {
   };
 
   const [formData, setFormData] = useState({
-    leadName: "",
+    advisorName: "",
     title: "",
-    // leadSource: "",
-    // leadStatus: "",
     createdBy: "",
-    // leadOwner: "",
     phone: "",
     mobile: "",
     email: "",
@@ -149,12 +143,9 @@ const LeadsDetailsView = () => {
         officeNumber: details.officeNumber ?? "",
         company: details.company?.ROWID ?? "",
         contactOwner: details.contactOwner?.ROWID ?? "",
-        leadName: details.leadName ?? "",
+        advisorName: details.advisorName ?? "",
         title: details.title ?? "",
-        // leadSource: details.leadSource ?? "",
-        // leadStatus: details.leadStatus ?? "",
         createdBy: details.createdBy ?? "",
-        // leadOwner: details.leadOwner ?? "",
         phone: details.phone ?? "",
         mobile: details.mobile ?? "",
         email: details.email ?? "",
@@ -188,14 +179,14 @@ const LeadsDetailsView = () => {
   const handleUpdate = async () => {
     setLoading(true);
     try {
-      await dispatch(updateLead({ id: details.ROWID, data: formData }));
-      dispatch(updateLeadInList({ id: details.ROWID, data: formData }));
+      await dispatch(updateAdvisor({ id: details.ROWID, data: formData }));
+      dispatch(updateAdvisorInList({ id: details.ROWID, data: formData }));
       setOriginalFormData(formData);
       setShowUpdateBtn(false);
       setIsDisabled(true);
-      toast.success("Lead updated successfully");
+      toast.success("Advisor updated successfully");
     } catch (error) {
-      toast.error("Failed to update lead");
+      toast.error("Failed to update advisor");
     } finally {
       setLoading(false);
     }
@@ -206,8 +197,6 @@ const LeadsDetailsView = () => {
     setShowUpdateBtn(false);
     setIsDisabled(true);
   };
-
-
 
   // Labels for fixed tabs
   const fixedTabs = [
@@ -304,45 +293,51 @@ const LeadsDetailsView = () => {
           </div>
           <Accordion type="multiple" className="w-full" defaultValue={["lead-information"]} >
             <AccordionItem value="lead-information" className="mb-1 ">
-              <AccordionTrigger className="text-xl">Lead Information</AccordionTrigger>
+              <AccordionTrigger className="text-xl">LeadInformation</AccordionTrigger>
               <AccordionContent >
-                <LeadInformation formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
+                <LeadInformation LeadInformation={formData} onNext={() => {}} onPrevious={() => {}} />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="description-info" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">Description Info</AccordionTrigger>
+              <AccordionTrigger className="text-xl">DescriptonInfo</AccordionTrigger>
               <AccordionContent>
-                <DescriptionInfo formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
+                <DescriptonInfo DescriptonInfo={formData} onNext={() => {}} onPrevious={() => {}} />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="family-tree" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">Family Tree</AccordionTrigger>
+              <AccordionTrigger className="text-xl">FamilyTree</AccordionTrigger>
               <AccordionContent>
-                <FamilyTree formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
+                <FamilyTree FamilyTree={formData} onNext={() => {}} onPrevious={() => {}} />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="address-information" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">Address Information</AccordionTrigger>
+              <AccordionTrigger className="text-xl">AddressInformation</AccordionTrigger>
               <AccordionContent>
-                <AddressInformation formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
+                <AddressInformation AddressInformation={formData} onNext={() => {}} onPrevious={() => {}} />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="umt-details" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">UMT Details</AccordionTrigger>
+              <AccordionTrigger className="text-xl">UMTDetails</AccordionTrigger>
               <AccordionContent>
-                <UMTDetails formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
+                <UMTDetails UMTDetails={formData} onNext={() => {}} onPrevious={() => {}} />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="festival-form" className="mb-1 ">
-              <AccordionTrigger className="text-xl">Festival Form</AccordionTrigger>
+              <AccordionTrigger className="text-xl">FestivalForm</AccordionTrigger>
               <AccordionContent>
-                <FestivalForm formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
+                <FestivalForm FestivalForm={formData} onNext={() => {}} onPrevious={() => {}} />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="service-request-details" className="mb-1 ">
-              <AccordionTrigger className="text-xl">Service Request Details</AccordionTrigger>
+              <AccordionTrigger className="text-xl">ServiceRequestDetails</AccordionTrigger>
               <AccordionContent>
-                <ServiceRequestDetails formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
+                <ServiceRequestDetails ServiceRequestDetails={formData} onNext={() => {}} onPrevious={() => {}} />
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="lead-management-information" className="mb-1 ">
+              <AccordionTrigger className="text-xl">LeadManagementInformation</AccordionTrigger>
+              <AccordionContent>
+                <LeadManagementInformation LeadManagementInformation={formData} onNext={() => {}} onPrevious={() => {}} />
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -360,7 +355,6 @@ const LeadsDetailsView = () => {
         <TabsContent value="edit" className="flex flex-col px-2 lg:px-2">
           <LeadForm />
         </TabsContent>
-
 
         <TabsContent
           value="attachments"
@@ -395,8 +389,8 @@ const LeadsDetailsView = () => {
           {/* Add more conditionals as needed */}
         </TabsContent>
       </Tabs>
-   
+
     </>
   );
 };
-export default LeadsDetailsView;
+export default AdvisorDetailsView;

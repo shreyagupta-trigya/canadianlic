@@ -12,6 +12,7 @@ import AccountLayout from "@/features/crm/pages/accounts/layout/AccountLayout";
 import OfferingLayout from "@/features/crm/pages/offerings/layout/OfferingLayout";
 import AdvisorsListNew from "@/features/crm/pages/advisor/AdvisorsListNew";
 import LeadAdvisorForm from "@/features/crm/pages/advisor/LeadAdvisorForm";
+import AdvisorDetailsView from "@/features/crm/pages/advisor/AdvisorDetailsView";
 import ActivityMasterLayout from "@/features/activityMaster/layouts/ActivityMasterLayout";
 import ActivityMasterList from "@/features/activityMaster/pages/activityMasters/layout/ActivityMasterList";
 import DeliveryChallanActivityForm from "@/features/crm/pages/deliveryChallan/relatedList/deliveryChallanActivity/DeliveryChallanActivityForm";
@@ -356,6 +357,7 @@ export default function AppRoutes() {
             <Route path="advisor">
               <Route path="" element={<AdvisorsListNew />} />
               <Route path="advisor-leads-form" element={<LeadAdvisorForm />} />
+              <Route path="details/:id" element={<AdvisorDetailsView />} />
             </Route>
            <Route path="list" element={<ActivityMasterList />} />
           </Route>

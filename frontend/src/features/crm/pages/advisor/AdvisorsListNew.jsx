@@ -633,7 +633,7 @@ const AdvisorsListNew = () => {
       cell: ({ row }) => (
         <div className="d-flex justify-content-center align-items-center gap-2">
           <Button
-            onClick={() => navigate(`/crm/leads/details/${row.original.ROWID}`, { state: row.original })}
+            onClick={() => navigate(`/crm/advisor/details/${row.original.ROWID}`, { state: row.original })}
             variant="link"
             className="text-foreground cursor-pointer w-fit px-0 text-left"
           >
@@ -646,7 +646,7 @@ const AdvisorsListNew = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-32">
-              <DropdownMenuItem onClick={() => navigate(`/crm/leads/details/${row.original.ROWID}`, { state: row.original })}>
+              <DropdownMenuItem onClick={() => navigate(`/crm/advisor/details/${row.original.ROWID}`, { state: row.original })}>
                 Edit
               </DropdownMenuItem>
               <DropdownMenuItem
@@ -694,7 +694,7 @@ const AdvisorsListNew = () => {
       header: ({ column }) => <SortableHeader column={column} title="Insurance Lead Name All" />,
       cell: ({ row }) => (
         <Button
-          onClick={() => navigate(`/crm/leads/details/${row.original.ROWID}`, { state: row.original })}
+          onClick={() => navigate(`/crm/advisor/details/${row.original.ROWID}`, { state: row.original })}
           variant="link"
           className="text-foreground cursor-pointer w-fit px-0 text-left"
         >

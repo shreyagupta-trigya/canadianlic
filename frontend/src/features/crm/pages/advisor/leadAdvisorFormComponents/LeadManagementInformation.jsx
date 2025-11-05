@@ -7,12 +7,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrashIcon } from 'lucide-react';
 
-const LeadManagementInformation = ({ LeadManagementInformation, onNext, onPrevious }) => {
+const LeadManagementInformation = ({ formData, setFormData, isDisabled }) => {
   const [subform, setSubform] = useState([]);
 
   useEffect(() => {
-    setSubform(LeadManagementInformation.LeadData || []);
-  }, [LeadManagementInformation]);
+    setSubform(formData.LeadData || []);
+  }, [formData]);
 
   const addRowToLeadDataTable = () => {
     setSubform(prev => [...prev, {
@@ -34,13 +34,7 @@ const LeadManagementInformation = ({ LeadManagementInformation, onNext, onPrevio
     setSubform(prev => prev.map((item, i) => i === index ? { ...item, [field]: value } : item));
   };
 
-  const handleNext = () => {
-    onNext({ LeadData: subform });
-  };
 
-  const handlePrevious = () => {
-    onPrevious();
-  };
 
   return (
     <div className="space-y-6">
