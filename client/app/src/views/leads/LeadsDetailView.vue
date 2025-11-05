@@ -738,7 +738,6 @@ export default {
   props: ["id"],
   data() {
     let isLoading = ref(false);
-
     return {
       phoneNumber: "",
       layoutName: "",

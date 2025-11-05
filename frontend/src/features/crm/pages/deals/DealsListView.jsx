@@ -125,6 +125,7 @@ import DealDrawer from "./DealDrawer";
 import MassUpdateModal from "./DealMassUpdateModal";
 import MassUpdateEmailModal from "./DealMassUpdateEmailModal";
 import DealColumnManageDrawer from "./DealColumnManageDrawer";
+import { EllipsisVertical } from "lucide-react";
 // import LeadConvertDeal from "./LeadConvertDeal";
 
 function DragHandle({ id }) {
@@ -580,7 +581,7 @@ const DealsListView = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
-                <i className="fa-solid fa-ellipsis dropdown-toggle"></i>
+                <EllipsisVertical />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-32">
@@ -933,9 +934,8 @@ const DealsListView = () => {
                                   <div
                                     onMouseDown={header.getResizeHandler()}
                                     onTouchStart={header.getResizeHandler()}
-                                    className={`absolute right-0 top-0 h-full w-1 cursor-col-resize select-none touch-none ${
-                                      header.column.getIsResizing() ? 'bg-primary' : 'bg-border hover:bg-primary/50'
-                                    }`}
+                                    className={`absolute right-0 top-0 h-full w-1 cursor-col-resize select-none touch-none ${header.column.getIsResizing() ? 'bg-primary' : 'bg-border hover:bg-primary/50'
+                                      }`}
                                   />
                                 )}
                               </TableHead>
