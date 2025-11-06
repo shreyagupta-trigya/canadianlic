@@ -152,8 +152,8 @@ const LeadDrawer = ({ isOpen, onClose, onSearchResults }) => {
   );
 
   return (
-    <Drawer open={isOpen} onOpenChange={onClose} direction="right">
-      <DrawerContent>
+    <Drawer open={isOpen} onOpenChange={onClose} direction="right" >
+      <DrawerContent width="22%">
         <DrawerHeader>
           <DrawerTitle>Filter Fields By</DrawerTitle>
           <DrawerDescription>Search and filter leads</DrawerDescription>

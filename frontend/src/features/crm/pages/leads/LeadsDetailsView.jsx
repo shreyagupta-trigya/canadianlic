@@ -52,8 +52,8 @@ import RingCentralCMS from "@/utils/commonRelatedList/ringCentralCMS/RingCentral
 import RingCentralWidget from "@/utils/commonRelatedList/ringCentralWidget/RingCentralWidget";
 // import ZohoSalesIQ from "@/utils/commonRelatedList/zohoSalesIQ/ZohoSalesIQ";
 // import ZohoSurvey from "@/utils/commonRelatedList/zohoSurvey/ZohoSurvey";
-// import OpenActivity from "@/utils/commonRelatedList/openActivity/OpenActivity";
-import CloseActivity from "@/utils/commonRelatedList/closeActivity";
+import OpenActivity from "@/utils/commonRelatedList/openActivity/OpenActivity";
+// import CloseActivity from "@/utils/commonRelatedList/closeActivity/CloseActivity";
 import { EllipsisVertical } from "lucide-react";
 
 const LeadsDetailsView = () => {
@@ -268,7 +268,7 @@ const LeadsDetailsView = () => {
         </div>
 
         {/* Content for fixed tabs */}
-       <TabsContent value="overview" className="flex flex-col px-2 lg:px-2">
+        <TabsContent value="overview" className="flex flex-col px-2 lg:px-2">
           <div className="flex justify-end mb-4 gap-2">
             {showUpdateBtn ? (
               <>
@@ -302,7 +302,7 @@ const LeadsDetailsView = () => {
               </>
             )}
           </div>
-         <Accordion type="multiple" className="w-full" defaultValue={["lead-information"]} >
+          <Accordion type="multiple" className="w-full" defaultValue={["lead-information"]} >
             <AccordionItem value="lead-information" className="mb-1 ">
               <AccordionTrigger className="text-xl">Lead Information</AccordionTrigger>
               <AccordionContent >
@@ -346,6 +346,7 @@ const LeadsDetailsView = () => {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
+
         </TabsContent>
 
         <TabsContent value="conversations" className="flex flex-col px-2 lg:px-2">
@@ -383,19 +384,19 @@ const LeadsDetailsView = () => {
           {dynamicTabValue === "referral-lead" && <ReferralLead />}
           {dynamicTabValue === "referral-client" && <ReferralClient />}
           {dynamicTabValue === "offering" && <Offering />}
-          {/* {dynamicTabValue === "open-activity" && <OpenActivity />} */}
-          {dynamicTabValue === "close-activity" && <CloseActivity />}
+          {dynamicTabValue === "open-activity" && <OpenActivity />}
+          {/* {dynamicTabValue === "close-activity" && <CloseActivity />} */}
           {dynamicTabValue === "campaign" && <Compagion />}
           {dynamicTabValue === "remote-assist" && <RemoteAssist />}
           {dynamicTabValue === "ringcentral-sms" && <RingCentralCMS />}
-        {dynamicTabValue === "ringcentral-widget" && <RingCentralWidget />}
-          {/*   {dynamicTabValue === "session-recording" && <SessionRecording />}
+          {dynamicTabValue === "ringcentral-widget" && <RingCentralWidget />}
+         {/* {dynamicTabValue === "session-recording" && <SessionRecording />}
           {dynamicTabValue === "zoho-sales-iq" && <ZohoSalesIQ />}
-          {dynamicTabValue === "zoho-survey" && <ZohoSurvey />} */}
+          {dynamicTabValue === "zoho-survey" && <ZohoSurvey />}  */}
           {/* Add more conditionals as needed */}
         </TabsContent>
       </Tabs>
-   
+
     </>
   );
 };

@@ -119,23 +119,15 @@ const Compagion = () => {
             </div>
           </div>
 
-          <div className="flex gap-3">
-            <Button
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
-              onClick={toggleDrawer}
-            >
-              <i className="fas fa-plus mr-2"></i>
-              Add New Campaign
+          <div className="button">
+            <Button className="companagion-button px-2 py-1 " onClick={toggleDrawer}>
+              Add New
             </Button>
           </div>
         </div>
-      </div>
-
-      {/* Table Section */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div className="overflow-x-auto">
-          <Table className="w-full">
-            <TableHeader className="bg-gray-50">
+        <div className="border overflow-scroll custom-scroll px-0 mt-2">
+          <Table className="table table-striped custom-scroll">
+            <TableHeader>
               <TableRow>
                 <TableHead className="w-12 px-6 py-4">
                   <Checkbox

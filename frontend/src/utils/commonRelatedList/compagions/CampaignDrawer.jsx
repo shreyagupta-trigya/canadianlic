@@ -3,10 +3,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Search } from "lucide-react";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerHeader,
+  DrawerFooter,
+} from "../../../components/ui/drawer";
 
 const CampaignDrawer = ({ isOpen, onClose, maxWidth = "75%", speed = 300, backgroundColor = "#fafafa" }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -17,17 +23,10 @@ const CampaignDrawer = ({ isOpen, onClose, maxWidth = "75%", speed = 300, backgr
   const [currentOffset, setCurrentOffset] = useState(0);
 
   useEffect(() => {
-    setIsTransitioning(true);
     if (isOpen) {
-      document.body.style.overflow = "hidden";
-      setIsVisible(true);
       fetchData();
-    } else {
-      document.body.style.overflow = null;
-      setTimeout(() => setIsVisible(false), speed);
     }
-    setTimeout(() => setIsTransitioning(false), speed);
-  }, [isOpen, speed]);
+  }, [isOpen]);
 
   const fetchData = () => {
     if (currentOffset >= totalItems || loading) return;
@@ -65,12 +64,6 @@ const CampaignDrawer = ({ isOpen, onClose, maxWidth = "75%", speed = 300, backgr
     );
   };
 
-  const closeDrawer = () => {
-    if (!isTransitioning) {
-      onClose();
-    }
-  };
-
   const submit = () => {
     const selectedItems = items.filter((item) => item.selected);
     alert(`Selected Items: ${selectedItems.map((item) => item.campaignName).join(", ")}`);
@@ -102,45 +95,34 @@ const CampaignDrawer = ({ isOpen, onClose, maxWidth = "75%", speed = 300, backgr
   );
 
   return (
-    <div className={`fixed inset-0 z-[1050] ${isVisible ? "block" : "hidden"} ${isOpen ? "block" : "hidden"}`}>
-      {/* Overlay */}
-      <div
-        className="fixed inset-0 bg-opacity-50 transition-opacity duration-300"
-        style={{ transitionDuration: `${speed}ms` }}
-        onClick={closeDrawer}
-      ></div>
-
-      {/* Drawer Content */}
-      <div
-        className="fixed top-0 right-0 h-full w-3/4 bg-gray-50 shadow-lg transform transition-transform duration-300"
-        style={{
-          transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
-          transitionDuration: `${speed}ms`,
-          backgroundColor,
-        }}
+    <Drawer open={isOpen} onOpenChange={onClose} direction="right">
+      <DrawerContent
+        className="w-full max-w-4xl"
+        style={{ backgroundColor }}
       >
-        {/* Header */}
-        <div className="flex justify-between items-center p-4 border-b border-gray-200 bg-white">
-          <div className="px-3 py-1">
-            <i onClick={closeDrawer} className="fas fa-arrow-right cursor-pointer text-xl hover:text-gray-600"></i>
+        <DrawerHeader className="flex justify-between items-center">
+          <div className="w-full flex" style={{ textAlign: "left" }}>
+            <div className="relative">
+              <Input
+                 className="search-input max-w-2xl w-full"
+                type="search"
+                placeholder="Search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <Search className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500" />
+            </div>
           </div>
-          <div className="relative">
-            <Input
-              className="pl-4 pr-10 py-2 border-2 border-gray-200 rounded-lg w-64 transition-all duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-              type="search"
-              placeholder="Search campaigns..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <i className="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-          </div>
-        </div>
-
-        {/* Table Container */}
-        <div className="flex-1 overflow-auto p-2 h-full " ref={scrollContainerRef}>
-          <div className="bg-white rounded-lg shadow-sm  border border-gray-200 overflow-hidden min-w-max">
-            <Table className="w-full min-w-max ">
-              <TableHeader className="bg-gray-50">
+          <DrawerClose asChild>
+            <button className="btn btn-link">
+              <i className="fa fa-arrow-right cursor-pointer"></i>
+            </button>
+          </DrawerClose>
+        </DrawerHeader>
+        <div className="table-container border mt-3 flex-1 overflow-auto" ref={scrollContainerRef}>
+          <div className="table-wrapper">
+            <Table className="table table-striped">
+              <TableHeader>
                 <TableRow>
                   <TableHead className="w-12 px-4 py-3">
                     <Checkbox onCheckedChange={toggleSelectAll} className="w-4 h-4" />
@@ -195,35 +177,19 @@ const CampaignDrawer = ({ isOpen, onClose, maxWidth = "75%", speed = 300, backgr
             </Table>
           </div>
         </div>
-
-        {/* Loading */}
-        {loading && (
-          <div className="text-center py-4">
-            <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
-            <span className="ml-2 text-gray-600">Loading...</span>
-          </div>
-        )}
-
-        {/* Footer Buttons */}
-        <div className="absolute bottom-0 left-0 right-0   bg-white border-t border-gray-200 p-4">
-          <div className="flex justify-center gap-3">
-            <Button
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-all duration-300"
-              onClick={submit}
-            >
+        {loading && <div className="text-center py-2">Loading...</div>}
+        <DrawerFooter className="flex justify-center">
+          <div className="flex gap-2 justify-center">
+            <Button className="btn btn-info" onClick={submit}>
               Submit
             </Button>
-            <Button
-              variant="outline"
-              className="border-red-600 text-red-600 hover:bg-red-50 px-6 py-2 rounded-lg font-medium transition-all duration-300"
-              onClick={closeDrawer}
-            >
+            <Button className="btn btn-danger" onClick={onClose}>
               Reset
             </Button>
           </div>
-        </div>
-      </div>
-    </div>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   );
 };
 

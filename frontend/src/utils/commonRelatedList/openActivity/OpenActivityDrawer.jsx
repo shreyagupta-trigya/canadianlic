@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { Drawer } from '../../../components/ui/drawer';
+import { Drawer, DrawerContent } from '../../../components/ui/drawer';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const OpenActivityDrawer = ({ isOpen, onClose, addTask, updateData, updateTask, selectedButton }) => {
   const [task, setTask] = useState({
@@ -114,238 +121,169 @@ const OpenActivityDrawer = ({ isOpen, onClose, addTask, updateData, updateTask, 
   };
 
   return (
-    <Drawer isOpen={isOpen} onClose={onClose} maxWidth="37rem">
-      <div className="px-3 py-1">
-        <i onClick={onClose} className="fa fa-arrow-right cursor-pointer"></i>
-      </div>
+    <Drawer open={isOpen} onOpenChange={onClose} direction="right">
+      <DrawerContent   className="w-full max-w-2xl">
+        <div className="p-6 space-y-6 max-h-[100vh] overflow-y-scroll">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold">
+            {selectedButton === 'Update' ? 'Update Task' : 'Add Task'}
+          </h2>
+          <Button variant="ghost" size="sm" onClick={onClose}>
+            ✕
+          </Button>
+        </div>
 
-      <div className="outer">
-        <h4 className="mx-3">{selectedButton === 'Update' ? 'Update Task' : 'Add Task'}</h4>
-        <div className="mx-3">
-          <label htmlFor="subject" className="form-label">Subject</label>
-          <input
-            type="text"
-            className="form-control"
-            id="subject"
-            name="subject"
-            value={task.subject}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="mb-3 mx-3">
-          <label htmlFor="dueDate" className="form-label">Due Date</label>
-          <input
-            type="date"
-            className="form-control"
-            id="dueDate"
-            name="dueDate"
-            value={task.dueDate}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="outer mb-3 mx-3">
-          <label className="mb-3" style={{ color: 'black' }}>Priority</label>
-          <div className="mb-3">
-            <select
-              className="form-select form-select-sm"
-              name="taskPriority"
-              value={task.taskPriority}
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="subject">Subject</Label>
+            <Input
+              id="subject"
+              name="subject"
+              value={task.subject}
               onChange={handleInputChange}
-              style={{ height: '35px !important' }}
-            >
-              <option value="">None</option>
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
+              placeholder="Enter task subject"
+            />
           </div>
-        </div>
-        <div className="outer mb-3 mx-3">
-          <label className="mb-3" style={{ color: 'black' }}>Owner</label>
-          <div className="input-group mb-3">
-            <select
-              name="owner"
+
+          <div className="space-y-2">
+            <Label htmlFor="dueDate">Due Date</Label>
+            <Input
+              id="dueDate"
+              name="dueDate"
+              type="date"
+              value={task.dueDate}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Priority</Label>
+            <Select
+              value={task.taskPriority || "none"}
+              onValueChange={(value) => setTask({ ...task, taskPriority: value })}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select priority" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="none">None</SelectItem>
+                <SelectItem value="low">Low</SelectItem>
+                <SelectItem value="medium">Medium</SelectItem>
+                <SelectItem value="high">High</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label>Owner</Label>
+            <Select
               value={task.owner}
-              onChange={handleInputChange}
-              className="form-control"
+              onValueChange={(value) => setTask({ ...task, owner: value })}
             >
-              {users.map((owner) => (
-                <option key={owner.ROWID} value={owner.ROWID}>
-                  {owner.firstName} {owner.lastName}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select owner" />
+              </SelectTrigger>
+              <SelectContent>
+                {users.map((owner) => (
+                  <SelectItem key={owner.ROWID} value={owner.ROWID}>
+                    {owner.firstName} {owner.lastName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
-        </div>
-        <div className="row mx-3 mb-3">
-          <div className="col">Reminder</div>
-          <div className="col">
-            <input
-              className="form-check-input"
-              type="checkbox"
+
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="reminder"
               checked={isReminderChecked}
-              onChange={() => setIsReminderChecked(!isReminderChecked)}
+              onCheckedChange={setIsReminderChecked}
             />
+            <Label htmlFor="reminder">Reminder</Label>
           </div>
-        </div>
-        {isPopupOpen2 && (
-          <div className="card" style={{ position: 'absolute', top: '53%', left: '40%', transform: 'translate(-50%, -50%)', zIndex: 1000 }}>
-            <i className="fa-solid fa-xmark" style={{ cursor: 'pointer', marginRight: '20px', transform: 'translate(-50%, -50%)', zIndex: 1000, position: 'absolute', top: '10%', left: '95%' }} onClick={closePopup2}></i>
-            <div className="reminder mb-3">
-              <table className="table mt-4 mx-3">
-                <tbody>
-                  <tr>
-                    <td scope="row">
-                      <input className="form-check-input" type="checkbox" name="flexRadioDefault" id="flexRadioDefault2" defaultChecked />
-                    </td>
-                    <td>
-                      <select className="form-select" aria-label="Default select example" style={{ color: 'black' }}>
-                        <option selected>On</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                      </select>
-                    </td>
-                    <td>
-                      <select className="form-select" aria-label="Default select example" style={{ color: 'black' }}>
-                        <option selected>Day</option>
-                        <option value="1">Month</option>
-                        <option value="2">Year</option>
-                      </select>
-                    </td>
-                    <td style={{ color: 'black', paddingTop: '13px' }} className="mt-2">of due date</td>
-                    <td>
-                      <input type="time" className="time" />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div className="mb-3 mx-3">
-                <label htmlFor="alert" className="form-label">Alert</label>
-                <input type="text" className="form-control" id="alert" />
-              </div>
-              <div className="mb-3 mx-3">
-                <label htmlFor="email" className="form-label">Email address</label>
-                <input type="email" className="form-control" id="email" />
-              </div>
-            </div>
-          </div>
-        )}
 
-        <div className="row mx-3 mb-3">
-          <div className="col">Repeat</div>
-          <div className="col">
-            <input
-              className="form-check-input"
-              type="checkbox"
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="repeat"
               checked={isReminderChecked2}
-              onChange={() => setIsReminderChecked2(!isReminderChecked2)}
+              onCheckedChange={setIsReminderChecked2}
             />
+            <Label htmlFor="repeat">Repeat</Label>
           </div>
-        </div>
-        {isPopupOpen && (
-          <div className="card" style={{ position: 'absolute', top: '53%', left: '40%', transform: 'translate(-50%, -50%)', zIndex: 1000 }}>
-            <i className="fa-solid fa-xmark" style={{ cursor: 'pointer', marginRight: '20px', transform: 'translate(-50%, -50%)', zIndex: 1000, position: 'absolute', top: '10%', left: '95%' }} onClick={() => setIsPopupOpen(false)}></i>
-            <table className="table mx-3 mb-3" style={{ border: '1px solid white' }}>
-              <tbody>
-                <tr>
-                  <td>Type</td>
-                  <td>Daily</td>
-                </tr>
-                <tr>
-                  <th scope="row"></th>
-                  <td>
-                    <div className="d-flex">
-                      <input className="form-check-input" type="checkbox" value="" id="defaultCheck1" />
-                      Except weekends and holidays
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Ends</td>
-                  <td>
-                    <div className="d-flex">
-                      <input className="form-check-input" type="checkbox" value="" id="defaultCheck2" />
-                      Never
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td>
-                    <div className="d-flex">
-                      <input className="form-check-input" type="checkbox" value="" id="defaultCheck3" />
-                      After 1 Time(s)
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td>
-                    <div className="d-flex">
-                      <input className="form-check-input" type="checkbox" value="" id="defaultCheck4" />
-                      On &nbsp;&nbsp;
-                      <input type="date" className="no-border" style={{ color: 'black', marginTop: '-5px' }} />
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        )}
 
-        <button className="btn-ShowMore mx-3" onClick={openPopup3}>Show More</button>
+          <Button
+            variant="outline"
+            onClick={openPopup3}
+            className="w-full"
+          >
+            Show More
+          </Button>
 
-        {isPopupOpen3 && (
-          <div className="showMore mx-3">
-            <label className="mt-2">Related To</label>
-            <select
-              className="form-select"
-              name="refrenceModule"
-              value={task.refrenceModule}
-              onChange={handleInputChange}
-            >
-              <option value="">Contact Name</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
-            <label className="mt-2">Status</label>
-            <select
-              className="form-select"
-              name="status"
-              value={task.status}
-              onChange={handleInputChange}
-            >
-              <option value="">Not Started</option>
-              <option value="Completed">Completed</option>
-              <option value="Pending">Pending</option>
-              <option value="Working">Working</option>
-            </select>
-            <label className="mt-2">Description</label>
-            <div className="form-floating">
-              <textarea
-                className="form-control"
-                placeholder="Leave a comment here"
-                name="description"
-                value={task.description}
-                onChange={handleInputChange}
-                id="floatingTextarea"
-              ></textarea>
-              <label htmlFor="floatingTextarea">Description</label>
-            </div>
-          </div>
-        )}
+          {isPopupOpen3 && (
+            <Card>
+              <CardContent className="pt-6 space-y-4">
+                <div className="space-y-2">
+                  <Label>Related To</Label>
+                  <Select
+                    value={task.refrenceModule || "contact"}
+                    onValueChange={(value) => setTask({ ...task, refrenceModule: value })}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select related to" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="contact">Contact Name</SelectItem>
+                      <SelectItem value="1">One</SelectItem>
+                      <SelectItem value="2">Two</SelectItem>
+                      <SelectItem value="3">Three</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
 
-        <div className="row text-center d-flex justify-space-around mt-5">
-          <div className="col">
-            <button className="btn btn-info m-2" onClick={onClose}>Cancel</button>
-            <button className="btn btn-danger m-2" onClick={selectedButton === 'Update' ? handleUpdateTask : handleSubmit}>
+                <div className="space-y-2">
+                  <Label>Status</Label>
+                  <Select
+                    value={task.status || "not-started"}
+                    onValueChange={(value) => setTask({ ...task, status: value })}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="not-started">Not Started</SelectItem>
+                      <SelectItem value="Completed">Completed</SelectItem>
+                      <SelectItem value="Pending">Pending</SelectItem>
+                      <SelectItem value="Working">Working</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="description">Description</Label>
+                  <Textarea
+                    id="description"
+                    name="description"
+                    value={task.description}
+                    onChange={handleInputChange}
+                    placeholder="Enter task description"
+                    rows={3}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          <div className="flex justify-end space-x-2 pt-4">
+            <Button variant="outline" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button onClick={selectedButton === 'Update' ? handleUpdateTask : handleSubmit}>
               {selectedButton === 'Update' ? 'Update' : 'Add'}
-            </button>
+            </Button>
           </div>
         </div>
-      </div>
+        </div>
+      </DrawerContent>
     </Drawer>
   );
 };

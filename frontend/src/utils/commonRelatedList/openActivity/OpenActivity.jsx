@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Search, Plus, Edit, Trash2, CheckSquare, Calendar, Phone, PhoneCall } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import OpenActivityDrawer from './OpenActivityDrawer';
 import MeetingDrawer from './MeetingDrawer';
 import ScheduleCallDrawer from './ScheduleCallDrawer';
@@ -153,115 +165,94 @@ const OpenActivity = ({ id }) => {
         addTask={addTask}
         selectedButton={selectedButton}
       />
-      <MeetingDrawer
-        isOpen={isMeetingDrawerOpen}
-        onClose={closeMeetingsDrawer}
-      />
-      <ScheduleCallDrawer
-        isOpen={isScheduleDrawerOpen}
-        onClose={closeScheduleDrawer}
-      />
-      <LogCallDrawer
-        isOpen={isLogDrawerOpen}
-        onClose={closeLogDrawer}
-      />
-      <CallNowDrawer
-        isOpen={isCallNowDrawerOpen}
-        onClose={closeCallNowDrawer}
-      />
+        <MeetingDrawer
+          isOpen={isMeetingDrawerOpen}
+          onClose={closeMeetingsDrawer}
+        />
 
-      <div>
-        <div className="row">
-          <div className="d-flex justify-content-between align-items-center">
-            <div className="search-container-div col-lg-10 col-md-10 col-sm-12">
-              <div className="search-container">
-                <input
-                  className="search-input"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                />
-                <i className="fas fa-search" aria-hidden="true"></i>
-              </div>
-            </div>
+        <ScheduleCallDrawer
+          isOpen={isScheduleDrawerOpen}
+          onClose={closeScheduleDrawer}
+        />
+        <LogCallDrawer
+          isOpen={isLogDrawerOpen}
+          onClose={closeLogDrawer}
+        />
+        <CallNowDrawer
+          isOpen={isCallNowDrawerOpen}
+          onClose={closeCallNowDrawer}
+        />
 
-            <div className="dropdown" style={{ marginRight: '7%' }}>
-              <button
-                className="btn companagion-button px-2 py-1 mt-3"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                id="dropdownMenuButton1"
-              >
-                Add New
-              </button>
-              <ul className="dropdown-menu">
-                <li>
-                  <a
-                    className="dropdown-item"
-                    onClick={() => {
-                      openTaskDrawer();
-                      setSelectedButton('add');
-                    }}
-                  >
-                    Task
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" onClick={openMeetingsDrawer}>
-                    Meeting
-                  </a>
-                </li>
-                <li>
-                  <hr className="dropdown-divider light-divider" />
-                </li>
-                <li>
-                  <a className="dropdown-item" onClick={openScheduleDrawer}>
-                    Schedule a call
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" onClick={openLogDrawer}>
-                    Log a call
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" onClick={openCallNowDrawer}>
-                    Call now
-                  </a>
-                </li>
-              </ul>
-            </div>
+      <div className="space-y-4">
+        <div className="flex justify-between items-center">
+          <div className="relative w-80">
+            <Input
+              type="search"
+              placeholder="Search tasks..."
+              className="pl-10"
+            />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
           </div>
 
-          <div className="border px-0">
-            <table className="table table-striped">
-              <thead>
-                <tr>
-                  <td>
-                    <input
-                      className="form-check-input mt-0 compagion-checkbox"
-                      type="checkbox"
-                      value=""
-                    />
-                  </td>
-                  <td></td>
-                  <td className="color fw-semibold">Task Name</td>
-                  <td className="color fw-semibold">Status</td>
-                </tr>
-              </thead>
-              <tbody>
-                {taskList.map((item) => (
-                  <tr key={item.taskId}>
-                    <td>
-                      <input
-                        className="form-check-input mt-0 compagion-checkbox"
-                        type="checkbox"
-                        value=""
-                      />
-                    </td>
-                    <td>
-                      <i
-                        className="fa fa-pencil p-2 text-md blue-color cursor-pointer"
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button className="bg-blue-600 hover:bg-blue-700">
+                <Plus className="h-4 w-4 mr-2" />
+                Add New
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem onClick={() => { openTaskDrawer(); setSelectedButton('add'); }}>
+                <CheckSquare className="h-4 w-4 mr-2" />
+                Task
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={openMeetingsDrawer}>
+                <Calendar className="h-4 w-4 mr-2" />
+                Meeting
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={openScheduleDrawer}>
+                <Phone className="h-4 w-4 mr-2" />
+                Schedule a call
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={openLogDrawer}>
+                <PhoneCall className="h-4 w-4 mr-2" />
+                Log a call
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={openCallNowDrawer}>
+                <PhoneCall className="h-4 w-4 mr-2" />
+                Call now
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
+        <div className="border rounded-lg overflow-hidden">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-12">
+                  <Checkbox />
+                </TableHead>
+                <TableHead className="w-24">Actions</TableHead>
+                <TableHead>Task Name</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Priority</TableHead>
+                <TableHead>Due Date</TableHead>
+                <TableHead>Owner</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {taskList.map((item) => (
+                <TableRow key={item.taskId}>
+                  <TableCell>
+                    <Checkbox />
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex space-x-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         onClick={() =>
                           switchButton(
                             'Update',
@@ -275,19 +266,36 @@ const OpenActivity = ({ id }) => {
                             item.owner
                           ) && openTaskDrawer()
                         }
-                      ></i>
-                      <i
-                        className="fa fa-trash p-2 text-md blue-color cursor-pointer"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         onClick={() => deleteTask(item.taskId)}
-                      ></i>
-                    </td>
-                    <td>{item.subject}</td>
-                    <td>{item.status}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                  <TableCell className="font-medium">{item.subject}</TableCell>
+                  <TableCell>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      item.status === 'Completed' ? 'bg-green-100 text-green-800' :
+                      item.status === 'In Progress' ? 'bg-blue-100 text-blue-800' :
+                      'bg-gray-100 text-gray-800'
+                    }`}>
+                      {item.status}
+                    </span>
+                  </TableCell>
+                  <TableCell>{item.taskPriority}</TableCell>
+                  <TableCell>{item.dueDate}</TableCell>
+                  <TableCell>{item.owner}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         </div>
       </div>
       {isLoading && <div>Loading...</div>}

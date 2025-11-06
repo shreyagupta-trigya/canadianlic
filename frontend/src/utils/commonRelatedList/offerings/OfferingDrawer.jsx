@@ -75,7 +75,7 @@ const OfferingDrawer = ({ isOpen, onClose }) => {
 
   return (
     <Drawer open={isOpen} onOpenChange={onClose} direction="right">
-      <DrawerContent side="right" className="w-full max-w-2xl">
+      <DrawerContent side="right"  width="70%">
         <DrawerHeader>
           <div className="flex items-center justify-between">
             <DrawerClose asChild>
@@ -83,7 +83,7 @@ const OfferingDrawer = ({ isOpen, onClose }) => {
                 <ArrowLeft className="h-4 w-4" />
               </Button>
             </DrawerClose>
-            <div className="relative flex-1 ml-4">
+            <div className="relative max-w-[20rem] min-w-[10rem] ml-4">
               <Input
                 type="search"
                 placeholder="Search"
@@ -95,7 +95,7 @@ const OfferingDrawer = ({ isOpen, onClose }) => {
             </div>
           </div>
         </DrawerHeader>
-        <div className="px-4 pb-4 max-h-[90vh] overflow-y-auto">
+        <div className="px-4 pb-4 max-h-[100vh] overflow-y-auto">
           <div className="border rounded-lg overflow-hidden" ref={scrollContainerRef}>
             <Table>
               <TableHeader>
@@ -123,11 +123,11 @@ const OfferingDrawer = ({ isOpen, onClose }) => {
           {loading && <div className="text-center py-2">Loading...</div>}
         </div>
         <DrawerFooter>
-          <div className="flex gap-2 w-full">
-            <Button className="flex-1 bg-blue-500 hover:bg-blue-600 text-white" onClick={submit}>
+          <div className="flex gap-2 justify-center ">
+            <Button className=" bg-blue-500 hover:bg-blue-600 text-white" onClick={submit}>
               Submit
             </Button>
-            <Button variant="destructive" className="flex-1" onClick={onClose}>
+            <Button variant="destructive" className="" onClick={onClose}>
               Reset
             </Button>
           </div>
