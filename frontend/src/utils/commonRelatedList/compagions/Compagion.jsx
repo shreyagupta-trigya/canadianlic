@@ -100,12 +100,12 @@ const Compagion = () => {
           </div>
 
           <div className="button">
-            <Button className="companagion-button px-2 py-1 mt-3" onClick={toggleDrawer}>
+            <Button className="companagion-button px-2 py-1 " onClick={toggleDrawer}>
               Add New
             </Button>
           </div>
         </div>
-        <div className="border overflow-scroll custom-scroll px-0">
+        <div className="border overflow-scroll custom-scroll px-0 mt-2">
           <Table className="table table-striped custom-scroll">
             <TableHeader>
               <TableRow>

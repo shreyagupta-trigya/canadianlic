@@ -4,10 +4,15 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Search } from "lucide-react";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerHeader,
+  DrawerFooter,
+} from "../../../components/ui/drawer";
 
 const CampaignDrawer = ({ isOpen, onClose, maxWidth = "75%", speed = 300, backgroundColor = "#fafafa" }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -18,17 +23,10 @@ const CampaignDrawer = ({ isOpen, onClose, maxWidth = "75%", speed = 300, backgr
   const [currentOffset, setCurrentOffset] = useState(0);
 
   useEffect(() => {
-    setIsTransitioning(true);
     if (isOpen) {
-      document.body.style.overflow = "hidden";
-      setIsVisible(true);
       fetchData();
-    } else {
-      document.body.style.overflow = null;
-      setTimeout(() => setIsVisible(false), speed);
     }
-    setTimeout(() => setIsTransitioning(false), speed);
-  }, [isOpen, speed]);
+  }, [isOpen]);
 
   const fetchData = () => {
     if (currentOffset >= totalItems || loading) return;
@@ -66,12 +64,6 @@ const CampaignDrawer = ({ isOpen, onClose, maxWidth = "75%", speed = 300, backgr
     );
   };
 
-  const closeDrawer = () => {
-    if (!isTransitioning) {
-      onClose();
-    }
-  };
-
   const submit = () => {
     const selectedItems = items.filter((item) => item.selected);
     alert(`Selected Items: ${selectedItems.map((item) => item.campaignName).join(", ")}`);
@@ -103,30 +95,16 @@ const CampaignDrawer = ({ isOpen, onClose, maxWidth = "75%", speed = 300, backgr
   );
 
   return (
-    <div className={`drawer ${isVisible ? "is-visible" : ""} ${isOpen ? "is-open" : ""}`}>
-      <div
-        className="drawer__overlay"
-        style={{ transitionDuration: `${speed}ms` }}
-        onClick={closeDrawer}
-      ></div>
-      <div
-        className="drawer__content"
-        style={{
-          maxWidth,
-          transitionDuration: `${speed}ms`,
-          backgroundColor,
-        }}
+    <Drawer open={isOpen} onOpenChange={onClose} direction="right">
+      <DrawerContent
+        className="w-full max-w-4xl"
+        style={{ backgroundColor }}
       >
-        <div className="header d-flex justify-content-between">
-          <div className="px-3 py-1">
-            <button onClick={closeDrawer} className="btn btn-link">
-              <i className="fa fa-arrow-right cursor-pointer"></i>
-            </button>
-          </div>
-          <div className="search-container mt-3 mb-2" style={{ textAlign: "end" }}>
+        <DrawerHeader className="flex justify-between items-center">
+          <div className="w-full flex" style={{ textAlign: "left" }}>
             <div className="relative">
               <Input
-                className="search-input"
+                 className="search-input max-w-2xl w-full"
                 type="search"
                 placeholder="Search"
                 value={searchQuery}
@@ -135,8 +113,13 @@ const CampaignDrawer = ({ isOpen, onClose, maxWidth = "75%", speed = 300, backgr
               <Search className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500" />
             </div>
           </div>
-        </div>
-        <div className="table-container border mt-3" ref={scrollContainerRef}>
+          <DrawerClose asChild>
+            <button className="btn btn-link">
+              <i className="fa fa-arrow-right cursor-pointer"></i>
+            </button>
+          </DrawerClose>
+        </DrawerHeader>
+        <div className="table-container border mt-3 flex-1 overflow-auto" ref={scrollContainerRef}>
           <div className="table-wrapper">
             <Table className="table table-striped">
               <TableHeader>
@@ -194,16 +177,18 @@ const CampaignDrawer = ({ isOpen, onClose, maxWidth = "75%", speed = 300, backgr
           </div>
         </div>
         {loading && <div className="text-center py-2">Loading...</div>}
-        <div className="d-flex justify-content-center gap-2 w-100 mt-4 position-fixed bg-white" style={{ bottom: 0 }}>
-          <Button className="btn btn-info" onClick={submit}>
-            Submit
-          </Button>
-          <Button className="btn btn-danger" onClick={closeDrawer}>
-            Reset
-          </Button>
-        </div>
-      </div>
-    </div>
+        <DrawerFooter className="flex justify-center">
+          <div className="flex gap-2 justify-center">
+            <Button className="btn btn-info" onClick={submit}>
+              Submit
+            </Button>
+            <Button className="btn btn-danger" onClick={onClose}>
+              Reset
+            </Button>
+          </div>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   );
 };
 

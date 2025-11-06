@@ -49,10 +49,10 @@ import Offering from "@/utils/commonRelatedList/offerings/Offering";
 import RemoteAssist from "@/utils/commonRelatedList/remoteAssist/RemoteAssist";
 import RingCentralCMS from "@/utils/commonRelatedList/ringCentralCMS/RingCentralCMS";
 // import SessionRecording from "@/utils/commonRelatedList/sessionRecording/SessionRecording";
-// import RingCentralWidget from "@/utils/commonRelatedList/ringCentralWidget/RingCentralWidget";
+import RingCentralWidget from "@/utils/commonRelatedList/ringCentralWidget/RingCentralWidget";
 // import ZohoSalesIQ from "@/utils/commonRelatedList/zohoSalesIQ/ZohoSalesIQ";
 // import ZohoSurvey from "@/utils/commonRelatedList/zohoSurvey/ZohoSurvey";
-// import OpenActivity from "@/utils/commonRelatedList/openActivity/OpenActivity";
+import OpenActivity from "@/utils/commonRelatedList/openActivity/OpenActivity";
 // import CloseActivity from "@/utils/commonRelatedList/closeActivity/CloseActivity";
 import { EllipsisVertical } from "lucide-react";
 
@@ -268,7 +268,7 @@ const LeadsDetailsView = () => {
         </div>
 
         {/* Content for fixed tabs */}
-       <TabsContent value="overview" className="flex flex-col px-2 lg:px-2">
+        <TabsContent value="overview" className="flex flex-col px-2 lg:px-2">
           <div className="flex justify-end mb-4 gap-2">
             {showUpdateBtn ? (
               <>
@@ -302,7 +302,7 @@ const LeadsDetailsView = () => {
               </>
             )}
           </div>
-        { layout="client" ? <Accordion type="multiple" className="w-full" defaultValue={["lead-information"]} >
+          <Accordion type="multiple" className="w-full" defaultValue={["lead-information"]} >
             <AccordionItem value="lead-information" className="mb-1 ">
               <AccordionTrigger className="text-xl">Lead Information</AccordionTrigger>
               <AccordionContent >
@@ -345,51 +345,8 @@ const LeadsDetailsView = () => {
                 <ServiceRequestDetails formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
               </AccordionContent>
             </AccordionItem>
-          </Accordion>:
-          <Accordion type="multiple" className="w-full" defaultValue={["lead-information"]} >
-            <AccordionItem value="lead-information" className="mb-1 ">
-              <AccordionTrigger className="text-xl">Advisor Information</AccordionTrigger>
-              <AccordionContent >
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="description-info" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">Description Info</AccordionTrigger>
-              <AccordionContent>
-                <DescriptionInfo formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="family-tree" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">Family Tree</AccordionTrigger>
-              <AccordionContent>
-                <FamilyTree formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="address-information" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">Address Information</AccordionTrigger>
-              <AccordionContent>
-                <AddressInformation formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="umt-details" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">UMT Details</AccordionTrigger>
-              <AccordionContent>
-                <UMTDetails formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="festival-form" className="mb-1 ">
-              <AccordionTrigger className="text-xl">Festival Form</AccordionTrigger>
-              <AccordionContent>
-                <FestivalForm formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="service-request-details" className="mb-1 ">
-              <AccordionTrigger className="text-xl">Service Request Details</AccordionTrigger>
-              <AccordionContent>
-                <ServiceRequestDetails formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
-              </AccordionContent>
-            </AccordionItem>
           </Accordion>
-          }
+
         </TabsContent>
 
         <TabsContent value="conversations" className="flex flex-col px-2 lg:px-2">
@@ -427,19 +384,19 @@ const LeadsDetailsView = () => {
           {dynamicTabValue === "referral-lead" && <ReferralLead />}
           {dynamicTabValue === "referral-client" && <ReferralClient />}
           {dynamicTabValue === "offering" && <Offering />}
-          {/* {dynamicTabValue === "open-activity" && <OpenActivity />} */}
+          {dynamicTabValue === "open-activity" && <OpenActivity />}
           {/* {dynamicTabValue === "close-activity" && <CloseActivity />} */}
           {dynamicTabValue === "campaign" && <Compagion />}
           {dynamicTabValue === "remote-assist" && <RemoteAssist />}
           {dynamicTabValue === "ringcentral-sms" && <RingCentralCMS />}
-          {/* {dynamicTabValue === "ringcentral-widget" && <RingCentralWidget />}
-          {dynamicTabValue === "session-recording" && <SessionRecording />}
+          {dynamicTabValue === "ringcentral-widget" && <RingCentralWidget />}
+         {/* {dynamicTabValue === "session-recording" && <SessionRecording />}
           {dynamicTabValue === "zoho-sales-iq" && <ZohoSalesIQ />}
-          {dynamicTabValue === "zoho-survey" && <ZohoSurvey />} */}
+          {dynamicTabValue === "zoho-survey" && <ZohoSurvey />}  */}
           {/* Add more conditionals as needed */}
         </TabsContent>
       </Tabs>
-   
+
     </>
   );
 };
