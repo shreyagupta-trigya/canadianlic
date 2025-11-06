@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Search } from "lucide-react";
 
 const CampaignDrawer = ({ isOpen, onClose, maxWidth = "75%", speed = 300, backgroundColor = "#fafafa" }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -103,66 +102,68 @@ const CampaignDrawer = ({ isOpen, onClose, maxWidth = "75%", speed = 300, backgr
   );
 
   return (
-    <div className={`drawer ${isVisible ? "is-visible" : ""} ${isOpen ? "is-open" : ""}`}>
+    <div className={`fixed inset-0 z-[1050] ${isVisible ? "block" : "hidden"} ${isOpen ? "block" : "hidden"}`}>
+      {/* Overlay */}
       <div
-        className="drawer__overlay"
+        className="fixed inset-0 bg-opacity-50 transition-opacity duration-300"
         style={{ transitionDuration: `${speed}ms` }}
         onClick={closeDrawer}
       ></div>
+
+      {/* Drawer Content */}
       <div
-        className="drawer__content"
+        className="fixed top-0 right-0 h-full w-3/4 bg-gray-50 shadow-lg transform transition-transform duration-300"
         style={{
-          maxWidth,
+          transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
           transitionDuration: `${speed}ms`,
           backgroundColor,
         }}
       >
-        <div className="header d-flex justify-content-between">
+        {/* Header */}
+        <div className="flex justify-between items-center p-4 border-b border-gray-200 bg-white">
           <div className="px-3 py-1">
-            <button onClick={closeDrawer} className="btn btn-link">
-              <i className="fa fa-arrow-right cursor-pointer"></i>
-            </button>
+            <i onClick={closeDrawer} className="fas fa-arrow-right cursor-pointer text-xl hover:text-gray-600"></i>
           </div>
-          <div className="search-container mt-3 mb-2" style={{ textAlign: "end" }}>
-            <div className="relative">
-              <Input
-                className="search-input"
-                type="search"
-                placeholder="Search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <Search className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500" />
-            </div>
+          <div className="relative">
+            <Input
+              className="pl-4 pr-10 py-2 border-2 border-gray-200 rounded-lg w-64 transition-all duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+              type="search"
+              placeholder="Search campaigns..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <i className="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
           </div>
         </div>
-        <div className="table-container border mt-3" ref={scrollContainerRef}>
-          <div className="table-wrapper">
-            <Table className="table table-striped">
-              <TableHeader>
+
+        {/* Table Container */}
+        <div className="flex-1 overflow-auto p-2 h-full " ref={scrollContainerRef}>
+          <div className="bg-white rounded-lg shadow-sm  border border-gray-200 overflow-hidden min-w-max">
+            <Table className="w-full min-w-max ">
+              <TableHeader className="bg-gray-50">
                 <TableRow>
-                  <TableHead className="ps-2 pe-1 pb-0">
-                    <Checkbox onCheckedChange={toggleSelectAll} />
+                  <TableHead className="w-12 px-4 py-3">
+                    <Checkbox onCheckedChange={toggleSelectAll} className="w-4 h-4" />
                   </TableHead>
-                  <TableHead className="px-1">Type</TableHead>
-                  <TableHead className="px-1">Campaign Name</TableHead>
-                  <TableHead className="px-1">Status</TableHead>
-                  <TableHead className="px-1">Start Date</TableHead>
-                  <TableHead className="px-1">End Date</TableHead>
-                  <TableHead className="px-1">Expected Revenue</TableHead>
-                  <TableHead className="px-1">Campaign Subject</TableHead>
-                  <TableHead className="px-1">Sender Name</TableHead>
-                  <TableHead className="px-1">Sender Address</TableHead>
-                  <TableHead className="px-1">Reply-to Address</TableHead>
-                  <TableHead className="px-1">Survey Department</TableHead>
-                  <TableHead className="px-1">Survey Type</TableHead>
-                  <TableHead className="px-1">Survey</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Type</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Campaign Name</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Start Date</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">End Date</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Expected Revenue</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Campaign Subject</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Sender Name</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Sender Address</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Reply-to Address</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Survey Department</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Survey Type</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Survey</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredItems.map((item) => (
-                  <TableRow key={item.id}>
-                    <TableCell>
+                  <TableRow key={item.id} className="hover:bg-gray-50 transition-colors duration-200">
+                    <TableCell className="px-4 py-3">
                       <Checkbox
                         checked={item.selected}
                         onCheckedChange={(checked) =>
@@ -172,35 +173,54 @@ const CampaignDrawer = ({ isOpen, onClose, maxWidth = "75%", speed = 300, backgr
                             )
                           )
                         }
+                        className="w-4 h-4"
                       />
                     </TableCell>
-                    <TableCell>{item.type}</TableCell>
-                    <TableCell>{item.campaignName}</TableCell>
-                    <TableCell>{item.status}</TableCell>
-                    <TableCell>{item.startDate}</TableCell>
-                    <TableCell>{item.endDate}</TableCell>
-                    <TableCell>{item.expectedRevenue}</TableCell>
-                    <TableCell>{item.campaignSubject}</TableCell>
-                    <TableCell>{item.senderName}</TableCell>
-                    <TableCell>{item.senderAddress}</TableCell>
-                    <TableCell>{item.replyToAddress}</TableCell>
-                    <TableCell>{item.surveyDepartment}</TableCell>
-                    <TableCell>{item.surveyType}</TableCell>
-                    <TableCell>{item.survey}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-900">{item.type}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-900">{item.campaignName}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-900">{item.status}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-600">{item.startDate}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-600">{item.endDate}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-600">{item.expectedRevenue}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-600">{item.campaignSubject}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-600">{item.senderName}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-600">{item.senderAddress}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-600">{item.replyToAddress}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-600">{item.surveyDepartment}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-600">{item.surveyType}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-600">{item.survey}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </div>
         </div>
-        {loading && <div className="text-center py-2">Loading...</div>}
-        <div className="d-flex justify-content-center gap-2 w-100 mt-4 position-fixed bg-white" style={{ bottom: 0 }}>
-          <Button className="btn btn-info" onClick={submit}>
-            Submit
-          </Button>
-          <Button className="btn btn-danger" onClick={closeDrawer}>
-            Reset
-          </Button>
+
+        {/* Loading */}
+        {loading && (
+          <div className="text-center py-4">
+            <div className="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+            <span className="ml-2 text-gray-600">Loading...</span>
+          </div>
+        )}
+
+        {/* Footer Buttons */}
+        <div className="absolute bottom-0 left-0 right-0   bg-white border-t border-gray-200 p-4">
+          <div className="flex justify-center gap-3">
+            <Button
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-all duration-300"
+              onClick={submit}
+            >
+              Submit
+            </Button>
+            <Button
+              variant="outline"
+              className="border-red-600 text-red-600 hover:bg-red-50 px-6 py-2 rounded-lg font-medium transition-all duration-300"
+              onClick={closeDrawer}
+            >
+              Reset
+            </Button>
+          </div>
         </div>
       </div>
     </div>
