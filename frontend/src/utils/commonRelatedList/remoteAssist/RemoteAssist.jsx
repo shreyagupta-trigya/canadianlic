@@ -7,6 +7,8 @@ import { Search, MoreVertical } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import RemoteAssistDrawer from "./RemoteAssistDrawer";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { putUrl } from "@/boot/axios";
 
 const RemoteAssist = ({ id }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -36,67 +38,44 @@ const RemoteAssist = ({ id }) => {
   };
 
   const fetchAdvisorCredentials = async () => {
-    // Mock data for demonstration
-    const mockData = [
-      {
-        rowId: 1,
-        name: "Remote Assist 1",
-        currency: "CAD",
-        contactsName: "John Doe",
-        sessionId: "12345",
-        scheduleId: "67890",
-        reminder: "5 minutes before",
-        owner: "Owner 1",
-        exchangeRate: 1.2,
-        sessionType: "Remote Support",
-        description: "Description 1",
-        leadId: "Lead 1",
-        contactId: "Contact 1",
-        digest: "Digest 1",
-        onDemandSession: true,
-        timezoneList: "EST",
-        id: 1
-      },
-      {
-        rowId: 2,
-        name: "Remote Assist 2",
-        currency: "CAD",
-        contactsName: "Jane Smith",
-        sessionId: "54321",
-        scheduleId: "09876",
-        reminder: "10 minutes before",
-        owner: "Owner 2",
-        exchangeRate: 1.3,
-        sessionType: "Screen Share",
-        description: "Description 2",
-        leadId: "Lead 2",
-        contactId: "Contact 2",
-        digest: "Digest 2",
-        onDemandSession: false,
-        timezoneList: "PST",
-        id: 2
-      }
-    ];
-    setPaginatedAdvior(mockData);
+    try {
+      const response = await axios.post(`${putUrl}canadianlicapi/remote-assist/api/v2/getall-remote-access`, {
+        params: {
+          // Add any params if needed
+        }
+      });
+      setPaginatedAdvior(response.data.data || []);
+    } catch (error) {
+      console.error('Error fetching remote assists:', error);
+      setPaginatedAdvior([]);
+    }
   };
 
   const confirmDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this data?')) {
-      // Mock delete
-      setPaginatedAdvior(prev => prev.filter(item => item.rowId !== id));
-      alert('Remote Access Deleted Successfully');
+      try {
+        await axios.post(`${putUrl}canadianlicapi/remote-assist/api/v2/delete-remote-access/${id}`);
+        fetchAdvisorCredentials(); // Refresh the list
+        alert('Remote Access Deleted Successfully');
+      } catch (error) {
+        console.error('Error deleting remote assist:', error);
+        alert('Error deleting remote assist');
+      }
     }
   };
 
   const updateRemoteAssist = async (data) => {
-    // Mock update
-    console.log('Updating remote assist:', data);
-    // Update the local state
-    setPaginatedAdvior(prev => prev.map(item =>
-      item.id === data.id ? { ...item, ...data } : item
-    ));
-    alert('Remote Access Updated Successfully');
-    return { data: { success: true } };
+    try {
+      const response = await axios.put(`${putUrl}canadianlicapi/remote-assist/api/v2/update-remote-access/${data.id}`, data);
+      console.log('Update response', response);
+      alert('Remote Access Updated Successfully');
+      fetchAdvisorCredentials();
+      return { data: { success: true } };
+    } catch (error) {
+      console.error('Error updating remote assist:', error);
+      alert('Error updating remote assist');
+      return { data: { success: false } };
+    }
   };
 
   useEffect(() => {
@@ -118,7 +97,7 @@ const RemoteAssist = ({ id }) => {
         selectedButton={selectedButton}
       />
       <div className="row">
-        <div className="d-flex justify-content-between align-items-center">
+        <div className="flex items-center justify-between p-3">
           <div className="search-container-div col-lg-10 col-md-10 col-sm-12">
             <div className="relative">
               <Input
@@ -133,7 +112,7 @@ const RemoteAssist = ({ id }) => {
           </div>
           <div className="button">
             <Button
-              className="companagion-button px-2 py-1 mt-2"
+              className="companagion-button  cursor-pointer px-2 py-1 "
               onClick={() => {
                 toggleDrawer();
                 switchButton('Submit');
@@ -143,6 +122,7 @@ const RemoteAssist = ({ id }) => {
             </Button>
           </div>
         </div>
+        {/* <iframe width="100%" height="150px" src="https://assist.canadianlic.com/login/embed-remote-support.jsp" frameborder="0"></iframe> */}
         <div className="border overflow-scroll custom-scroll px-0">
           <Table className="table table-striped custom-scroll">
             <TableHeader>

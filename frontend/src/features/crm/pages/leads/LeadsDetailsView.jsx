@@ -48,12 +48,12 @@ import ReferralLead from "@/utils/commonRelatedList/referralLead/ReferralLead";
 import Offering from "@/utils/commonRelatedList/offerings/Offering";
 import RemoteAssist from "@/utils/commonRelatedList/remoteAssist/RemoteAssist";
 import RingCentralCMS from "@/utils/commonRelatedList/ringCentralCMS/RingCentralCMS";
-// import SessionRecording from "@/utils/commonRelatedList/sessionRecording/SessionRecording";
+import SessionRecording from "@/utils/commonRelatedList/sessionRecording/SessionRecording";
 import RingCentralWidget from "@/utils/commonRelatedList/ringCentralWidget/RingCentralWidget";
-// import ZohoSalesIQ from "@/utils/commonRelatedList/zohoSalesIQ/ZohoSalesIQ";
-// import ZohoSurvey from "@/utils/commonRelatedList/zohoSurvey/ZohoSurvey";
+import ZohoSalesIQ from "@/utils/commonRelatedList/zohoSalesIQ/ZohoSalesIQ";
+import ZohoSurvey from "@/utils/commonRelatedList/zohoSurvey/ZohoSurvey";
 import OpenActivity from "@/utils/commonRelatedList/openActivity/OpenActivity";
-// import CloseActivity from "@/utils/commonRelatedList/closeActivity/CloseActivity";
+import CloseActivity from "@/utils/commonRelatedList/closeActivity/CloseActivity";
 import { EllipsisVertical } from "lucide-react";
 
 const LeadsDetailsView = () => {
@@ -63,14 +63,13 @@ const LeadsDetailsView = () => {
   const details = location.state;
 
   const [activeTab, setActiveTab] = useState("overview");
-  const [dynamicTabValue, setDynamicTabValue] = useState("referral-lead");
+  const [dynamicTabValue, setDynamicTabValue] = useState("open-activity");
+  const [selectedActionTab, setSelectedActionTab] = useState("whatsapp");
   const [isEditing, setIsEditing] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [showUpdateBtn, setShowUpdateBtn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [originalFormData, setOriginalFormData] = useState({});
-
-
 
   const [comments, setComments] = useState([
     {
@@ -98,9 +97,7 @@ const LeadsDetailsView = () => {
     };
     setComments([...comments, newItem]);
     setNewComment("");
-    const editableDiv = document.querySelector(
-      '[contenteditable="true"]'
-    );
+    const editableDiv = document.querySelector('[contenteditable="true"]');
     if (editableDiv) editableDiv.innerHTML = "";
   };
   const [deleteId, setDeleteId] = useState(null);
@@ -207,21 +204,23 @@ const LeadsDetailsView = () => {
     setIsDisabled(true);
   };
 
-
-
   // Labels for fixed tabs
   const fixedTabs = [
     { value: "overview", label: "Overview" },
     { value: "conversations", label: `Conversations (${comments.length})` },
     { value: "attachments", label: "Attachments" },
     // { value: "activity", label: "Tasks" },
+    { value: "comms", label: "Comms" },
+    { value: "referralLead", label: "Referral Lead" },
+    { value: "referralClient", label: "Referral Client" },
+    { value: "offering", label: "Offering" },
   ];
 
   // Options for dropdown that controls the 5th tab dynamically
   const dynamicOptions = [
-    { value: "referral-lead", label: "Referral Lead" },
-    { value: "referral-client", label: "Referral Client" },
-    { value: "offering", label: "Offering" },
+    // { value: "referral-lead", label: "Referral Lead" },
+    // { value: "referral-client", label: "Referral Client" },
+    // { value: "offering", label: "Offering" },
     { value: "open-activity", label: "Open Activity" },
     { value: "close-activity", label: "Close Activity" },
     { value: "campaign", label: "Campaign" },
@@ -235,7 +234,15 @@ const LeadsDetailsView = () => {
   ];
 
   // Compose tabs: fixed plus dynamic tab at last position
-  const allTabs = [...fixedTabs, { value: dynamicTabValue, label: dynamicOptions.find(opt => opt.value === dynamicTabValue)?.label || "Dynamic" }];
+  const allTabs = [
+    ...fixedTabs,
+    {
+      value: dynamicTabValue,
+      label:
+        dynamicOptions.find((opt) => opt.value === dynamicTabValue)?.label ||
+        "Dynamic",
+    },
+  ];
 
   // Event when dropdown changes, also activate the dynamic tab
   const handleDropdownChange = (value) => {
@@ -244,7 +251,11 @@ const LeadsDetailsView = () => {
   };
   return (
     <>
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full flex-col justify-start gap-2">
+      <Tabs
+        value={activeTab}
+        onValueChange={setActiveTab}
+        className="w-full flex-col justify-start gap-2"
+      >
         <div className="flex items-center px-1 lg:px-1">
           <TabsList className="hidden lg:flex">
             {fixedTabs.map(({ value, label }) => (
@@ -253,13 +264,18 @@ const LeadsDetailsView = () => {
               </TabsTrigger>
             ))}
             <TabsTrigger value={dynamicTabValue} className="px-2">
-              <Select value={dynamicTabValue} onValueChange={handleDropdownChange}>
+              <Select
+                value={dynamicTabValue}
+                onValueChange={handleDropdownChange}
+              >
                 <SelectTrigger className="border-none bg-transparent shadow-none focus:ring-0 w-auto min-w-[150px]">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   {dynamicOptions.map(({ value, label }) => (
-                    <SelectItem key={value} value={value}>{label}</SelectItem>
+                    <SelectItem key={value} value={value}>
+                      {label}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -293,68 +309,110 @@ const LeadsDetailsView = () => {
                 >
                   Edit
                 </Button>
-                <Button
-                  onClick={handleUpdate}
-                  variant={"primary"}
-                >
+                <Button onClick={handleUpdate} variant={"primary"}>
                   Save
                 </Button>
               </>
             )}
           </div>
-          <Accordion type="multiple" className="w-full" defaultValue={["lead-information"]} >
+          <Accordion
+            type="multiple"
+            className="w-full"
+            defaultValue={["lead-information"]}
+          >
             <AccordionItem value="lead-information" className="mb-1 ">
-              <AccordionTrigger className="text-xl">Lead Information</AccordionTrigger>
-              <AccordionContent >
-                <LeadInformation formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
+              <AccordionTrigger className="text-xl">
+                Lead Information
+              </AccordionTrigger>
+              <AccordionContent>
+                <LeadInformation
+                  formData={formData}
+                  setFormData={setFormData}
+                  isDisabled={isDisabled}
+                />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="description-info" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">Description Info</AccordionTrigger>
+              <AccordionTrigger className="text-xl">
+                Description Info
+              </AccordionTrigger>
               <AccordionContent>
-                <DescriptionInfo formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
+                <DescriptionInfo
+                  formData={formData}
+                  setFormData={setFormData}
+                  isDisabled={isDisabled}
+                />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="family-tree" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">Family Tree</AccordionTrigger>
+              <AccordionTrigger className="text-xl">
+                Family Tree
+              </AccordionTrigger>
               <AccordionContent>
-                <FamilyTree formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
+                <FamilyTree
+                  formData={formData}
+                  setFormData={setFormData}
+                  isDisabled={isDisabled}
+                />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="address-information" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">Address Information</AccordionTrigger>
+              <AccordionTrigger className="text-xl">
+                Address Information
+              </AccordionTrigger>
               <AccordionContent>
-                <AddressInformation formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
+                <AddressInformation
+                  formData={formData}
+                  setFormData={setFormData}
+                  isDisabled={isDisabled}
+                />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="umt-details" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">UMT Details</AccordionTrigger>
+              <AccordionTrigger className="text-xl">
+                UMT Details
+              </AccordionTrigger>
               <AccordionContent>
-                <UMTDetails formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
+                <UMTDetails
+                  formData={formData}
+                  setFormData={setFormData}
+                  isDisabled={isDisabled}
+                />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="festival-form" className="mb-1 ">
-              <AccordionTrigger className="text-xl">Festival Form</AccordionTrigger>
+              <AccordionTrigger className="text-xl">
+                Festival Form
+              </AccordionTrigger>
               <AccordionContent>
-                <FestivalForm formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
+                <FestivalForm
+                  formData={formData}
+                  setFormData={setFormData}
+                  isDisabled={isDisabled}
+                />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="service-request-details" className="mb-1 ">
-              <AccordionTrigger className="text-xl">Service Request Details</AccordionTrigger>
+              <AccordionTrigger className="text-xl">
+                Service Request Details
+              </AccordionTrigger>
               <AccordionContent>
-                <ServiceRequestDetails formData={formData} setFormData={setFormData} isDisabled={isDisabled} />
+                <ServiceRequestDetails
+                  formData={formData}
+                  setFormData={setFormData}
+                  isDisabled={isDisabled}
+                />
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-
         </TabsContent>
 
-        <TabsContent value="conversations" className="flex flex-col px-2 lg:px-2">
+        <TabsContent
+          value="conversations"
+          className="flex flex-col px-2 lg:px-2"
+        >
           <div className="flex flex-col gap-4">
             <Notes />
-            {/* <Whatsapp />
-            <Email />
-            <SMS /> */}
           </div>
         </TabsContent>
 
@@ -362,12 +420,63 @@ const LeadsDetailsView = () => {
           <LeadForm />
         </TabsContent>
 
-
-        <TabsContent
-          value="attachments"
-          className="flex flex-col px-2 lg:px-2"
-        >
+        <TabsContent value="attachments" className="flex flex-col px-2 lg:px-2">
           <Attachment id={details?.ROWID} />
+        </TabsContent>
+        <TabsContent value="comms" className="flex flex-col px-2 lg:px-2">
+          <Tabs
+            value={selectedActionTab}
+            onValueChange={setSelectedActionTab}
+            className="w-full"
+          >
+            <TabsList className="flex gap-5">
+              <TabsTrigger
+                value="whatsapp"
+                className="relative text-xs cursor-pointer"
+              >
+                WhatsApp
+                <Badge
+                  variant="secondary"
+                  className="ml-2 h-4 w-5 bg-blue-500 text-white"
+                >
+                  10
+                </Badge>
+              </TabsTrigger>
+              <TabsTrigger
+                value="sms"
+                className="relative text-xs  cursor-pointer"
+              >
+                SMS
+                <Badge
+                  variant="secondary"
+                  className="ml-2 h-4 w-5 bg-blue-500 text-white"
+                >
+                  15
+                </Badge>
+              </TabsTrigger>
+              <TabsTrigger
+                value="email"
+                className="relative text-xs  cursor-pointer"
+              >
+                Email
+                <Badge
+                  variant="secondary"
+                  className="ml-2 h-4 w-5 bg-blue-500 text-white"
+                >
+                  30
+                </Badge>
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="whatsapp">
+              <Whatsapp />
+            </TabsContent>
+            <TabsContent value="sms">
+              <SMS />
+            </TabsContent>
+            <TabsContent value="email">
+              <Email />
+            </TabsContent>
+          </Tabs>
         </TabsContent>
 
         <TabsContent
@@ -378,25 +487,46 @@ const LeadsDetailsView = () => {
           <LeadActivityList />
         </TabsContent>
 
+        <TabsContent
+          value="referralLead"
+          className="flex flex-col px-2"
+          style={{ border: "none" }}
+        >
+          <ReferralLead />
+        </TabsContent>
+        <TabsContent
+          value="referralClient"
+          className="flex flex-col px-2"
+          style={{ border: "none" }}
+        >
+          <ReferralClient />
+        </TabsContent>
+        <TabsContent
+          value="offering"
+          className="flex flex-col px-2"
+          style={{ border: "none" }}
+        >
+          <Offering />
+        </TabsContent>
+
         {/* Content for dynamic tab */}
         <TabsContent value={dynamicTabValue}>
           {/* Render content based on dynamicTabValue */}
-          {dynamicTabValue === "referral-lead" && <ReferralLead />}
+          {/* {dynamicTabValue === "referral-lead" && <ReferralLead />}
           {dynamicTabValue === "referral-client" && <ReferralClient />}
-          {dynamicTabValue === "offering" && <Offering />}
+          {dynamicTabValue === "offering" && <Offering />} */}
           {dynamicTabValue === "open-activity" && <OpenActivity />}
-          {/* {dynamicTabValue === "close-activity" && <CloseActivity />} */}
+          {dynamicTabValue === "close-activity" && <CloseActivity />}
           {dynamicTabValue === "campaign" && <Compagion />}
           {dynamicTabValue === "remote-assist" && <RemoteAssist />}
           {dynamicTabValue === "ringcentral-sms" && <RingCentralCMS />}
           {dynamicTabValue === "ringcentral-widget" && <RingCentralWidget />}
-         {/* {dynamicTabValue === "session-recording" && <SessionRecording />}
+          {dynamicTabValue === "session-recording" && <SessionRecording />}
           {dynamicTabValue === "zoho-sales-iq" && <ZohoSalesIQ />}
-          {dynamicTabValue === "zoho-survey" && <ZohoSurvey />}  */}
+          {dynamicTabValue === "zoho-survey" && <ZohoSurvey />}
           {/* Add more conditionals as needed */}
         </TabsContent>
       </Tabs>
-
     </>
   );
 };
