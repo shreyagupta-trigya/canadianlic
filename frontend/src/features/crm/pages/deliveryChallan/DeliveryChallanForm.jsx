@@ -144,7 +144,7 @@ export default function DeliveryChallanForm() {
     setUploadedFiles(valid);
     if (valid.length < files.length) {
       // optional: inform user about trimmed/invalid files
-      // eslint-disable-next-line no-console
+       
       console.warn("Some files were ignored: limit 5 files, max 10MB each");
     }
   };

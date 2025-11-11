@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { religionOptions, festivalsOptions, religionFestivals, religions } from '../utils/picklist';
 import Select from 'react-select';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,7 +7,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrashIcon } from 'lucide-react';
 import { Select as ShadcnSelect, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { religions ,religionFestivals, festivalsOptions} from '../utils/picklist';
 
 
 
@@ -41,11 +40,7 @@ const FestivalForm = ({ onNext, onPrevious, FestivalForm, isDisabled = false }) 
   };
 
   const availableFestivals = () => {
-<<<<<<< HEAD
     if (!formData?.religion || formData.religion.length === 0) return [];
-=======
-    if (!formData.religion || !Array.isArray(formData.religion) || formData.religion.length === 0) return [];
->>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
     return formData.religion.reduce((all, rel) => {
       const list = religionFestivals[rel] || [];
       return all.concat(list);
@@ -53,11 +48,7 @@ const FestivalForm = ({ onNext, onPrevious, FestivalForm, isDisabled = false }) 
   };
 
   useEffect(() => {
-<<<<<<< HEAD
     if (!formData?.religion || formData?.religion.length === 0) {
-=======
-    if (!formData.religion || !Array.isArray(formData.religion) || formData.religion.length === 0) {
->>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
       setFormData(prev => ({ ...prev, festival: [] }));
       return;
     }
@@ -83,11 +74,7 @@ const FestivalForm = ({ onNext, onPrevious, FestivalForm, isDisabled = false }) 
               <Select
                 isMulti
                 options={religions.map(rel => ({ value: rel, label: rel }))}
-<<<<<<< HEAD
                 value={formData.religion ? formData.religion.map(rel => ({ value: rel, label: rel })) : []}
-=======
-                value={formData.religion && Array.isArray(formData.religion) ? formData.religion.map(rel => ({ value: rel, label: rel })) : []}
->>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
                 onChange={(selected) => setFormData(prev => ({ ...prev, religion: selected ? selected.map(s => s.value) : [] }))}
                 placeholder="Select Religion"
                 className="custom-vselect"
@@ -99,11 +86,7 @@ const FestivalForm = ({ onNext, onPrevious, FestivalForm, isDisabled = false }) 
               <Select
                 isMulti
                 options={availableFestivals().map(fest => ({ value: fest, label: fest }))}
-<<<<<<< HEAD
                 value={formData.festival ? formData.festival.map(fest => ({ value: fest, label: fest })) : []}
-=======
-                value={formData.festival && Array.isArray(formData.festival) ? formData.festival.map(fest => ({ value: fest, label: fest })) : []}
->>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
                 onChange={(selected) => setFormData(prev => ({ ...prev, festival: selected ? selected.map(s => s.value) : [] }))}
                 placeholder="Select Celebrated Festivals"
                 className="custom-vselect"

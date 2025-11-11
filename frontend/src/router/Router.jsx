@@ -47,12 +47,7 @@ import ShipmentDetail from "@/features/finance/pages/sales/shipments/ShipmentDet
 const Contacts = lazy(() =>
   import("@/features/crm/pages/contacts/ContactsListView")
 );
-const ContactsForm = lazy(() =>
-  import("@/features/crm/pages/contacts/ContactForm")
-);
-const ContactDetailView = lazy(() =>
-  import("@/features/crm/pages/contacts/ContactDetailView")
-);
+
 
 // ACCOUNT MODULE
 const Accounts = lazy(() =>
@@ -225,10 +220,8 @@ import JobWorkForm from "@/features/jobWork/pages/JobWorkForm";
 import JobWorkDetail from "@/features/jobWork/pages/JobWorkDetail";
 import UsersDetail from "@/features/portal/manageUsers/users/pages/UsersDetail";
 import ContactsListView from "@/features/crm/pages/contacts/ContactsListView";
-import NewContactList from "@/features/crm/pages/contacts/NewContactList";
-import ContactList from "@/features/crm/pages/contacts/ContactList";
+import CustomerServiceForm from "@/features/crm/pages/customerService/CustomerServiceForm";
 import ContactClientForm from "@/features/crm/pages/contacts/contactForm/ContactClientForm";
-import ContactListView from "@/features/crm/pages/contacts/ContactListView";
 
 
 
@@ -323,12 +316,11 @@ export default function AppRoutes() {
             </Route>
             {/* <Route path="contacts" element={<Contacts />} /> */}
             <Route path="contacts" element={<ContactLayout />}>
-              {/* <Route path="" element={<ContactList/>} /> */}
-              <Route path="" element={<ContactListView/>} />
+              <Route path="" element={<ContactsListView/>} />
               <Route path="create" element={<ContactClientForm />} />
-              <Route path="update" element={<ContactsForm />} />
-              <Route path="details" element={<ContactDetailView />} />
-               <Route path="activity" element={<ContactActivityForm />} />
+              {/* <Route path="update" element={<ContactsForm />} /> */}
+              {/* <Route path="details/:id" element={<ContactDetailView />} /> */}
+               <Route path=" activity" element={<ContactActivityForm />} />
             </Route>
             {/* <Route path="accounts" element={<Accounts />} /> */}
             <Route path="accounts" element={<AccountLayout />}>

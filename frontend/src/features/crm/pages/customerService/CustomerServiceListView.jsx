@@ -142,10 +142,17 @@ function SortableHeader({ column, title }) {
   );
 }
 
-function DraggableRow({ row }) {
+function DraggableRow({ row, navigate }) {
   const { transform, transition, setNodeRef, isDragging } = useSortable({
     id: row.original.ROWID,
   });
+  const handleRowClick = () => {
+    if (!isDragging) {
+      navigate(`/crm/customerService/details/${row.original.ROWID}`, {
+        state: row.original,
+      });
+    }
+  };
 
   return (
     <TableRow
@@ -159,7 +166,7 @@ function DraggableRow({ row }) {
       }}
     >
       {row.getVisibleCells().map((cell) => (
-        <TableCell key={cell.id}>
+        <TableCell key={cell.id} onClick={handleRowClick}>
           {flexRender(cell.column.columnDef.cell, cell.getContext())}
         </TableCell>
       ))}
@@ -309,41 +316,41 @@ const CustomerServiceListView = () => {
     return saved
       ? JSON.parse(saved)
       : [
-          "Activity Badge",
-          "Created Time",
-          "Task Name",
-          "Policies",
-          "Description",
-          "Status",
-          "Updated Policy Module - ZOHO",
-          "Request BOT/Email Company/Cancel Portal",
-          "Confirmation Received by us",
-          "Confirmation to Client",
-          "Comment on Contact Profile - ZOHO",
-          "Effective Date Matches on Confirmation",
-          "Task Completed CSR Name",
-          "Contacts",
-          "Last Activity Time",
-          "Customer Service Owner",
-          "Policy Advisor",
-          "Contact Mobile",
-          "Created By",
-          "Currency",
-          "Exchange Rate",
-          "Tag",
-          "Unsubscribed Mode",
-          "Unsubscribed Time",
-          "Group Insurance",
-          "Policy Expiry Date",
-          "Renewal Follow Up Date",
-          "Policy Renewal Date",
-          "Renewal Completed",
-          "New Policy Renewal Date",
-          "New Policy Premium",
-          "Issued By",
-          "Connected To",
-          "Refund Amount",
-        ];
+        "Activity Badge",
+        "Created Time",
+        "Task Name",
+        "Policies",
+        "Description",
+        "Status",
+        "Updated Policy Module - ZOHO",
+        "Request BOT/Email Company/Cancel Portal",
+        "Confirmation Received by us",
+        "Confirmation to Client",
+        "Comment on Contact Profile - ZOHO",
+        "Effective Date Matches on Confirmation",
+        "Task Completed CSR Name",
+        "Contacts",
+        "Last Activity Time",
+        "Customer Service Owner",
+        "Policy Advisor",
+        "Contact Mobile",
+        "Created By",
+        "Currency",
+        "Exchange Rate",
+        "Tag",
+        "Unsubscribed Mode",
+        "Unsubscribed Time",
+        "Group Insurance",
+        "Policy Expiry Date",
+        "Renewal Follow Up Date",
+        "Policy Renewal Date",
+        "Renewal Completed",
+        "New Policy Renewal Date",
+        "New Policy Premium",
+        "Issued By",
+        "Connected To",
+        "Refund Amount",
+      ];
   });
 
   // Handler for column changes
@@ -399,7 +406,7 @@ const CustomerServiceListView = () => {
     "Refund Amount": "Refund Amount",
   };
 
-  const CustomerServiceColumns = () => [
+  const CustomerServiceColumns = (navigate) => [
     {
       id: "drag",
       header: "",
@@ -454,16 +461,14 @@ const CustomerServiceListView = () => {
       header: "Action",
       cell: ({ row }) => (
         <div className="d-flex justify-content-center align-items-center gap-2">
-      <Button
-        variant="link"
-        className="text-foreground cursor-pointer w-fit px-0 text-left"
-        onClick={(e) => {
-          e.stopPropagation();
-          navigate(`/crm/customerService/details/${row.original.ROWID}`, { state: row.original });
-        }}
-      >
-        <i className="fas fa-eye text-gray-400" aria-hidden="true"></i>
-      </Button>
+          <Button
+            variant="link"
+            className="text-foreground cursor-pointer w-fit px-0 text-left"
+            onClick={(e) => {
+              navigate(`/crm/customerService/details/${row.original.ROWID}`, { state: row.original });
+            }}>
+            <i className="fas fa-eye text-gray-400" aria-hidden="true"></i>
+          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -471,10 +476,17 @@ const CustomerServiceListView = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-32">
-              <DropdownMenuItem>
+
+              <DropdownMenuItem onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/crm/customerService/details/${row.original.ROWID}`, { state: row.original });
+              }}>
                 Detail view
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem   onClick={(e) => {
+                  e.stopPropagation(); // ✅ stop bubbling
+                  navigate(`/crm/customerService/create`);
+                }}>
                 Edit
               </DropdownMenuItem>
               <DropdownMenuItem variant="destructive" className="text-red-500">
@@ -828,7 +840,7 @@ const CustomerServiceListView = () => {
     useSensor(KeyboardSensor, {})
   );
   const dataIds = useMemo(() => data?.map(({ ROWID }) => ROWID) || [], [data]);
-  const columns = CustomerServiceColumns();
+  const columns = CustomerServiceColumns(navigate);
 
   const table = useReactTable({
     data,
@@ -928,7 +940,7 @@ const CustomerServiceListView = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button className="cursor-pointer" variant="outline" size="sm"  onClick={() => navigate("/crm/customerService/create")}>
+            <Button className="cursor-pointer" variant="outline" size="sm" onClick={() => navigate("/crm/customerService/create")}>
               <IconPlus />
               <span className="hidden lg:inline">Create Customer Service</span>
             </Button>
@@ -982,11 +994,10 @@ const CustomerServiceListView = () => {
                                     <div
                                       onMouseDown={header.getResizeHandler()}
                                       onTouchStart={header.getResizeHandler()}
-                                      className={`absolute right-0 top-0 h-full w-0.5 cursor-col-resize select-none touch-none ${
-                                        header.column.getIsResizing()
-                                          ? "bg-primary"
-                                          : "bg-border hover:bg-primary/50"
-                                      }`}
+                                      className={`absolute right-0 top-0 h-full w-0.5 cursor-col-resize select-none touch-none ${header.column.getIsResizing()
+                                        ? "bg-primary"
+                                        : "bg-border hover:bg-primary/50"
+                                        }`}
                                     />
                                   )}
                                 </>
@@ -1004,7 +1015,7 @@ const CustomerServiceListView = () => {
                         strategy={verticalListSortingStrategy}
                       >
                         {table.getRowModel().rows.map((row) => (
-                          <DraggableRow key={row.id} row={row} />
+                          <DraggableRow key={row.id} row={row} navigate={navigate} />
                         ))}
                       </SortableContext>
                     ) : (
