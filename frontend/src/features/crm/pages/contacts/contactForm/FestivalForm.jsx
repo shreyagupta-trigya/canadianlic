@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
-
-import Select from 'react-select';
+import { religionOptions, festivals, celebratedFestivalsOptions, religions, religionFestivals } from '../utils/picklist';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrashIcon } from 'lucide-react';
 import { Select as ShadcnSelect, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { religions ,religionFestivals, festivalsOptions} from '../utils/picklist';
+import Select from 'react-select';
 
 
 
-const FestivalForm = ({ formData, setFormData, isDisabled }) => {
+const FestivalForm = ({ formData = {}, setFormData, isDisabled, handlePrevious, handleNext }) => {
   const [subform, setSubform] = useState([]);
 
   useEffect(() => {
-    setSubform(formData.festivalsData || []);
+    setSubform(formData?.festivalsData || []);
   }, [formData]);
 
   const handleInputChange = (e) => {
@@ -40,7 +39,7 @@ const FestivalForm = ({ formData, setFormData, isDisabled }) => {
   };
 
   const availableFestivals = () => {
-    if (!formData.religion || !Array.isArray(formData.religion) || formData.religion.length === 0) return [];
+    if (!formData?.religion || !Array.isArray(formData.religion) || formData.religion.length === 0) return [];
     return formData.religion.reduce((all, rel) => {
       const list = religionFestivals[rel] || [];
       return all.concat(list);
@@ -48,7 +47,7 @@ const FestivalForm = ({ formData, setFormData, isDisabled }) => {
   };
 
   useEffect(() => {
-    if (!formData.religion || !Array.isArray(formData.religion) || formData.religion.length === 0) {
+    if (!formData?.religion || !Array.isArray(formData.religion) || formData.religion.length === 0) {
       setFormData(prev => ({ ...prev, festival: [] }));
       return;
     }
@@ -57,7 +56,7 @@ const FestivalForm = ({ formData, setFormData, isDisabled }) => {
       return acc.concat(festivals);
     }, []);
     setFormData(prev => ({ ...prev, festival: allFestivals }));
-  }, [formData.religion]);
+  }, [formData?.religion]);
 
 
 
@@ -74,7 +73,7 @@ const FestivalForm = ({ formData, setFormData, isDisabled }) => {
               <Select
                 isMulti
                 options={religions.map(rel => ({ value: rel, label: rel }))}
-                value={formData.religion && Array.isArray(formData.religion) ? formData.religion.map(rel => ({ value: rel, label: rel })) : []}
+                value={formData?.religion && Array.isArray(formData.religion) ? formData.religion.map(rel => ({ value: rel, label: rel })) : []}
                 onChange={(selected) => setFormData(prev => ({ ...prev, religion: selected ? selected.map(s => s.value) : [] }))}
                 placeholder="Select Religion"
                 className="custom-vselect"
@@ -85,7 +84,7 @@ const FestivalForm = ({ formData, setFormData, isDisabled }) => {
               <Select
                 isMulti
                 options={availableFestivals().map(fest => ({ value: fest, label: fest }))}
-                value={formData.festival && Array.isArray(formData.festival) ? formData.festival.map(fest => ({ value: fest, label: fest })) : []}
+                value={formData?.festival && Array.isArray(formData.festival) ? formData.festival.map(fest => ({ value: fest, label: fest })) : []}
                 onChange={(selected) => setFormData(prev => ({ ...prev, festival: selected ? selected.map(s => s.value) : [] }))}
                 placeholder="Select Celebrated Festivals"
                 className="custom-vselect"
@@ -134,7 +133,7 @@ const FestivalForm = ({ formData, setFormData, isDisabled }) => {
                             name="choices-state"
                           >
                             <option value="">Select Festival</option>
-                            {festivalsOptions.map((option, idx) => (
+                            {celebratedFestivalsOptions.map((option, idx) => (
                               <option key={idx} value={option}>
                                 {option}
                               </option>

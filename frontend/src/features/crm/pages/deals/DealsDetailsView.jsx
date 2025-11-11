@@ -52,7 +52,7 @@ import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 // import { LeadsConvertForm } from "./LeadsConvertForm";
-import LeadActivityList from "./relatedList/leadActivity/LeadActivityList";
+import LeadActivityList from "./relatedList/dealActivity/DealActivityList";
 const GridEditableField = ({ label, children, className }) => (
   <div className={`flex flex-col space-y-1 ${className}`}>
     <Label className="text-sm font-medium text-muted-foreground">{label}</Label>

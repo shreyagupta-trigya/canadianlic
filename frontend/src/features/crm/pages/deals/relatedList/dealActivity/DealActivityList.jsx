@@ -68,7 +68,7 @@ import {
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import noresult from "@assets/no-data.png";
 import { useState, useMemo, useId } from "react";
-import dataSample1 from "../../sample/dataLeadActivity.json";
+import dataSample1 from "../../sample/dataDealActivity.json";
 import { useNavigate } from "react-router-dom";
 import { DeleteAlert } from "@/components/custom/DeleteAlert";
 import { TableDataDeleteAlert } from "@/components/custom/TableDataDeleteAlert";
