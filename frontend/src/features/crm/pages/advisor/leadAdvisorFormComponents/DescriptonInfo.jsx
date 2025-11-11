@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FormCard, FormField } from '@/components/custom/CustomFormComponents';
 import { Input } from '@/components/ui/input';
 
-const DescriptonInfo = ({ onNext, onPrevious, DescriptonInfo }) => {
+const DescriptonInfo = ({ onNext, onPrevious, DescriptonInfo, isDisabled = false }) => {
   const [formData, setFormData] = useState(DescriptonInfo || {});
 
   const handleChange = (field, value) => {
@@ -26,6 +26,7 @@ const DescriptonInfo = ({ onNext, onPrevious, DescriptonInfo }) => {
               onChange={(e) => handleChange('description', e.target.value)}
               rows="4"
               placeholder="Enter description"
+              disabled={isDisabled}
             />
           </FormField>
           <FormField label="Notes">
@@ -36,6 +37,7 @@ const DescriptonInfo = ({ onNext, onPrevious, DescriptonInfo }) => {
               onChange={(e) => handleChange('notes', e.target.value)}
               rows="4"
               placeholder="Enter notes"
+              disabled={isDisabled}
             />
           </FormField>
         </div>

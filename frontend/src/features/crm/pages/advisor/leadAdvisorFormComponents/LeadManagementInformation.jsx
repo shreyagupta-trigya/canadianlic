@@ -7,11 +7,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrashIcon } from 'lucide-react';
 
-const LeadManagementInformation = ({ formData, setFormData, isDisabled }) => {
+const LeadManagementInformation = ({ onNext, onPrevious, LeadManagementInformation, isDisabled = false }) => {
+  const [formData, setFormData] = useState(LeadManagementInformation || {});
   const [subform, setSubform] = useState([]);
 
   useEffect(() => {
-    setSubform(formData.LeadData || []);
+    setSubform(formData?.LeadData || []);
   }, [formData]);
 
   const addRowToLeadDataTable = () => {
@@ -68,6 +69,7 @@ const LeadManagementInformation = ({ formData, setFormData, isDisabled }) => {
                         size="sm"
                         onClick={() => deleteLeadsRow(index)}
                         className="text-red-500 hover:text-red-700"
+                        disabled={isDisabled}
                       >
                         <TrashIcon className="h-4 w-4" />
                       </Button>
@@ -76,6 +78,7 @@ const LeadManagementInformation = ({ formData, setFormData, isDisabled }) => {
                       <Select
                         value={item.interactionType || ''}
                         onValueChange={(value) => handleInputChange(index, 'interactionType', value)}
+                        disabled={isDisabled}
                       >
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select" />
@@ -92,6 +95,7 @@ const LeadManagementInformation = ({ formData, setFormData, isDisabled }) => {
                         type="datetime-local"
                         value={item.timeOfInteraction || ''}
                         onChange={(e) => handleInputChange(index, 'timeOfInteraction', e.target.value)}
+                        disabled={isDisabled}
                       />
                     </TableCell>
                     <TableCell className="border border-gray-300">
@@ -99,6 +103,7 @@ const LeadManagementInformation = ({ formData, setFormData, isDisabled }) => {
                         type="number"
                         value={item.contactAttempt || ''}
                         onChange={(e) => handleInputChange(index, 'contactAttempt', e.target.value)}
+                        disabled={isDisabled}
                       />
                     </TableCell>
                     <TableCell className="border border-gray-300">
@@ -106,6 +111,7 @@ const LeadManagementInformation = ({ formData, setFormData, isDisabled }) => {
                         type="number"
                         value={item.timeSpent || ''}
                         onChange={(e) => handleInputChange(index, 'timeSpent', e.target.value)}
+                        disabled={isDisabled}
                       />
                     </TableCell>
                     <TableCell className="border  border-gray-300">
@@ -114,12 +120,14 @@ const LeadManagementInformation = ({ formData, setFormData, isDisabled }) => {
                         onChange={(e) => handleInputChange(index, 'comments', e.target.value)}
                         rows={4}
                         className="w-50"
+                        disabled={isDisabled}
                       />
                     </TableCell>
                     <TableCell className="border border-gray-300">
                       <Input
                         value={item.interactionOutcome || ''}
                         onChange={(e) => handleInputChange(index, 'interactionOutcome', e.target.value)}
+                        disabled={isDisabled}
                       />
                     </TableCell>
                     <TableCell className="border border-gray-300">
@@ -127,6 +135,7 @@ const LeadManagementInformation = ({ formData, setFormData, isDisabled }) => {
                         type="number"
                         value={item.probabilityOfClosure || ''}
                         onChange={(e) => handleInputChange(index, 'probabilityOfClosure', e.target.value)}
+                        disabled={isDisabled}
                       />
                     </TableCell>
                   </TableRow>
@@ -138,6 +147,7 @@ const LeadManagementInformation = ({ formData, setFormData, isDisabled }) => {
           <Button
             onClick={addRowToLeadDataTable}
             className="mt-4"
+            disabled={isDisabled}
           >
             Add Row
           </Button>
@@ -147,12 +157,12 @@ const LeadManagementInformation = ({ formData, setFormData, isDisabled }) => {
       {/* <div className="flex justify-center gap-4" style={{ marginBottom: '200px' }}>
         <Button
           variant="outline"
-          onClick={handlePrevious}
+          onClick={onPrevious}
         >
           Prev
         </Button>
         <Button
-          onClick={handleNext}
+          onClick={() => onNext(formData)}
         >
           Next
         </Button>

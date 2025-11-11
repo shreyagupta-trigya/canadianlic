@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { religionOptions, festivalsOptions, religionFestivals, religions } from '../utils/picklist';
 import Select from 'react-select';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,15 +7,15 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrashIcon } from 'lucide-react';
 import { Select as ShadcnSelect, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { religions ,religionFestivals, festivalsOptions} from '../utils/picklist';
 
 
 
-const FestivalForm = ({ formData, setFormData, isDisabled }) => {
+const FestivalForm = ({ onNext, onPrevious, FestivalForm, isDisabled = false }) => {
+  const [formData, setFormData] = useState(FestivalForm || {});
   const [subform, setSubform] = useState([]);
 
   useEffect(() => {
-    setSubform(formData.festivalsData || []);
+    setSubform(formData?.festivalsData || []);
   }, [formData]);
 
   const handleInputChange = (e) => {
@@ -40,7 +40,7 @@ const FestivalForm = ({ formData, setFormData, isDisabled }) => {
   };
 
   const availableFestivals = () => {
-    if (!formData.religion || !Array.isArray(formData.religion) || formData.religion.length === 0) return [];
+    if (!formData?.religion || formData.religion.length === 0) return [];
     return formData.religion.reduce((all, rel) => {
       const list = religionFestivals[rel] || [];
       return all.concat(list);
@@ -48,16 +48,16 @@ const FestivalForm = ({ formData, setFormData, isDisabled }) => {
   };
 
   useEffect(() => {
-    if (!formData.religion || !Array.isArray(formData.religion) || formData.religion.length === 0) {
+    if (!formData?.religion || formData?.religion.length === 0) {
       setFormData(prev => ({ ...prev, festival: [] }));
       return;
     }
-    const allFestivals = formData.religion.reduce((acc, religion) => {
-      const festivals = religionFestivals[religion] || [];
+    const allFestivals = formData.religion.reduce((acc, rel) => {
+      const festivals = religionFestivals[rel] || [];
       return acc.concat(festivals);
     }, []);
     setFormData(prev => ({ ...prev, festival: allFestivals }));
-  }, [formData.religion]);
+  }, [formData?.religion]);
 
 
 
@@ -74,10 +74,11 @@ const FestivalForm = ({ formData, setFormData, isDisabled }) => {
               <Select
                 isMulti
                 options={religions.map(rel => ({ value: rel, label: rel }))}
-                value={formData.religion && Array.isArray(formData.religion) ? formData.religion.map(rel => ({ value: rel, label: rel })) : []}
+                value={formData.religion ? formData.religion.map(rel => ({ value: rel, label: rel })) : []}
                 onChange={(selected) => setFormData(prev => ({ ...prev, religion: selected ? selected.map(s => s.value) : [] }))}
                 placeholder="Select Religion"
                 className="custom-vselect"
+                isDisabled={isDisabled}
               />
             </div>
             <div className="space-y-2">
@@ -85,10 +86,11 @@ const FestivalForm = ({ formData, setFormData, isDisabled }) => {
               <Select
                 isMulti
                 options={availableFestivals().map(fest => ({ value: fest, label: fest }))}
-                value={formData.festival && Array.isArray(formData.festival) ? formData.festival.map(fest => ({ value: fest, label: fest })) : []}
+                value={formData.festival ? formData.festival.map(fest => ({ value: fest, label: fest })) : []}
                 onChange={(selected) => setFormData(prev => ({ ...prev, festival: selected ? selected.map(s => s.value) : [] }))}
                 placeholder="Select Celebrated Festivals"
                 className="custom-vselect"
+                isDisabled={isDisabled}
               />
             </div>
           </div>
@@ -120,6 +122,7 @@ const FestivalForm = ({ formData, setFormData, isDisabled }) => {
                         size="sm"
                         onClick={() => deleteFestivalTableRow(index)}
                         className="text-red-500 hover:text-red-700"
+                        disabled={isDisabled}
                       >
                         <TrashIcon className="h-4 w-4" />
                       </Button>
@@ -132,6 +135,7 @@ const FestivalForm = ({ formData, setFormData, isDisabled }) => {
                             onChange={(e) => handleSubformChange(index, 'festivalName', e.target.value)}
                             className="multisteps-form__select form-control choices__input border p-2 rounded-md"
                             name="choices-state"
+                            disabled={isDisabled}
                           >
                             <option value="">Select Festival</option>
                             {festivalsOptions.map((option, idx) => (
@@ -149,6 +153,7 @@ const FestivalForm = ({ formData, setFormData, isDisabled }) => {
                         onChange={(e) => handleSubformChange(index, 'dateOfFestival', e.target.value)}
                         type="date"
                         autoComplete="off"
+                        disabled={isDisabled}
                       />
                     </TableCell>
                   </TableRow>
@@ -160,25 +165,26 @@ const FestivalForm = ({ formData, setFormData, isDisabled }) => {
           <Button
             onClick={addRowToFestivalsTable}
             className="mt-4"
+            disabled={isDisabled}
           >
             Add Row
           </Button>
         </CardContent>
       </Card>
 
-      <div className="flex justify-center gap-4" style={{ marginBottom: '200px' }}>
+      {/* <div className="flex justify-center gap-4" style={{ marginBottom: '200px' }}>
         <Button
           variant="outline"
-          onClick={handlePrevious}
+          onClick={onPrevious}
         >
           Prev
         </Button>
         <Button
-          onClick={handleNext}
+          onClick={() => onNext(formData)}
         >
           Next
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 };

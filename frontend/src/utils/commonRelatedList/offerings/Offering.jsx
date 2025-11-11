@@ -77,7 +77,8 @@ const Offering = () => {
         </div>
         <div>
           <Button
-            className="px-4 py-2 bg-white text-blue-500 border border-blue-500 rounded hover:bg-blue-500 hover:text-white transition-colors"
+          variant="primary"
+            className="px-4 py-2"
             onClick={toggleDrawer}
           >
             Add New

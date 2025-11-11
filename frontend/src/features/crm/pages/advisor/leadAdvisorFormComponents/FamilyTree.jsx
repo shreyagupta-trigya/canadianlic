@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { relationShipStatusOptions, choice } from '../utils/picklist';
 
-const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
+const FamilyTree = ({ onNext, onPrevious, familyTree, isDisabled = false }) => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     relationShipStatus: '',
@@ -256,8 +256,9 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
             <Select
               value={formData.relationShipStatus}
               onValueChange={(value) => handleInputChange('relationShipStatus', value)}
+              disabled={isDisabled}
             >
-              <SelectTrigger className="mt-1">
+              <SelectTrigger className="mt-1 w-80">
                 <SelectValue placeholder="Select Relationship Status" />
               </SelectTrigger>
               <SelectContent>
@@ -286,6 +287,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                   value={formData.nameOfSpouse}
                   onChange={(e) => handleInputChange('nameOfSpouse', e.target.value)}
                   className="mt-1"
+                  disabled={isDisabled}
                 />
               </div>
               <div>
@@ -295,6 +297,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                   value={formData.numberOfSpouse}
                   onChange={(e) => handleInputChange('numberOfSpouse', e.target.value)}
                   className="mt-1"
+                  disabled={isDisabled}
                 />
               </div>
               <div>
@@ -304,6 +307,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                   value={formData.anniversaryDate}
                   onChange={(e) => handleInputChange('anniversaryDate', e.target.value)}
                   className="mt-1"
+                  disabled={isDisabled}
                 />
               </div>
               <div>
@@ -313,6 +317,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                   value={formData.spouseDateOfBirth}
                   onChange={(e) => handleInputChange('spouseDateOfBirth', e.target.value)}
                   className="mt-1"
+                  disabled={isDisabled}
                 />
               </div>
               <div>
@@ -322,6 +327,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                   value={formData.phoneOfSpouse}
                   onChange={(e) => handleInputChange('phoneOfSpouse', e.target.value)}
                   className="mt-1"
+                  disabled={isDisabled}
                 />
               </div>
               <div>
@@ -331,6 +337,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                   value={formData.emailOfSpouse}
                   onChange={(e) => handleInputChange('emailOfSpouse', e.target.value)}
                   className="mt-1"
+                  disabled={isDisabled}
                 />
               </div>
             </div>
@@ -352,6 +359,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                   value={formData.nameOfCommonLawPartner}
                   onChange={(e) => handleInputChange('nameOfCommonLawPartner', e.target.value)}
                   className="mt-1"
+                  disabled={isDisabled}
                 />
               </div>
               <div>
@@ -361,6 +369,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                   value={formData.commonLawDateOfBirth}
                   onChange={(e) => handleInputChange('commonLawDateOfBirth', e.target.value)}
                   className="mt-1"
+                  disabled={isDisabled}
                 />
               </div>
             </div>
@@ -386,8 +395,9 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                     handleInputChange('numberOfDependentParents', 0);
                   }
                 }}
+                disabled={isDisabled}
               >
-                <SelectTrigger className="mt-1">
+                <SelectTrigger className="mt-1 w-80">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -410,6 +420,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                     handleInputChange('numberOfDependentParents', e.target.value);
                   }}
                   className="mt-1"
+                  disabled={isDisabled}
                 />
               </div>
             )}
@@ -442,6 +453,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                                 setDependentParentsData(newData);
                               }}
                               className="h-8 w-full"
+                              disabled={isDisabled}
                             />
                           </td>
                           <td className="border border-gray-300 px-4 py-2">
@@ -454,6 +466,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                                 setDependentParentsData(newData);
                               }}
                               className="h-8 w-full"
+                              disabled={isDisabled}
                             />
                           </td>
                           <td className="border border-gray-300 px-4 py-2">
@@ -466,6 +479,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                                 setDependentParentsData(newData);
                               }}
                               className="h-8 w-full"
+                              disabled={isDisabled}
                             />
                           </td>
                           <td className="border border-gray-300 px-4 py-2">
@@ -478,6 +492,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                                 setDependentParentsData(newData);
                               }}
                               className="h-8 w-full"
+                              disabled={isDisabled}
                             />
                           </td>
                           <td className="border border-gray-300 px-4 py-2">
@@ -490,6 +505,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                                 setDependentParentsData(newData);
                               }}
                               className="h-8 w-full"
+                              disabled={isDisabled}
                             />
                           </td>
                           <td className="border border-gray-300 px-4 py-2">
@@ -502,6 +518,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                                 setDependentParentsData(newData);
                               }}
                               className="h-8 w-full"
+                              disabled={isDisabled}
                             />
                           </td>
                           <td className="border border-gray-300 px-4 py-2 text-center">
@@ -510,6 +527,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                               size="sm"
                               onClick={() => deleteDependentParentsData(index)}
                               className="text-red-500 hover:text-red-700"
+                              disabled={isDisabled}
                             >
                               <i className="fas fa-trash"></i>
                             </Button>
@@ -522,6 +540,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                 <Button
                   className="btn mb-0 btn-color btn-md"
                   onClick={addRowToDependentParentsData}
+                  disabled={isDisabled}
                 >
                   Add Parent
                 </Button>
@@ -549,8 +568,9 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                     handleInputChange('numberOfDependentChildren', 0);
                   }
                 }}
+                disabled={isDisabled}
               >
-                <SelectTrigger className="mt-1">
+                <SelectTrigger className="mt-1 w-80">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -573,6 +593,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                     handleInputChange('numberOfDependentChildren', e.target.value);
                   }}
                   className="mt-1"
+                  disabled={isDisabled}
                 />
               </div>
             )}
@@ -605,6 +626,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                                 setDependentChildrenData(newData);
                               }}
                               className="h-8 w-full"
+                              disabled={isDisabled}
                             />
                           </td>
                           <td className="border border-gray-300 px-4 py-2">
@@ -617,6 +639,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                                 setDependentChildrenData(newData);
                               }}
                               className="h-8 w-full"
+                              disabled={isDisabled}
                             />
                           </td>
                           <td className="border border-gray-300 px-4 py-2">
@@ -629,6 +652,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                                 setDependentChildrenData(newData);
                               }}
                               className="h-8 w-full"
+                              disabled={isDisabled}
                             />
                           </td>
                           <td className="border border-gray-300 px-4 py-2">
@@ -641,6 +665,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                                 setDependentChildrenData(newData);
                               }}
                               className="h-8 w-full"
+                              disabled={isDisabled}
                             />
                           </td>
                           <td className="border border-gray-300 px-4 py-2">
@@ -653,6 +678,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                                 setDependentChildrenData(newData);
                               }}
                               className="h-8 w-full"
+                              disabled={isDisabled}
                             />
                           </td>
                           <td className="border border-gray-300 px-4 py-2">
@@ -665,6 +691,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                                 setDependentChildrenData(newData);
                               }}
                               className="h-8 w-full"
+                              disabled={isDisabled}
                             />
                           </td>
                           <td className="border border-gray-300 px-4 py-2 text-center">
@@ -673,6 +700,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                               size="sm"
                               onClick={() => deleteDependentChildrenData(index)}
                               className="text-red-500 hover:text-red-700"
+                              disabled={isDisabled}
                             >
                               <i className="fas fa-trash"></i>
                             </Button>
@@ -685,6 +713,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                 <Button
                   className="btn mb-0 btn-color btn-md"
                   onClick={addRowToDependentChildrenData}
+                  disabled={isDisabled}
                 >
                   Add Child
                 </Button>
@@ -712,8 +741,9 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                     handleInputChange('numberOfSiblings', 0);
                   }
                 }}
+                disabled={isDisabled}
               >
-                <SelectTrigger className="mt-1">
+                <SelectTrigger className="mt-1 w-80">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -736,6 +766,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                     handleInputChange('numberOfSiblings', e.target.value);
                   }}
                   className="mt-1"
+                  disabled={isDisabled}
                 />
               </div>
             )}
@@ -768,6 +799,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                                 setSiblingData(newData);
                               }}
                               className="h-8 w-full"
+                              disabled={isDisabled}
                             />
                           </td>
                           <td className="border border-gray-300 px-4 py-2">
@@ -780,6 +812,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                                 setSiblingData(newData);
                               }}
                               className="h-8 w-full"
+                              disabled={isDisabled}
                             />
                           </td>
                           <td className="border border-gray-300 px-4 py-2">
@@ -792,6 +825,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                                 setSiblingData(newData);
                               }}
                               className="h-8 w-full"
+                              disabled={isDisabled}
                             />
                           </td>
                           <td className="border border-gray-300 px-4 py-2">
@@ -804,6 +838,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                                 setSiblingData(newData);
                               }}
                               className="h-8 w-full"
+                              disabled={isDisabled}
                             />
                           </td>
                           <td className="border border-gray-300 px-4 py-2">
@@ -816,6 +851,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                                 setSiblingData(newData);
                               }}
                               className="h-8 w-full"
+                              disabled={isDisabled}
                             />
                           </td>
                           <td className="border border-gray-300 px-4 py-2">
@@ -828,6 +864,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                                 setSiblingData(newData);
                               }}
                               className="h-8 w-full"
+                              disabled={isDisabled}
                             />
                           </td>
                           <td className="border border-gray-300 px-4 py-2 text-center">
@@ -836,6 +873,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                               size="sm"
                               onClick={() => deleteSiblingData(index)}
                               className="text-red-500 hover:text-red-700"
+                              disabled={isDisabled}
                             >
                               <i className="fas fa-trash"></i>
                             </Button>
@@ -848,6 +886,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                 <Button
                   className="btn mb-0 btn-color btn-md"
                   onClick={addRowToSiblingData}
+                  disabled={isDisabled}
                 >
                   Add Sibling
                 </Button>
@@ -889,6 +928,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                               setEmergencyContactData(newData);
                             }}
                             className="h-8 w-full"
+                            disabled={isDisabled}
                           />
                         </td>
                         <td className="border border-gray-300 px-4 py-2">
@@ -901,6 +941,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                               setEmergencyContactData(newData);
                             }}
                             className="h-8 w-full"
+                            disabled={isDisabled}
                           />
                         </td>
                         <td className="border border-gray-300 px-4 py-2">
@@ -913,6 +954,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                               setEmergencyContactData(newData);
                             }}
                             className="h-8 w-full"
+                            disabled={isDisabled}
                           />
                         </td>
                         <td className="border border-gray-300 px-4 py-2">
@@ -925,6 +967,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                               setEmergencyContactData(newData);
                             }}
                             className="h-8 w-full"
+                            disabled={isDisabled}
                           />
                         </td>
                         <td className="border border-gray-300 px-4 py-2 text-center">
@@ -933,6 +976,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
                             size="sm"
                             onClick={() => deleteEmergencyContact(index)}
                             className="text-red-500 hover:text-red-700"
+                            disabled={isDisabled}
                           >
                             <i className="fas fa-trash"></i>
                           </Button>
@@ -946,6 +990,7 @@ const FamilyTree = ({ onNext, onPrevious, familyTree }) => {
             <Button
               className="btn mb-0 btn-color btn-md"
               onClick={addRowToEmergencyContact}
+              disabled={isDisabled}
             >
               Add Emergency Contact
             </Button>

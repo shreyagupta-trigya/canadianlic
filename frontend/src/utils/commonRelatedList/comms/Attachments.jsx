@@ -237,7 +237,7 @@ const Attachment = ({ id }) => {
             Attach
           </label>
           {files.length > 0 && (
-            <Button onClick={uploadFile} disabled={isLoading} className="ml-2" size="sm">
+            <Button onClick={uploadFile} disabled={isLoading} className="ml-2 bg-transparent text-black hover:bg-transparent cursor-pointer border" size="sm">
               Upload
             </Button>
           )}

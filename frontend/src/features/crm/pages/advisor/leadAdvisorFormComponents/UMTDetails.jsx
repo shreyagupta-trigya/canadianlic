@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FormCard, FormField } from '@/components/custom/CustomFormComponents';
 import { Input } from '@/components/ui/input';
 
-const UMTDetails = ({ UMTDetails, Facebook, onNext, onPrevious }) => {
+const UMTDetails = ({ UMTDetails, Facebook, onNext, onPrevious, isDisabled = false }) => {
   const [umtData, setUmtData] = useState(UMTDetails || {});
   const [facebookData, setFacebookData] = useState(Facebook || {});
 
@@ -27,6 +27,7 @@ const UMTDetails = ({ UMTDetails, Facebook, onNext, onPrevious }) => {
               value={umtData.campaignidData || ''}
               onChange={(e) => handleUmtChange('campaignidData', e.target.value)}
               placeholder="Campaign ID"
+              disabled={isDisabled}
             />
           </FormField>
           <FormField label="Network">
@@ -34,6 +35,7 @@ const UMTDetails = ({ UMTDetails, Facebook, onNext, onPrevious }) => {
               value={umtData.networkData || ''}
               onChange={(e) => handleUmtChange('networkData', e.target.value)}
               placeholder="Network"
+              disabled={isDisabled}
             />
           </FormField>
           <FormField label="Ad Group ID">
@@ -41,6 +43,7 @@ const UMTDetails = ({ UMTDetails, Facebook, onNext, onPrevious }) => {
               value={umtData.adgroupidData || ''}
               onChange={(e) => handleUmtChange('adgroupidData', e.target.value)}
               placeholder="Ad Group ID"
+              disabled={isDisabled}
             />
           </FormField>
           <FormField label="Device">
@@ -48,6 +51,7 @@ const UMTDetails = ({ UMTDetails, Facebook, onNext, onPrevious }) => {
               value={umtData.deviceData || ''}
               onChange={(e) => handleUmtChange('deviceData', e.target.value)}
               placeholder="Device"
+              disabled={isDisabled}
             />
           </FormField>
           <FormField label="Match Type">
@@ -55,6 +59,7 @@ const UMTDetails = ({ UMTDetails, Facebook, onNext, onPrevious }) => {
               value={umtData.matchtypeData || ''}
               onChange={(e) => handleUmtChange('matchtypeData', e.target.value)}
               placeholder="Match Type"
+              disabled={isDisabled}
             />
           </FormField>
           <FormField label="Keyword">
@@ -62,6 +67,7 @@ const UMTDetails = ({ UMTDetails, Facebook, onNext, onPrevious }) => {
               value={umtData.keywordData || ''}
               onChange={(e) => handleUmtChange('keywordData', e.target.value)}
               placeholder="Keyword"
+              disabled={isDisabled}
             />
           </FormField>
           <FormField label="GCLID">
@@ -69,6 +75,7 @@ const UMTDetails = ({ UMTDetails, Facebook, onNext, onPrevious }) => {
               value={umtData.gclidData || ''}
               onChange={(e) => handleUmtChange('gclidData', e.target.value)}
               placeholder="GCLID"
+              disabled={isDisabled}
             />
           </FormField>
           <FormField label="LP URL">
@@ -76,6 +83,7 @@ const UMTDetails = ({ UMTDetails, Facebook, onNext, onPrevious }) => {
               value={umtData.lpUrlData || ''}
               onChange={(e) => handleUmtChange('lpUrlData', e.target.value)}
               placeholder="LP URL"
+              disabled={isDisabled}
             />
           </FormField>
         </div>
@@ -88,6 +96,7 @@ const UMTDetails = ({ UMTDetails, Facebook, onNext, onPrevious }) => {
               value={facebookData.facebookId || ''}
               onChange={(e) => handleFacebookChange('facebookId', e.target.value)}
               placeholder="Facebook ID"
+              disabled={isDisabled}
             />
           </FormField>
           <FormField label="Facebook Name">
@@ -95,6 +104,7 @@ const UMTDetails = ({ UMTDetails, Facebook, onNext, onPrevious }) => {
               value={facebookData.facebookName || ''}
               onChange={(e) => handleFacebookChange('facebookName', e.target.value)}
               placeholder="Facebook Name"
+              disabled={isDisabled}
             />
           </FormField>
           <FormField label="Facebook Email">
@@ -103,6 +113,7 @@ const UMTDetails = ({ UMTDetails, Facebook, onNext, onPrevious }) => {
               value={facebookData.facebookEmail || ''}
               onChange={(e) => handleFacebookChange('facebookEmail', e.target.value)}
               placeholder="Facebook Email"
+              disabled={isDisabled}
             />
           </FormField>
           <FormField label="Facebook Phone">
@@ -110,6 +121,7 @@ const UMTDetails = ({ UMTDetails, Facebook, onNext, onPrevious }) => {
               value={facebookData.facebookPhone || ''}
               onChange={(e) => handleFacebookChange('facebookPhone', e.target.value)}
               placeholder="Facebook Phone"
+              disabled={isDisabled}
             />
           </FormField>
         </div>

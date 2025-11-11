@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Search } from "lucide-react";
 import CampaignDrawer from "./CampaignDrawer";
 
 const Compagion = () => {
@@ -100,27 +101,24 @@ const Compagion = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className=" min-h-screen">
       <CampaignDrawer isOpen={isDrawerOpen} onClose={closeDrawer} />
 
       {/* Header Section */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-        <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
-          <div className="flex-1 max-w-md">
-            <div className="relative">
-              <Input
-                className="pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg text-base w-full transition-all duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 hover:border-gray-300"
-                type="search"
-                placeholder="Search campaigns..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <i className="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg"></i>
-            </div>
+        <div className="flex justify-between items-center mb-4">
+          <div className="relative w-full lg:w-2/6 md:w-2/6 sm:w-full">
+            <Input
+              className="pl-4 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type="search"
+              placeholder="Search campaigns..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
           </div>
 
           <div className="button">
-            <Button className="companagion-button px-2 py-1 " onClick={toggleDrawer}>
+            <Button className="companagion-button px-2 py-1 " variant="primary" onClick={toggleDrawer}>
               Add New
             </Button>
           </div>
@@ -222,9 +220,7 @@ const Compagion = () => {
             </div>
           </div>
         )}
-      </div>
-    </div>
-  );
+      </div>  );
 };
 
 export default Compagion;

@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Search } from "lucide-react";
 
 const SessionRecording = () => {
-    const [searchTerm, setSearchTerm] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
     const [recordings, setRecordings] = useState([
         { id: 1, startTime: '2024-09-30T14:00:00Z', endTime: '2024-09-30T15:00:00Z', recordingSize: '1050000000', format: 'mp4' },
         { id: 2, startTime: '2024-09-30T14:00:00Z', endTime: '2024-09-30T15:00:00Z', recordingSize: '1050000000', format: 'mp4' },
@@ -12,26 +13,23 @@ const SessionRecording = () => {
     ]);
 
     const filteredRecordings = recordings.filter(recording =>
-        recording.startTime.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        recording.endTime.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        recording.format.toLowerCase().includes(searchTerm.toLowerCase())
+        recording.startTime.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        recording.endTime.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        recording.format.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
         <div className="flex flex-col">
-            <div className="flex justify-between items-center">
-                <div className="flex-1 mr-4">
-                    <div className="relative inline-block">
-                        <Input
-                            className="w-64"
-                            type="search"
-                            placeholder="Search"
-                            aria-label="Search"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                        <i className="fas fa-search absolute top-1/2 right-5 transform -translate-y-1/2 text-gray-600"></i>
-                    </div>
+            <div className="flex justify-between items-center mb-4">
+                <div className="relative w-full lg:w-2/6 md:w-2/6 sm:w-full">
+                    <Input
+                        className="pl-4 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        type="search"
+                        placeholder="Search"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
                 </div>
             </div>
 

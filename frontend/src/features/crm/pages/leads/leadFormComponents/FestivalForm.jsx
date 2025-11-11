@@ -1,183 +1,184 @@
-import React, { useState, useEffect } from "react";
-import { FormCard, FormField } from "@/components/custom/CustomFormComponents";
-import { Input } from "@/components/ui/input";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Trash2 } from "lucide-react";
+import React, { useState, useEffect } from 'react';
+import { religionOptions, festivalsOptions, religionFestivals, religions } from '../../advisor/utils/picklist';
+import Select from 'react-select';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { TrashIcon } from 'lucide-react';
+import { Select as ShadcnSelect, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-const FestivalForm = ({ formData, setFormData, isDisabled }) => {
-  const [festivalsData, setFestivalsData] = useState(formData.festivalsData || []);
+
+
+const FestivalForm = ({ onNext, onPrevious, FestivalForm }) => {
+  const [formData, setFormData] = useState(FestivalForm || {});
+  const [subform, setSubform] = useState([]);
 
   useEffect(() => {
-    setFormData(prev => ({ ...prev, festivalsData }));
-  }, [festivalsData]);
+    setSubform(formData?.festivalsData || []);
+  }, [formData]);
 
-  const handleChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const addFestivalRow = () => {
-    if (isDisabled) return;
-    setFestivalsData([...festivalsData, { festivalName: "", dateOfFestival: "" }]);
-  };
-
-  const removeFestivalRow = (index) => {
-    if (isDisabled) return;
-    setFestivalsData(festivalsData.filter((_, i) => i !== index));
-  };
-
-  const updateFestivalRow = (index, field, value) => {
-    if (isDisabled) return;
-    const updated = [...festivalsData];
+  const handleSubformChange = (index, field, value) => {
+    const updated = [...subform];
     updated[index][field] = value;
-    setFestivalsData(updated);
+    setSubform(updated);
   };
 
-  const religionOptions = [
-    "-None-",
-    "Unknown",
-    "Hinduism",
-    "Christianity",
-    "Islam",
-    "Judaism",
-    "Sikhism",
-    "Buddhism",
-    "Jainism",
-    "Bahai",
-    "Zoroastrianism",
-    "Other"
-  ];
-
-  const celebratedFestivalsOptionsMap = {
-    Hinduism: [
-      "Diwali", "Holi", "Dussehra", "Raksha Bandhan", "Janmashtami",
-      "Mahashivaratri", "Ganesh Chaturthi", "Navratri", "Pongal", "Makar Sankranti"
-    ],
-    Sikhism: [
-      "Guru Gobind Singh Jayanti", "Guru Granth Sahib Prakash Divas",
-      "Vaisakhi", "Lohri", "Thanksgiving", "New Year"
-    ],
-    Christianity: [
-      'Christmas', 'Easter', 'Good Friday', 'Palm Sunday', 'Ash Wednesday',
-      'Maundy Thursday', 'Pentecost', "All Saints' Day", 'Ascension Day', 'Epiphany'
-    ],
-    Islam: [
-      'Eid al-Fitr', 'Eid al-Adha', 'Ramadan', 'Laylat al-Qadr',
-      'Islamic New Year', 'Milad-un-Nabi', 'Ashura'
-    ],
-    Judaism: ["Passover"],
-    General: [
-      "Canada Day",
-      "New Year",
-      "Family Day",
-      "Victoria Day",
-      "Father's Day",
-      "Mother's Day",
-      "Thank's giving",
-    ],
+  const addRowToFestivalsTable = () => {
+    setSubform(prev => [...prev, { festivalName: '', dateOfFestival: '' }]);
   };
 
-  const celebratedFestivalsOptions = formData.religion && formData.religion !== "-None-" && formData.religion !== "Unknown"
-    ? celebratedFestivalsOptionsMap[formData.religion] || celebratedFestivalsOptionsMap["General"]
-    : celebratedFestivalsOptionsMap["General"];
+  const deleteFestivalTableRow = (index) => {
+    const updated = [...subform];
+    updated.splice(index, 1);
+    setSubform(updated);
+  };
+
+  const availableFestivals = () => {
+    if (!formData?.religion || formData.religion.length === 0) return [];
+    return formData.religion.reduce((all, rel) => {
+      const list = religionFestivals[rel] || [];
+      return all.concat(list);
+    }, []);
+  };
+
+  useEffect(() => {
+    if (!formData?.religion || formData?.religion.length === 0) {
+      setFormData(prev => ({ ...prev, festival: [] }));
+      return;
+    }
+    const allFestivals = formData.religion.reduce((acc, rel) => {
+      const festivals = religionFestivals[rel] || [];
+      return acc.concat(festivals);
+    }, []);
+    setFormData(prev => ({ ...prev, festival: allFestivals }));
+  }, [formData?.religion]);
+
+
 
   return (
-    <div>
-      <FormCard title="Ethnicity">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormField label="Religion">
-            <Select
-              value={formData.religion || ""}
-              onValueChange={(value) => handleChange("religion", value)}
-              disabled={isDisabled}
-            >
-              <SelectTrigger className="w-full" disabled={isDisabled}>
-                <SelectValue placeholder="Select Religion" />
-              </SelectTrigger>
-              <SelectContent>
-                {religionOptions.map((option) => (
-                  <SelectItem key={option} value={option} disabled={isDisabled}>
-                    {option}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </FormField>
-          <FormField label="Celebrated Festivals">
-            <Select
-              value={formData.celebratedFestivals || ""}
-              onValueChange={(value) => handleChange("celebratedFestivals", value)}
-              disabled={isDisabled}
-            >
-              <SelectTrigger className="w-full" disabled={isDisabled}>
-                <SelectValue placeholder="Select Festival" />
-              </SelectTrigger>
-              <SelectContent>
-                {celebratedFestivalsOptions.map((option) => (
-                  <SelectItem key={option} value={option} disabled={isDisabled}>
-                    {option}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </FormField>
-        </div>
-      </FormCard>
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Ethnicity</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Religion</label>
+              <Select
+                isMulti
+                options={religions.map(rel => ({ value: rel, label: rel }))}
+                value={formData.religion ? formData.religion.map(rel => ({ value: rel, label: rel })) : []}
+                onChange={(selected) => setFormData(prev => ({ ...prev, religion: selected ? selected.map(s => s.value) : [] }))}
+                placeholder="Select Religion"
+                className="custom-vselect"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Celebrated Festivals</label>
+              <Select
+                isMulti
+                options={availableFestivals().map(fest => ({ value: fest, label: fest }))}
+                value={formData.festival ? formData.festival.map(fest => ({ value: fest, label: fest })) : []}
+                onChange={(selected) => setFormData(prev => ({ ...prev, festival: selected ? selected.map(s => s.value) : [] }))}
+                placeholder="Select Celebrated Festivals"
+                className="custom-vselect"
+              />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
-      <FormCard title="Important Festivals Dates">
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>#</TableHead>
-                <TableHead>Actions</TableHead>
-                <TableHead>Festival Name</TableHead>
-                <TableHead>Date On Celebrated</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {festivalsData.map((festival, index) => (
-                <TableRow key={index}>
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => removeFestivalRow(index)}
-                      disabled={isDisabled}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </TableCell>
-                  <TableCell>
-                    <Input
-                      value={festival.festivalName || ""}
-                      onChange={(e) => updateFestivalRow(index, "festivalName", e.target.value)}
-                      disabled={isDisabled}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Input
-                      type="date"
-                      value={festival.dateOfFestival || ""}
-                      onChange={(e) => updateFestivalRow(index, "dateOfFestival", e.target.value)}
-                      disabled={isDisabled}
-                    />
-                  </TableCell>
+      <Card>
+        <CardHeader>
+          <CardTitle>Important Festivals Dates</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="w-full overflow-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>#</TableHead>
+                  <TableHead>Actions</TableHead>
+                  <TableHead>Festival Name</TableHead>
+                  <TableHead>Date On Celebrated</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {subform.map((parent, index) => (
+                  <TableRow key={index}>
+                    <TableCell className="text-center">{index + 1}</TableCell>
+                    <TableCell>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => deleteFestivalTableRow(index)}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        <TrashIcon className="h-4 w-4" />
+                      </Button>
+                    </TableCell>
+                    <TableCell>
+                      <div className="choices" data-type="select-one" tabIndex="0" role="listbox" aria-haspopup="true" aria-expanded="false">
+                        <div className="select-box">
+                          <select
+                            value={parent.festivalName || ''}
+                            onChange={(e) => handleSubformChange(index, 'festivalName', e.target.value)}
+                            className="multisteps-form__select form-control choices__input border p-2 rounded-md"
+                            name="choices-state"
+                          >
+                            <option value="">Select Festival</option>
+                            {festivalsOptions.map((option, idx) => (
+                              <option key={idx} value={option}>
+                                {option}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        value={parent.dateOfFestival || ''}
+                        onChange={(e) => handleSubformChange(index, 'dateOfFestival', e.target.value)}
+                        type="date"
+                        autoComplete="off"
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+
           <Button
-            className="mt-2"
-            onClick={addFestivalRow}
-            disabled={isDisabled}
+            onClick={addRowToFestivalsTable}
+            className="mt-4"
           >
-            Add Festival
+            Add Row
           </Button>
-        </div>
-      </FormCard>
+        </CardContent>
+      </Card>
+
+      {/* <div className="flex justify-center gap-4" style={{ marginBottom: '200px' }}>
+        <Button
+          variant="outline"
+          onClick={onPrevious}
+        >
+          Prev
+        </Button>
+        <Button
+          onClick={() => onNext(formData)}
+        >
+          Next
+        </Button>
+      </div> */}
     </div>
   );
 };

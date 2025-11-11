@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FormCard, FormField } from '@/components/custom/CustomFormComponents';
 import { Input } from '@/components/ui/input';
 
-const AddressInformation = ({ AddressInformation, onNext, onPrevious }) => {
+const AddressInformation = ({ AddressInformation, onNext, onPrevious, isDisabled = false }) => {
   const [formData, setFormData] = useState({ ...AddressInformation });
 
   useEffect(() => {
@@ -30,6 +30,7 @@ const AddressInformation = ({ AddressInformation, onNext, onPrevious }) => {
               value={formData.street || ''}
               onChange={(e) => handleInputChange('street', e.target.value)}
               placeholder="Street"
+              disabled={isDisabled}
             />
           </FormField>
           <FormField label="Province">
@@ -37,6 +38,7 @@ const AddressInformation = ({ AddressInformation, onNext, onPrevious }) => {
               value={formData.state || ''}
               onChange={(e) => handleInputChange('state', e.target.value)}
               placeholder="Province"
+              disabled={isDisabled}
             />
           </FormField>
           <FormField label="Country">
@@ -44,6 +46,7 @@ const AddressInformation = ({ AddressInformation, onNext, onPrevious }) => {
               value={formData.country || ''}
               onChange={(e) => handleInputChange('country', e.target.value)}
               placeholder="Country"
+              disabled={isDisabled}
             />
           </FormField>
           <FormField label="City">
@@ -51,6 +54,7 @@ const AddressInformation = ({ AddressInformation, onNext, onPrevious }) => {
               value={formData.city || ''}
               onChange={(e) => handleInputChange('city', e.target.value)}
               placeholder="City"
+              disabled={isDisabled}
             />
           </FormField>
           <FormField label="Postal Code">
@@ -58,6 +62,7 @@ const AddressInformation = ({ AddressInformation, onNext, onPrevious }) => {
               value={formData.zipCode || ''}
               onChange={(e) => handleInputChange('zipCode', e.target.value)}
               placeholder="Postal Code"
+              disabled={isDisabled}
             />
           </FormField>
         </div>

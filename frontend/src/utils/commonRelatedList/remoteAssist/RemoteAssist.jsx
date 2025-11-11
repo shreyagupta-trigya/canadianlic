@@ -96,34 +96,33 @@ const RemoteAssist = ({ id }) => {
         fetchAdvisorCredentials={fetchAdvisorCredentials}
         selectedButton={selectedButton}
       />
-      <div className="row">
-        <div className="flex items-center justify-between p-3">
-          <div className="search-container-div col-lg-10 col-md-10 col-sm-12">
-            <div className="relative">
-              <Input
-                className="search-input"
-                type="search"
-                placeholder="Search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <Search className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500" />
-            </div>
-          </div>
-          <div className="button">
-            <Button
-              className="companagion-button  cursor-pointer px-2 py-1 "
-              onClick={() => {
-                toggleDrawer();
-                switchButton('Submit');
-              }}
-            >
-              Add New
-            </Button>
-          </div>
+      <div className="flex justify-between items-center mb-4">
+        <div className="relative w-full lg:w-2/6 md:w-2/6 sm:w-full">
+          <Input
+            className="pl-4 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            type="search"
+            placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
         </div>
-        {/* <iframe width="100%" height="150px" src="https://assist.canadianlic.com/login/embed-remote-support.jsp" frameborder="0"></iframe> */}
-        <div className="border overflow-scroll custom-scroll px-0">
+        <div className="button">
+          <Button
+          variant="primary"
+            className="companagion-button  cursor-pointer px-2 py-1 "
+            onClick={() => {
+              toggleDrawer();
+              switchButton('Submit');
+            }}
+          >
+            Add New
+          </Button>
+        </div>
+  
+      </div>
+          {/* <iframe width="100%" height="150px" src="https://assist.canadianlic.com/login/embed-remote-support.jsp" frameborder="0"></iframe> */}
+      <div className="border overflow-scroll custom-scroll px-0">
           <Table className="table table-striped custom-scroll">
             <TableHeader>
               <TableRow>
@@ -180,7 +179,6 @@ const RemoteAssist = ({ id }) => {
             </TableBody>
           </Table>
         </div>
-      </div>
     </div>
   );
 };

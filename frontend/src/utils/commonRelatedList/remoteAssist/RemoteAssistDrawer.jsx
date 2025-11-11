@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
 import { putUrl } from "@/boot/axios";
@@ -13,6 +19,9 @@ import {
   DrawerHeader,
   DrawerFooter,
 } from "../../../components/ui/drawer";
+import { BiRightArrow } from "react-icons/bi";
+import { ArrowRight } from "lucide-react";
+import { Label } from "@/components/ui/label";
 
 const RemoteAssistDrawer = ({
   isOpen,
@@ -23,7 +32,7 @@ const RemoteAssistDrawer = ({
   selectedButton,
   maxWidth = "60%",
   speed = 300,
-  backgroundColor = "#fafafa"
+  backgroundColor = "#fafafa",
 }) => {
   const [users, setUsers] = useState([]);
   const [leads, setLeads] = useState([]);
@@ -124,51 +133,55 @@ const RemoteAssistDrawer = ({
         onClose();
       }
     } catch (error) {
-      console.error('Error updating remote assist:', error);
+      console.error("Error updating remote assist:", error);
     }
   };
 
   const submitForm = async () => {
     try {
-      const res = await axios.post(`${putUrl}canadianlicapi/remote-assist/api/v2/create-remote-access`, formData);
-      console.log('Create response', res);
+      const res = await axios.post(
+        `${putUrl}canadianlicapi/remote-assist/api/v2/create-remote-access`,
+        formData
+      );
+      console.log("Create response", res);
       alert("Remote Access Created Successfully");
       fetchAdvisorCredentials();
       onClose();
     } catch (error) {
-      console.error('Error creating remote assist:', error);
-      alert('Error creating remote assist');
+      console.error("Error creating remote assist:", error);
+      alert("Error creating remote assist");
     }
   };
 
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
     <Drawer open={isOpen} onOpenChange={onClose} direction="right">
-      <DrawerContent
-        className="w-full max-w-4xl"
-        style={{ backgroundColor }}
-      >
-        <DrawerHeader className="flex justify-between items-center">
+      <DrawerContent className="w-full max-w-4xl" style={{ backgroundColor }}>
+        <DrawerHeader className="flex flex-row justify-between items-center">
           <h4 className="text-lg font-semibold">
-            {selectedButton === 'Update' ? 'Update Remote Assist' : 'Add Remote Assist'}
+            {selectedButton === "Update"
+              ? "Update Remote Assist"
+              : "Add Remote Assist"}
           </h4>
           <DrawerClose asChild>
             <button className="btn btn-link">
-              <i className="fa fa-arrow-right cursor-pointer"></i>
+              <ArrowRight />
             </button>
           </DrawerClose>
         </DrawerHeader>
-        <div className="p-4 flex-1 overflow-auto">
+        <div className="p-4 flex-1  m-3 rounded-md shadow-md overflow-auto">
           <form className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label htmlFor="name" className="text-sm font-medium">Remote Assist Name</label>
+                <label htmlFor="name" className="text-sm font-medium">
+                  Remote Assist Name
+                </label>
                 <Input
                   value={formData.name}
-                  onChange={(e) => handleInputChange('name', e.target.value)}
+                  onChange={(e) => handleInputChange("name", e.target.value)}
                   type="text"
                   className="form-control"
                   id="name"
@@ -176,10 +189,14 @@ const RemoteAssistDrawer = ({
                 />
               </div>
               <div className="space-y-2">
-                <label htmlFor="exchangeRate" className="text-sm font-medium">Exchange Rate</label>
+                <label htmlFor="exchangeRate" className="text-sm font-medium">
+                  Exchange Rate
+                </label>
                 <Input
                   value={formData.exchangeRate}
-                  onChange={(e) => handleInputChange('exchangeRate', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("exchangeRate", e.target.value)
+                  }
                   type="number"
                   className="form-control"
                   id="exchangeRate"
@@ -190,23 +207,36 @@ const RemoteAssistDrawer = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label htmlFor="sessionType" className="text-sm font-medium">Session Type</label>
-                <Select value={formData.sessionType} onValueChange={(value) => handleInputChange('sessionType', value)}>
-                  <SelectTrigger>
+                <label htmlFor="sessionType" className="text-sm font-medium">
+                  Session Type
+                </label>
+                <Select
+                  value={formData.sessionType}
+                  onValueChange={(value) =>
+                    handleInputChange("sessionType", value)
+                  }
+                >
+                  <SelectTrigger className={"w-100"}>
                     <SelectValue placeholder="Select Session Type" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="None">None</SelectItem>
-                    <SelectItem value="Remote Support">Remote Support</SelectItem>
+                    <SelectItem value="Remote Support">
+                      Remote Support
+                    </SelectItem>
                     <SelectItem value="Screen Share">Screen Share</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
-                <label htmlFor="dateAndTime" className="text-sm font-medium">Date and Time</label>
+                <label htmlFor="dateAndTime" className="text-sm font-medium">
+                  Date and Time
+                </label>
                 <Input
                   value={formData.dateAndTime}
-                  onChange={(e) => handleInputChange('dateAndTime', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("dateAndTime", e.target.value)
+                  }
                   type="datetime-local"
                   className="form-control"
                   id="dateAndTime"
@@ -216,14 +246,22 @@ const RemoteAssistDrawer = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label htmlFor="leadId" className="text-sm font-medium">Lead</label>
-                <Select value={formData.leadId} onValueChange={(value) => handleInputChange('leadId', value)}>
-                  <SelectTrigger>
+                <label htmlFor="leadId" className="text-sm font-medium">
+                  Lead
+                </label>
+                <Select
+                  value={formData.leadId}
+                  onValueChange={(value) => handleInputChange("leadId", value)}
+                >
+                      <SelectTrigger className={"w-100"}>
                     <SelectValue placeholder="Select Lead" />
                   </SelectTrigger>
                   <SelectContent>
                     {leads.map((lead) => (
-                      <SelectItem key={lead.ROWID} value={lead.ROWID.toString()}>
+                      <SelectItem
+                        key={lead.ROWID}
+                        value={lead.ROWID.toString()}
+                      >
                         {lead.name}
                       </SelectItem>
                     ))}
@@ -231,10 +269,14 @@ const RemoteAssistDrawer = ({
                 </Select>
               </div>
               <div className="space-y-2">
-                <label htmlFor="sessionId" className="text-sm font-medium">Session ID</label>
+                <label htmlFor="sessionId" className="text-sm font-medium">
+                  Session ID
+                </label>
                 <Input
                   value={formData.sessionId}
-                  onChange={(e) => handleInputChange('sessionId', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("sessionId", e.target.value)
+                  }
                   type="text"
                   className="form-control"
                   id="sessionId"
@@ -245,10 +287,14 @@ const RemoteAssistDrawer = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label htmlFor="timezoneList" className="text-sm font-medium">Timezone List</label>
+                <label htmlFor="timezoneList" className="text-sm font-medium">
+                  Timezone List
+                </label>
                 <Input
                   value={formData.timezoneList}
-                  onChange={(e) => handleInputChange('timezoneList', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("timezoneList", e.target.value)
+                  }
                   type="text"
                   className="form-control"
                   id="timezoneList"
@@ -256,14 +302,22 @@ const RemoteAssistDrawer = ({
                 />
               </div>
               <div className="space-y-2">
-                <label htmlFor="owner" className="text-sm font-medium">Remote Assist Owner</label>
-                <Select value={formData.owner} onValueChange={(value) => handleInputChange('owner', value)}>
-                  <SelectTrigger>
+                <label htmlFor="owner" className="text-sm font-medium">
+                  Remote Assist Owner
+                </label>
+                <Select
+                  value={formData.owner}
+                  onValueChange={(value) => handleInputChange("owner", value)}
+                >
+                        <SelectTrigger className={"w-100"}>
                     <SelectValue placeholder="Select Owner" />
                   </SelectTrigger>
                   <SelectContent>
                     {users.map((user) => (
-                      <SelectItem key={user.ROWID} value={user.ROWID.toString()}>
+                      <SelectItem
+                        key={user.ROWID}
+                        value={user.ROWID.toString()}
+                      >
                         {user.name}
                       </SelectItem>
                     ))}
@@ -274,9 +328,16 @@ const RemoteAssistDrawer = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label htmlFor="currency" className="text-sm font-medium">Currency</label>
-                <Select value={formData.currency} onValueChange={(value) => handleInputChange('currency', value)}>
-                  <SelectTrigger>
+                <label htmlFor="currency" className="text-sm font-medium">
+                  Currency
+                </label>
+                <Select
+                  value={formData.currency}
+                  onValueChange={(value) =>
+                    handleInputChange("currency", value)
+                  }
+                >
+                        <SelectTrigger className={"w-100"}>
                     <SelectValue placeholder="Currency" />
                   </SelectTrigger>
                   <SelectContent>
@@ -285,14 +346,24 @@ const RemoteAssistDrawer = ({
                 </Select>
               </div>
               <div className="space-y-2">
-                <label htmlFor="contactId" className="text-sm font-medium">Contact</label>
-                <Select value={formData.contactId} onValueChange={(value) => handleInputChange('contactId', value)}>
-                  <SelectTrigger>
+                <label htmlFor="contactId" className="text-sm font-medium">
+                  Contact
+                </label>
+                <Select
+                  value={formData.contactId}
+                  onValueChange={(value) =>
+                    handleInputChange("contactId", value)
+                  }
+                >
+                        <SelectTrigger className={"w-100"}>
                     <SelectValue placeholder="Select Contact" />
                   </SelectTrigger>
                   <SelectContent>
                     {contacts.map((contact) => (
-                      <SelectItem key={contact.ROWID} value={contact.ROWID.toString()}>
+                      <SelectItem
+                        key={contact.ROWID}
+                        value={contact.ROWID.toString()}
+                      >
                         {contact.name}
                       </SelectItem>
                     ))}
@@ -303,10 +374,12 @@ const RemoteAssistDrawer = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label htmlFor="digest" className="text-sm font-medium">Digest</label>
+                <label htmlFor="digest" className="text-sm font-medium">
+                  Digest
+                </label>
                 <Input
                   value={formData.digest}
-                  onChange={(e) => handleInputChange('digest', e.target.value)}
+                  onChange={(e) => handleInputChange("digest", e.target.value)}
                   type="text"
                   className="form-control"
                   id="digest"
@@ -314,10 +387,14 @@ const RemoteAssistDrawer = ({
                 />
               </div>
               <div className="space-y-2">
-                <label htmlFor="scheduleId" className="text-sm font-medium">Schedule ID</label>
+                <label htmlFor="scheduleId" className="text-sm font-medium">
+                  Schedule ID
+                </label>
                 <Input
                   value={formData.scheduleId}
-                  onChange={(e) => handleInputChange('scheduleId', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("scheduleId", e.target.value)
+                  }
                   type="text"
                   className="form-control"
                   id="scheduleId"
@@ -328,25 +405,42 @@ const RemoteAssistDrawer = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label htmlFor="reminder" className="text-sm font-medium">Reminder</label>
-                <Select value={formData.reminder} onValueChange={(value) => handleInputChange('reminder', value)}>
-                  <SelectTrigger>
+                <label htmlFor="reminder" className="text-sm font-medium">
+                  Reminder
+                </label>
+                <Select
+                  value={formData.reminder}
+                  onValueChange={(value) =>
+                    handleInputChange("reminder", value)
+                  }
+                >
+                       <SelectTrigger className={"w-100"}>
                     <SelectValue placeholder="None" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="None">None</SelectItem>
                     <SelectItem value="No reminders">No reminders</SelectItem>
-                    <SelectItem value="5 minutes before">5 minutes before</SelectItem>
-                    <SelectItem value="10 minutes before">10 minutes before</SelectItem>
-                    <SelectItem value="15 minutes before">15 minutes before</SelectItem>
+                    <SelectItem value="5 minutes before">
+                      5 minutes before
+                    </SelectItem>
+                    <SelectItem value="10 minutes before">
+                      10 minutes before
+                    </SelectItem>
+                    <SelectItem value="15 minutes before">
+                      15 minutes before
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
-                <label htmlFor="description" className="text-sm font-medium">Description</label>
+                <label htmlFor="description" className="text-sm font-medium">
+                  Description
+                </label>
                 <Textarea
                   value={formData.description}
-                  onChange={(e) => handleInputChange('description', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("description", e.target.value)
+                  }
                   className="form-control"
                   id="description"
                   placeholder="Description"
@@ -354,28 +448,40 @@ const RemoteAssistDrawer = ({
               </div>
             </div>
 
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 mb-5">
               <Checkbox
                 id="onDemandSession"
                 checked={formData.onDemandSession}
-                onCheckedChange={(checked) => handleInputChange('onDemandSession', checked)}
+                onCheckedChange={(checked) =>
+                  handleInputChange("onDemandSession", checked)
+                }
               />
-              <label htmlFor="onDemandSession" className="text-sm font-medium">On Demand Session</label>
+              <Label htmlFor="onDemandSession" className="text-sm font-medium">
+                On Demand Session
+              </Label>
             </div>
           </form>
         </div>
         <DrawerFooter className="flex justify-center">
           <div className="flex gap-2 justify-center">
-            {selectedButton === 'Submit' && (
-              <Button onClick={submitForm} className="add-btn btn" style={{ backgroundColor: 'lightseagreen', color: 'white' }}>
+            {selectedButton === "Submit" && (
+              <Button
+                onClick={submitForm}
+                className="add-btn btn"
+                style={{ backgroundColor: "lightseagreen", color: "white" }}
+              >
                 Save
               </Button>
             )}
             <Button className="btn btn-danger" onClick={onClose}>
               Close
             </Button>
-            {selectedButton === 'Update' && (
-              <Button onClick={handleUpdate} className="add-btn btn" style={{ backgroundColor: 'lightseagreen', color: 'white' }}>
+            {selectedButton === "Update" && (
+              <Button
+                onClick={handleUpdate}
+                className="add-btn btn"
+                style={{ backgroundColor: "lightseagreen", color: "white" }}
+              >
                 Update
               </Button>
             )}

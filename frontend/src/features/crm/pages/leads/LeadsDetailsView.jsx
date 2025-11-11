@@ -30,6 +30,7 @@ import { toast } from "react-toastify";
 import { updateLead, updateLeadInList } from "@/redux/slices/leads/leadsSlice";
 import LeadActivityList from "./relatedList/leadActivity/LeadActivityList";
 import LeadForm from "./LeadForm";
+import LeadAdvisorForm from "../advisor/LeadAdvisorForm";
 import LeadInformation from "./leadFormComponents/LeadInformation";
 import DescriptionInfo from "./leadFormComponents/DescriptionInfo";
 import FamilyTree from "./leadFormComponents/FamilyTree";
@@ -37,11 +38,19 @@ import AddressInformation from "./leadFormComponents/AddressInformation";
 import UMTDetails from "./leadFormComponents/UMTDetails";
 import FestivalForm from "./leadFormComponents/FestivalForm";
 import ServiceRequestDetails from "./leadFormComponents/ServiceRequestDetails";
-import Notes from "./utils/Notes";
-import Attachment from "./utils/Attachment";
-import Whatsapp from "./utils/Whatsapp";
-import Email from "./utils/Email";
-import SMS from "./utils/SMS";
+import AdvisorLeadInformation from "../advisor/leadAdvisorFormComponents/LeadInformation";
+import AdvisorDescriptonInfo from "../advisor/leadAdvisorFormComponents/DescriptonInfo";
+import AdvisorFamilyTree from "../advisor/leadAdvisorFormComponents/FamilyTree";
+import AdvisorAddressInformation from "../advisor/leadAdvisorFormComponents/AddressInformation";
+import AdvisorUMTDetails from "../advisor/leadAdvisorFormComponents/UMTDetails";
+import AdvisorFestivalForm from "../advisor/leadAdvisorFormComponents/FestivalForm";
+import AdvisorServiceRequestDetails from "../advisor/leadAdvisorFormComponents/ServiceRequestDetails";
+import AdvisorLeadManagementInformation from "../advisor/leadAdvisorFormComponents/LeadManagementInformation";
+import Notes from "@/utils/commonRelatedList/notes/Notes";
+import Attachment from "@/utils/commonRelatedList/comms/Attachments";
+import Whatsapp from "@/utils/commonRelatedList/comms/Whatsapp";
+import Email from "@/utils/commonRelatedList/comms/Email";
+import SMS from "@/utils/commonRelatedList/comms/SMS";
 import ReferralClient from "@/utils/commonRelatedList/referralClient/ReferralClient";
 import Compagion from "@/utils/commonRelatedList/compagions/Compagion";
 import ReferralLead from "@/utils/commonRelatedList/referralLead/ReferralLead";
@@ -61,7 +70,8 @@ const LeadsDetailsView = () => {
   const location = useLocation();
   const [newComment, setNewComment] = useState("");
   const details = location.state;
-
+  console.log("details",details);
+  const layout = details.layoutName || "advisor"; 
   const [activeTab, setActiveTab] = useState("overview");
   const [dynamicTabValue, setDynamicTabValue] = useState("open-activity");
   const [selectedActionTab, setSelectedActionTab] = useState("whatsapp");
@@ -222,7 +232,6 @@ const LeadsDetailsView = () => {
     // { value: "referral-client", label: "Referral Client" },
     // { value: "offering", label: "Offering" },
     { value: "open-activity", label: "Open Activity" },
-    { value: "close-activity", label: "Close Activity" },
     { value: "campaign", label: "Campaign" },
     { value: "remote-assist", label: "Remote Assist" },
     { value: "ringcentral-sms", label: "RingCentral SMS" },
@@ -230,6 +239,8 @@ const LeadsDetailsView = () => {
     { value: "session-recording", label: "Session Recording" },
     { value: "zoho-sales-iq", label: "ZohoSales IQ" },
     { value: "zoho-survey", label: "Zoho Survey" },
+  { value: "close-activity", label: "Close Activity" },
+
     // add more as needed
   ];
 
@@ -285,9 +296,11 @@ const LeadsDetailsView = () => {
 
         {/* Content for fixed tabs */}
         <TabsContent value="overview" className="flex flex-col px-2 lg:px-2">
-          <div className="flex justify-end mb-4 gap-2">
+          <div className="flex justify-between mb-4 gap-2">
+         
+            <h1 className="text-2xl font-semibold">{layout === "Client" ? "Lead Client Details":"Lead Advisor Details"}</h1>
             {showUpdateBtn ? (
-              <>
+              <div className="flex gap-2">
                 <Button
                   loadingText={"Updating..."}
                   loading={loading}
@@ -300,9 +313,9 @@ const LeadsDetailsView = () => {
                 <Button onClick={handleClearChanges} variant={"outline"}>
                   Cancel
                 </Button>
-              </>
+              </div>
             ) : (
-              <>
+              <div className="flex gap-2">
                 <Button
                   onClick={() => setIsDisabled(false)}
                   variant={"primary"}
@@ -312,10 +325,11 @@ const LeadsDetailsView = () => {
                 <Button onClick={handleUpdate} variant={"primary"}>
                   Save
                 </Button>
-              </>
+              </div>
             )}
           </div>
-          <Accordion
+            {layout === "Client" ? (
+       <Accordion
             type="multiple"
             className="w-full"
             defaultValue={["lead-information"]}
@@ -405,6 +419,111 @@ const LeadsDetailsView = () => {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
+      ) : (
+        <Accordion
+          type="multiple"
+          className="w-full"
+          defaultValue={["lead-information"]}
+        >
+          <AccordionItem value="lead-information" className="mb-1 ">
+            <AccordionTrigger className="text-xl">
+              Lead Information
+            </AccordionTrigger>
+            <AccordionContent>
+              <AdvisorLeadInformation
+                formData={formData}
+                setFormData={setFormData}
+                isDisabled={isDisabled}
+              />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="description-info" className=" mb-1 ">
+            <AccordionTrigger className="text-xl">
+              Description Info
+            </AccordionTrigger>
+            <AccordionContent>
+              <AdvisorDescriptonInfo
+                formData={formData}
+                setFormData={setFormData}
+                isDisabled={isDisabled}
+              />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="family-tree" className=" mb-1 ">
+            <AccordionTrigger className="text-xl">
+              Family Tree
+            </AccordionTrigger>
+            <AccordionContent>
+              <AdvisorFamilyTree
+                formData={formData}
+                setFormData={setFormData}
+                isDisabled={isDisabled}
+              />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="address-information" className=" mb-1 ">
+            <AccordionTrigger className="text-xl">
+              Address Information
+            </AccordionTrigger>
+            <AccordionContent>
+              <AdvisorAddressInformation
+                formData={formData}
+                setFormData={setFormData}
+                isDisabled={isDisabled}
+              />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="umt-details" className=" mb-1 ">
+            <AccordionTrigger className="text-xl">
+              UMT Details
+            </AccordionTrigger>
+            <AccordionContent>
+              <AdvisorUMTDetails
+                formData={formData}
+                setFormData={setFormData}
+                isDisabled={isDisabled}
+              />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="festival-form" className="mb-1 ">
+            <AccordionTrigger className="text-xl">
+              Festival Form
+            </AccordionTrigger>
+            <AccordionContent>
+              <AdvisorFestivalForm
+                formData={formData}
+                setFormData={setFormData}
+                isDisabled={isDisabled}
+              />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="service-request-details" className="mb-1 ">
+            <AccordionTrigger className="text-xl">
+              Service Request Details
+            </AccordionTrigger>
+            <AccordionContent>
+              <AdvisorServiceRequestDetails
+                formData={formData}
+                setFormData={setFormData}
+                isDisabled={isDisabled}
+              />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="lead-management-information" className="mb-1 ">
+            <AccordionTrigger className="text-xl">
+              Lead Management Information
+            </AccordionTrigger>
+            <AccordionContent>
+              <AdvisorLeadManagementInformation
+                formData={formData}
+                setFormData={setFormData}
+                isDisabled={isDisabled}
+              />
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      )}
+         
         </TabsContent>
 
         <TabsContent
@@ -432,36 +551,40 @@ const LeadsDetailsView = () => {
             <TabsList className="flex gap-5">
               <TabsTrigger
                 value="whatsapp"
-                className="relative text-xs cursor-pointer"
+                className="relative border focus:border-[#25D366]  text-xs cursor-pointer"
               >
+                <span className="text-[#25D366]">
+
                 WhatsApp
+                </span>
                 <Badge
                   variant="secondary"
-                  className="ml-2 h-4 w-5 bg-blue-500 text-white"
+                  className="ml-2 h-4 w-5 bg-[#25D366] text-white"
                 >
                   10
                 </Badge>
               </TabsTrigger>
               <TabsTrigger
                 value="sms"
-                className="relative text-xs  cursor-pointer"
+                className="relative text-xs focus:border-blue-400 cursor-pointer"
               >
-                SMS
+                       <span className="focus:text-[#2196F3]">
+                SMS</span>
                 <Badge
                   variant="secondary"
-                  className="ml-2 h-4 w-5 bg-blue-500 text-white"
+                  className="ml-2 h-4 w-5 bg-[#2196F3] text-white"
                 >
                   15
                 </Badge>
               </TabsTrigger>
               <TabsTrigger
                 value="email"
-                className="relative text-xs  cursor-pointer"
+                className="relative text-xs focus:border-[#B71C1C] cursor-pointer"
               >
                 Email
                 <Badge
                   variant="secondary"
-                  className="ml-2 h-4 w-5 bg-blue-500 text-white"
+                  className="ml-2 h-4 w-5 bg-[#B71C1C] text-white"
                 >
                   30
                 </Badge>
@@ -516,7 +639,6 @@ const LeadsDetailsView = () => {
           {dynamicTabValue === "referral-client" && <ReferralClient />}
           {dynamicTabValue === "offering" && <Offering />} */}
           {dynamicTabValue === "open-activity" && <OpenActivity />}
-          {dynamicTabValue === "close-activity" && <CloseActivity />}
           {dynamicTabValue === "campaign" && <Compagion />}
           {dynamicTabValue === "remote-assist" && <RemoteAssist />}
           {dynamicTabValue === "ringcentral-sms" && <RingCentralCMS />}
@@ -524,6 +646,7 @@ const LeadsDetailsView = () => {
           {dynamicTabValue === "session-recording" && <SessionRecording />}
           {dynamicTabValue === "zoho-sales-iq" && <ZohoSalesIQ />}
           {dynamicTabValue === "zoho-survey" && <ZohoSurvey />}
+          {dynamicTabValue === "close-activity" && <CloseActivity />}
           {/* Add more conditionals as needed */}
         </TabsContent>
       </Tabs>

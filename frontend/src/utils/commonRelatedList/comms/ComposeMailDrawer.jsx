@@ -94,7 +94,7 @@ const ComposeMailDrawer = ({ isOpen, onClose, speed = 300, backgroundColor = '#f
           </div>
           <div ref={quillRef} className="editable"></div>
           <div className="footer mt-4 flex justify-end">
-            <Button type="button" className="btn btn-primary cursor-pointer" style={{ borderRadius: '70px', width: '100px' }}>Send</Button>
+            <Button type="button" className="bg-blue-500 hover:bg-blue-600 cursor-pointer" style={{ borderRadius: '70px', width: '100px' }}>Send</Button>
           </div>
         </div>
       </div>

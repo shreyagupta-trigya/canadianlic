@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, X, Info, User, ChevronDown } from "lucide-react";
+import { Search, X, Info, User, ChevronDown, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const ReferralLead = ({ leadId }) => {
@@ -58,21 +58,23 @@ const ReferralLead = ({ leadId }) => {
     <div className="w-full">
       {/* Search and Add New Button */}
       <div className="flex justify-between items-center mb-4">
-        <div className="relative w-full lg:w-2/6 md:w-2/6 sm:w-full">
+        <div className="relative w-70">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
           <Input
-            className="pl-4 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             type="search"
             placeholder="Search"
+            className="pl-10"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
         </div>
         <div>
+          
           <Button
-            className="px-4 py-2 bg-white text-blue-500 border border-blue-500 rounded hover:bg-blue-500 hover:text-white transition-colors"
+            className="px-4 py-2 rounded-md border   hover:bg-blue-600 bg-blue-500 cursor-pointer hover:text-white transition-colors"
             onClick={() => navigate(`/leads-form?leadId=${leadId}`)}
           >
+            <Plus/>
             Add New
           </Button>
         </div>

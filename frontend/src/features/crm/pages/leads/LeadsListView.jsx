@@ -8,7 +8,10 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { restrictToVerticalAxis, restrictToHorizontalAxis } from "@dnd-kit/modifiers";
+import {
+  restrictToVerticalAxis,
+  restrictToHorizontalAxis,
+} from "@dnd-kit/modifiers";
 import {
   arrayMove,
   SortableContext,
@@ -33,7 +36,6 @@ import {
   IconSearch,
   IconMail,
   IconDownload,
-
   IconFilter,
   IconChevronUp,
   IconArrowUp,
@@ -124,6 +126,7 @@ import MassUpdateEmailModal from "./MassUpdateEmailModal";
 import LeadColumnManageDrawer from "./LeadColumnManageDrawer";
 import LeadConvertDeal from "./LeadConvertDeal";
 import { EllipsisVertical } from "lucide-react";
+import { getInsuranceLeadStatusColor } from "./utils/picklist";
 
 function DragHandle({ id }) {
   const { attributes, listeners } = useSortable({
@@ -156,7 +159,7 @@ function SortableHeader({ column, title }) {
         {title}
         {sortDirection === false ? (
           <IconChevronUp className="size-4 opacity-50" />
-        ) : sortDirection === 'asc' ? (
+        ) : sortDirection === "asc" ? (
           <IconArrowUp className="size-4" />
         ) : (
           <IconArrowDown className="size-4" />
@@ -166,23 +169,31 @@ function SortableHeader({ column, title }) {
   );
 }
 
-function DraggableRow({ row }) {
-
+function DraggableRow({ row, navigate }) {
   const { transform, transition, setNodeRef, isDragging } = useSortable({
     id: row.original.ROWID,
   });
   console.log(row.original.dateValue);
+
+  const handleRowClick = () => {
+    if (!isDragging) {
+      navigate(`/crm/leads/details/${row.original.ROWID}`, {
+        state: row.original,
+      });
+    }
+  };
 
   return (
     <TableRow
       data-state={row.getIsSelected() && "selected"}
       data-dragging={isDragging}
       ref={setNodeRef}
-      className="relative z-0 data-[dragging=true]:z-10 data-[dragging=true]:opacity-80"
+      className="relative z-0 data-[dragging=true]:z-10 data-[dragging=true]:opacity-80 cursor-pointer hover:bg-muted/50"
       style={{
         transform: CSS.Transform.toString(transform),
         transition: transition,
       }}
+      onClick={handleRowClick}
     >
       {row.getVisibleCells().map((cell) => (
         <TableCell key={cell.id}>
@@ -384,34 +395,56 @@ const LeadsListView = () => {
     pageSize: 10,
   });
   const [columnOrder, setColumnOrder] = useState([
-    "drag", "select", "actions", "CREATEDTIME", "layoutName", "insuranceLeadNameAll",
-    "insuranceLeadStatus", "leadStatusStage", "mobile", "insuranceLeadSource",
-    "advisorfullName", "email", "servicesRequested", "gclid", "firstPageVisited",
-    "MODIFIEDTIME", "totalInteractionTime", "phoneNumber", "UserfullName",
-    "adCampaign", "facebookAd", "firstName", "lastName", "keywordData",
-    "submitPageURL", "lpUrlData", "gclidData", "adNetwork"
+    "drag",
+    "select",
+    "actions",
+    "CREATEDTIME",
+    "layoutName",
+    "insuranceLeadNameAll",
+    "insuranceLeadStatus",
+    "leadStatusStage",
+    "mobile",
+    "insuranceLeadSource",
+    "advisorfullName",
+    "email",
+    "servicesRequested",
+    "gclid",
+    "firstPageVisited",
+    "MODIFIEDTIME",
+    "totalInteractionTime",
+    "phoneNumber",
+    "UserfullName",
+    "adCampaign",
+    "facebookAd",
+    "firstName",
+    "lastName",
+    "keywordData",
+    "submitPageURL",
+    "lpUrlData",
+    "gclidData",
+    "adNetwork",
   ]);
   const [columnSizing, setColumnSizing] = useState(() => {
     // Load column sizing from localStorage
-    const saved = localStorage.getItem('leads-table-column-sizing');
+    const saved = localStorage.getItem("leads-table-column-sizing");
     const defaultSizes = {
       drag: 40,
       select: 50,
       actions: 80,
       CREATEDTIME: 150,
-      layoutName: 100,
+      layoutName: 150,
       insuranceLeadNameAll: 200,
-      insuranceLeadStatus: 150,
-      leadStatusStage: 150,
+      insuranceLeadStatus: 200,
+      leadStatusStage: 200,
       mobile: 120,
-      insuranceLeadSource: 150,
+      insuranceLeadSource: 250,
       advisorfullName: 150,
       email: 200,
-      servicesRequested: 150,
+      servicesRequested: 200,
       gclid: 120,
       firstPageVisited: 150,
       MODIFIEDTIME: 150,
-      totalInteractionTime: 150,
+      totalInteractionTime: 300,
       phoneNumber: 120,
       UserfullName: 150,
       adCampaign: 150,
@@ -434,52 +467,111 @@ const LeadsListView = () => {
   const [isSearchDrawerOpen, setIsSearchDrawerOpen] = useState(false);
   const [isMassUpdateModalOpen, setIsMassUpdateModalOpen] = useState(false);
   const [isMassEmailModalOpen, setIsMassEmailModalOpen] = useState(false);
-  const [isColumnManageDrawerOpen, setIsColumnManageDrawerOpen] = useState(false);
+  const [isColumnManageDrawerOpen, setIsColumnManageDrawerOpen] =
+    useState(false);
   const [isConvertDealModalOpen, setIsConvertDealModalOpen] = useState(false);
-  const [selectedLeadForConversion, setSelectedLeadForConversion] = useState(null);
+  const [selectedLeadForConversion, setSelectedLeadForConversion] =
+    useState(null);
   const [visibleColumns, setVisibleColumns] = useState(() => {
     // Load visible columns from localStorage
-    const saved = localStorage.getItem('leads-visible-columns');
-    return saved ? JSON.parse(saved) : [
-      "Action", "Created Time *", "Layout", "Insurance Lead Name All", "Insurance Lead Status", "Lead Status Stage", "Mobile", "Insurance Lead Source", "Assigned Advisor", "Email", "Services Requested", "GCLID", "First Page Visited", "Last Activity Time", "Total Interaction Time (mins)", "Phone", "Created By", "Ad Campaign Name", "FaceBook Ad", "First Name", "Last Name All", "Keyword", "Submit Page URL", "LP URL Data", "GCLID Data", "Ad Network"
-    ];
+    const saved = localStorage.getItem("leads-visible-columns");
+    return saved
+      ? JSON.parse(saved)
+      : [
+        "Action",
+        "Created Time *",
+        "Layout",
+        "Insurance Lead Name All",
+        "Insurance Lead Status",
+        "Lead Status Stage",
+        "Mobile",
+        "Insurance Lead Source",
+        "Assigned Advisor",
+        "Email",
+        "Services Requested",
+        "GCLID",
+        "First Page Visited",
+        "Last Activity Time",
+        "Total Interaction Time (mins)",
+        "Phone",
+        "Created By",
+        "Ad Campaign Name",
+        "FaceBook Ad",
+        "First Name",
+        "Last Name All",
+        "Keyword",
+        "Submit Page URL",
+        "LP URL Data",
+        "GCLID Data",
+        "Ad Network",
+      ];
   });
   const [allColumns, setAllColumns] = useState([
-    "Action", "Created Time *", "Layout", "Insurance Lead Name All", "Insurance Lead Status", "Lead Status Stage", "Mobile", "Insurance Lead Source", "Assigned Advisor", "Email", "Services Requested", "GCLID", "First Page Visited", "Last Activity Time", "Total Interaction Time (mins)", "Phone", "Created By", "Ad Campaign Name", "FaceBook Ad", "First Name", "Last Name All", "Keyword", "Submit Page URL", "LP URL Data", "GCLID Data", "Ad Network"
+    "Action",
+    "Created Time *",
+    "Layout",
+    "Insurance Lead Name All",
+    "Insurance Lead Status",
+    "Lead Status Stage",
+    "Mobile",
+    "Insurance Lead Source",
+    "Assigned Advisor",
+    "Email",
+    "Services Requested",
+    "GCLID",
+    "First Page Visited",
+    "Last Activity Time",
+    "Total Interaction Time (mins)",
+    "Phone",
+    "Created By",
+    "Ad Campaign Name",
+    "FaceBook Ad",
+    "First Name",
+    "Last Name All",
+    "Keyword",
+    "Submit Page URL",
+    "LP URL Data",
+    "GCLID Data",
+    "Ad Network",
   ]);
 
   // Mapping from display names to column IDs for TanStack Table
   const columnMapping = {
-    "Action": "actions",
+    Action: "actions",
     "Created Time *": "CREATEDTIME",
-    "Layout": "layoutName",
+    Layout: "layoutName",
     "Insurance Lead Name All": "insuranceLeadNameAll",
     "Insurance Lead Status": "insuranceLeadStatus",
     "Lead Status Stage": "leadStatusStage",
-    "Mobile": "mobile",
+    Mobile: "mobile",
     "Insurance Lead Source": "insuranceLeadSource",
     "Assigned Advisor": "advisorfullName",
-    "Email": "email",
+    Email: "email",
     "Services Requested": "servicesRequested",
-    "GCLID": "gclid",
+    GCLID: "gclid",
     "First Page Visited": "firstPageVisited",
     "Last Activity Time": "MODIFIEDTIME",
     "Total Interaction Time (mins)": "totalInteractionTime",
-    "Phone": "phoneNumber",
+    Phone: "phoneNumber",
     "Created By": "UserfullName",
     "Ad Campaign Name": "adCampaign",
     "FaceBook Ad": "facebookAd",
     "First Name": "firstName",
     "Last Name All": "lastName",
-    "Keyword": "keywordData",
+    Keyword: "keywordData",
     "Submit Page URL": "submitPageURL",
     "LP URL Data": "lpUrlData",
     "GCLID Data": "gclidData",
-    "Ad Network": "adNetwork"
+    "Ad Network": "adNetwork",
   };
 
   const dispatch = useDispatch();
-  const { data: Leadsdata, loading, error, fetched } = useSelector((state) => state.leads.all);
+  const {
+    data: Leadsdata,
+    loading,
+    error,
+    fetched,
+  } = useSelector((state) => state.leads.all);
   console.log("Leadsdata:", Leadsdata);
   useEffect(() => {
     if (!fetched) {
@@ -496,7 +588,7 @@ const LeadsListView = () => {
   // Initialize columnVisibility based on visibleColumns
   useEffect(() => {
     const visibilityMap = {};
-    allColumns.forEach(col => {
+    allColumns.forEach((col) => {
       const columnId = columnMapping[col];
       if (columnId) {
         visibilityMap[columnId] = visibleColumns.includes(col);
@@ -507,12 +599,18 @@ const LeadsListView = () => {
 
   // Save column sizing to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('leads-table-column-sizing', JSON.stringify(columnSizing));
+    localStorage.setItem(
+      "leads-table-column-sizing",
+      JSON.stringify(columnSizing)
+    );
   }, [columnSizing]);
 
   // Save visible columns to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('leads-visible-columns', JSON.stringify(visibleColumns));
+    localStorage.setItem(
+      "leads-visible-columns",
+      JSON.stringify(visibleColumns)
+    );
   }, [visibleColumns]);
 
   //   const handleDelete = () => {
@@ -564,7 +662,11 @@ const LeadsListView = () => {
     {
       id: "drag",
       header: "",
-      cell: ({ row }) => <DragHandle id={row.original.ROWID} />,
+      cell: ({ row }) => (
+        <div onClick={(e) => e.stopPropagation()}>
+          <DragHandle id={row.original.ROWID} />
+        </div>
+      ),
       enableSorting: false,
       enableHiding: false,
       size: 40,
@@ -573,19 +675,27 @@ const LeadsListView = () => {
     {
       id: "select",
       header: ({ table }) => (
-        <div className="flex items-center justify-center">
+        <div
+          className="flex items-center justify-center"
+          onClick={(e) => e.stopPropagation()}
+        >
           <Checkbox
             checked={
               table.getIsAllPageRowsSelected() ||
               (table.getIsSomePageRowsSelected() && "indeterminate")
             }
-            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+            onCheckedChange={(value) =>
+              table.toggleAllPageRowsSelected(!!value)
+            }
             aria-label="Select all"
           />
         </div>
       ),
       cell: ({ row }) => (
-        <div className="flex items-center justify-center">
+        <div
+          className="flex items-center justify-center"
+          onClick={(e) => e.stopPropagation()}
+        >
           <Checkbox
             checked={row.getIsSelected()}
             onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -604,7 +714,11 @@ const LeadsListView = () => {
       cell: ({ row }) => (
         <div className="d-flex justify-content-center align-items-center gap-2 ">
           <Button
-            onClick={() => navigate(`/crm/leads/details/${row.original.ROWID}`, { state: row.original })}
+            onClick={() =>
+              navigate(`/crm/leads/details/${row.original.ROWID}`, {
+                state: row.original,
+              })
+            }
             variant="link"
             className="text-foreground cursor-pointer w-fit px-0 text-left "
           >
@@ -613,18 +727,33 @@ const LeadsListView = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
-                <EllipsisVertical/>
+                <EllipsisVertical />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-32">
-              <DropdownMenuItem onClick={() => navigate(`/crm/leads/details/${row.original.ROWID}`, { state: row.original })}>
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation(); // ✅ stop bubbling to parent row
+                  navigate(`/crm/leads/details/${row.original.ROWID}`, {
+                    state: row.original,
+                  });
+                }}
+              >
                 Detail view
               </DropdownMenuItem>
-              <DropdownMenuItem >
+
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation(); // ✅ stop bubbling
+                  navigate(`/crm/leads/create`);
+                }}
+              >
                 Edit
               </DropdownMenuItem>
+
               <DropdownMenuItem
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation(); // ✅ stop bubbling
                   setOpenAlert(true);
                   setIdToDelete(row.original.ROWID);
                 }}
@@ -633,10 +762,8 @@ const LeadsListView = () => {
               >
                 Delete
               </DropdownMenuItem>
-              {/* <DropdownMenuItem onClick={() => setIsConvertDealModalOpen(true)}>
-                Convert To Deal
-              </DropdownMenuItem> */}
             </DropdownMenuContent>
+
           </DropdownMenu>
         </div>
       ),
@@ -645,9 +772,15 @@ const LeadsListView = () => {
     },
     {
       accessorKey: "CREATEDTIME",
-      header: ({ column }) => <SortableHeader column={column} title="Created Time *" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Created Time *" />
+      ),
       cell: ({ row }) => (
-        <div>{row.original.CREATEDTIME ? new Date(row.original.CREATEDTIME).toLocaleString() : "N/A"}</div>
+        <div>
+          {row.original.CREATEDTIME
+            ? new Date(row.original.CREATEDTIME).toLocaleString()
+            : "N/A"}
+        </div>
       ),
       size: 150,
       minSize: 150,
@@ -655,161 +788,303 @@ const LeadsListView = () => {
     {
       accessorKey: "layoutName",
       header: ({ column }) => <SortableHeader column={column} title="Layout" />,
-      cell: ({ row }) => (
-        <Badge className={`badge-style ${row.original.layoutName?.toLowerCase() === 'client' ? 'client-layout' : 'advisor-layout'}`}>
-          {row.original.layoutName}
-        </Badge>
-      ),
-      size: 100,
-      minSize: 100,
+      cell: ({ row }) => {
+        const layout = row.original.layoutName?.toLowerCase();
+        const bgColor =
+          layout === "client"
+            ? "rgba(160, 32, 240, 0.7)"
+            : layout === "advisor"
+              ? "red"
+              : "rgba(229, 32, 32, 0.6)"; // Default to original color if neither
+        return (
+          <Badge
+            className="badge-style"
+            style={{ backgroundColor: bgColor, color: "white", width: "100px" }}
+          >
+            <span className="p-[3px]  w-35 text-center ">{row.original.layoutName}</span>
+          </Badge>
+        );
+      },
+      size: 150,
+      minSize: 150,
     },
     {
       accessorKey: "insuranceLeadNameAll",
-      header: ({ column }) => <SortableHeader column={column} title="Insurance Lead Name All" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Insurance Lead Name All" />
+      ),
       cell: ({ row }) => (
         <Button
-          onClick={() => navigate(`/crm/leads/details/${row.original.ROWID}`, { state: row.original })}
+          onClick={() =>
+            navigate(`/crm/leads/details/${row.original.ROWID}`, {
+              state: row.original,
+            })
+          }
           variant="link"
           className="text-foreground cursor-pointer w-fit px-0 text-left"
         >
-          {`${row.original.firstName ?? ""} ${row.original.lastName ?? ""}`.trim()}
+          {`${row.original.firstName ?? ""} ${row.original.lastName ?? ""
+            }`.trim()}
         </Button>
       ),
+      size: 200,
+      minSize: 200,
     },
     {
       accessorKey: "insuranceLeadStatus",
-      header: ({ column }) => <SortableHeader column={column} title="Insurance Lead Status" />,
-      cell: ({ row }) => (
-        <Badge className="badge-style" style={{
-          backgroundColor: row.original.insuranceLeadStatusColor || '#fdd835',
-          color: (row.original.insuranceLeadStatusColor === '#fdd835') ? 'black' : 'white'
-        }}>
-          {row.original.insuranceLeadStatus || "N/A"}
-        </Badge>
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Insurance Lead Status" />
       ),
+      cell: ({ row }) => {
+        const status = row.original.insuranceLeadStatus || "N/A";
+        const statusColor = getInsuranceLeadStatusColor(status);
+
+        return (
+          <Badge
+            className="badge-style"
+            style={{
+              backgroundColor: statusColor,
+              color:
+                statusColor === "#fdd835" ||
+                  statusColor === "#FFFFFF" ||
+                  statusColor === "#8bc34a" ||
+                  statusColor === "#81c784"
+                  ? "black"
+                  : "white",
+
+            }}
+          >
+            <span className="p-[2px]  w-35 text-center  ">{status}</span>
+          </Badge>
+        );
+      },
+      size: 200,
+      minSize: 200,
     },
     {
       accessorKey: "leadStatusStage",
-      header: ({ column }) => <SortableHeader column={column} title="Lead Status Stage" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Lead Status Stage" />
+      ),
       cell: ({ row }) => (
-        <Badge className="badge-style" style={{
-          backgroundColor: row.original.leadStatusStageColor || '#fdd835',
-          color: (row.original.leadStatusStageColor === '#fdd835') ? 'black' : 'white'
-        }}>
-          {row.original.leadStatusStage || "N/A"}
+        <Badge
+          className="badge-style"
+          style={{
+            backgroundColor: row.original.leadStatusStageColor || "#fdd835",
+            color:
+              row.original.leadStatusStageColor === "#fdd835"
+                ? "black"
+                : "white",
+          }}
+        >
+          <span className="p-[2px]  w-35  text-center">
+            {row.original.leadStatusStage || "N/A"}
+          </span>
         </Badge>
       ),
+      size: 200,
+      minSize: 200,
     },
     {
       accessorKey: "mobile",
       header: ({ column }) => <SortableHeader column={column} title="Mobile" />,
       cell: ({ row }) => <div>{row.original.mobile}</div>,
+      size: 120,
+      minSize: 120,
     },
     {
       accessorKey: "insuranceLeadSource",
-      header: ({ column }) => <SortableHeader column={column} title="Insurance Lead Source" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Insurance Lead Source" />
+      ),
       cell: ({ row }) => <div>{row.original.insuranceLeadSource}</div>,
+      size: 200,
+      minSize: 200,
     },
     {
       accessorKey: "advisorfullName",
-      header: ({ column }) => <SortableHeader column={column} title="Assigned Advisor" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Assigned Advisor" />
+      ),
       cell: ({ row }) => <div>{row.original.advisorfullName}</div>,
+      size: 150,
+      minSize: 150,
     },
+
     {
       accessorKey: "email",
       header: ({ column }) => <SortableHeader column={column} title="Email" />,
       cell: ({ row }) => (
         <Button
-          onClick={() => navigate(`/crm/leads/details/${row.original.ROWID}`, { state: row.original })}
+          onClick={() =>
+            navigate(`/crm/leads/details/${row.original.ROWID}`, {
+              state: row.original,
+            })
+          }
           variant="link"
           className="text-foreground cursor-pointer w-fit px-0 text-left"
         >
           {row.original.email}
         </Button>
       ),
+      size: 200,
+      minSize: 200,
+    },
+
+    {
+      accessorKey: "firstPageVisited",
+      header: ({ column }) => (
+        <SortableHeader column={column} title="First Page Visited" />
+      ),
+      cell: ({ row }) => <div>{row.original.firstPageVisited}</div>,
+      size: 150,
+      minSize: 150,
+    },
+
+    {
+      accessorKey: "MODIFIEDTIME",
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Last Activity Time" />
+      ),
+      cell: ({ row }) => <div>{row.original.MODIFIEDTIME}</div>,
+      size: 150,
+      minSize: 150,
+    },
+
+    {
+      accessorKey: "totalInteractionTime",
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Total Interaction Time (mins)" />
+      ),
+      cell: ({ row }) => <div>{row.original.totalInteractionTime}</div>,
+      size: 300,
+      minSize: 300,
+    },
+
+    {
+      accessorKey: "phoneNumber",
+      header: ({ column }) => <SortableHeader column={column} title="Phone" />,
+      cell: ({ row }) => <div>{row.original.phoneNumber}</div>,
+      size: 120,
+      minSize: 120,
+    },
+
+    {
+      accessorKey: "UserfullName",
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Created By" />
+      ),
+      cell: ({ row }) => <div>{row.original.UserfullName}</div>,
+      size: 150,
+      minSize: 150,
+    },
+
+    {
+      accessorKey: "adCampaign",
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Ad Campaign Name" />
+      ),
+      cell: ({ row }) => <div>{row.original.adCampaign}</div>,
+      size: 150,
+      minSize: 150,
+    },
+
+    {
+      accessorKey: "facebookAd",
+      header: ({ column }) => (
+        <SortableHeader column={column} title="FaceBook Ad" />
+      ),
+      cell: ({ row }) => <div>{row.original.facebookAd}</div>,
+      size: 150,
+      minSize: 150,
+    },
+
+    {
+      accessorKey: "firstName",
+      header: ({ column }) => (
+        <SortableHeader column={column} title="First Name" />
+      ),
+      cell: ({ row }) => <div>{row.original.firstName}</div>,
+      size: 120,
+      minSize: 120,
+    },
+
+    {
+      accessorKey: "lastName",
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Last Name All" />
+      ),
+      cell: ({ row }) => <div>{row.original.lastName}</div>,
+      size: 120,
+      minSize: 120,
+    },
+
+    {
+      accessorKey: "keywordData",
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Keyword" />
+      ),
+      cell: ({ row }) => <div>{row.original.keywordData}</div>,
+      size: 150,
+      minSize: 150,
+    },
+
+    {
+      accessorKey: "submitPageURL",
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Submit Page URL" />
+      ),
+      cell: ({ row }) => <div>{row.original.submitPageURL}</div>,
+      size: 200,
+      minSize: 200,
+    },
+
+    {
+      accessorKey: "lpUrlData",
+      header: ({ column }) => (
+        <SortableHeader column={column} title="LP URL Data" />
+      ),
+      cell: ({ row }) => <div>{row.original.lpUrlData}</div>,
+      size: 150,
+      minSize: 150,
+    },
+
+    {
+      accessorKey: "gclidData",
+      header: ({ column }) => (
+        <SortableHeader column={column} title="GCLID Data" />
+      ),
+      cell: ({ row }) => <div>{row.original.gclidData}</div>,
+      size: 120,
+      minSize: 120,
+    },
+
+    {
+      accessorKey: "adNetwork",
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Ad Network" />
+      ),
+      cell: ({ row }) => <div>{row.original.adNetwork}</div>,
+      size: 120,
+      minSize: 120,
     },
     {
       accessorKey: "servicesRequested",
-      header: ({ column }) => <SortableHeader column={column} title="Services Requested" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Services Requested" />
+      ),
       cell: ({ row }) => <div>{row.original.servicesRequested}</div>,
+      size: 200,
+      minSize: 200,
     },
     {
       accessorKey: "gclid",
       header: ({ column }) => <SortableHeader column={column} title="GCLID" />,
       cell: ({ row }) => <div>{row.original.gclid}</div>,
-    },
-    {
-      accessorKey: "firstPageVisited",
-      header: ({ column }) => <SortableHeader column={column} title="First Page Visited" />,
-      cell: ({ row }) => <div>{row.original.firstPageVisited}</div>,
-    },
-    {
-      accessorKey: "MODIFIEDTIME",
-      header: ({ column }) => <SortableHeader column={column} title="Last Activity Time" />,
-      cell: ({ row }) => <div>{row.original.MODIFIEDTIME}</div>,
-    },
-    {
-      accessorKey: "totalInteractionTime",
-      header: ({ column }) => <SortableHeader column={column} title="Total Interaction Time (mins)" />,
-      cell: ({ row }) => <div>{row.original.totalInteractionTime}</div>,
-    },
-    {
-      accessorKey: "phoneNumber",
-      header: ({ column }) => <SortableHeader column={column} title="Phone" />,
-      cell: ({ row }) => <div>{row.original.phoneNumber}</div>,
-    },
-    {
-      accessorKey: "UserfullName",
-      header: ({ column }) => <SortableHeader column={column} title="Created By" />,
-      cell: ({ row }) => <div>{row.original.UserfullName}</div>,
-    },
-    {
-      accessorKey: "adCampaign",
-      header: ({ column }) => <SortableHeader column={column} title="Ad Campaign Name" />,
-      cell: ({ row }) => <div>{row.original.adCampaign}</div>,
-    },
-    {
-      accessorKey: "facebookAd",
-      header: ({ column }) => <SortableHeader column={column} title="FaceBook Ad" />,
-      cell: ({ row }) => <div>{row.original.facebookAd}</div>,
-    },
-    {
-      accessorKey: "firstName",
-      header: ({ column }) => <SortableHeader column={column} title="First Name" />,
-      cell: ({ row }) => <div>{row.original.firstName}</div>,
-    },
-    {
-      accessorKey: "lastName",
-      header: ({ column }) => <SortableHeader column={column} title="Last Name All" />,
-      cell: ({ row }) => <div>{row.original.lastName}</div>,
-    },
-    {
-      accessorKey: "keywordData",
-      header: ({ column }) => <SortableHeader column={column} title="Keyword" />,
-      cell: ({ row }) => <div>{row.original.keywordData}</div>,
-    },
-    {
-      accessorKey: "submitPageURL",
-      header: ({ column }) => <SortableHeader column={column} title="Submit Page URL" />,
-      cell: ({ row }) => <div>{row.original.submitPageURL}</div>,
-    },
-    {
-      accessorKey: "lpUrlData",
-      header: ({ column }) => <SortableHeader column={column} title="LP URL Data" />,
-      cell: ({ row }) => <div>{row.original.lpUrlData}</div>,
-    },
-    {
-      accessorKey: "gclidData",
-      header: ({ column }) => <SortableHeader column={column} title="GCLID Data" />,
-      cell: ({ row }) => <div>{row.original.gclidData}</div>,
-    },
-    {
-      accessorKey: "adNetwork",
-      header: ({ column }) => <SortableHeader column={column} title="Ad Network" />,
-      cell: ({ row }) => <div>{row.original.adNetwork}</div>,
+      size: 120,
+      minSize: 120,
     },
   ];
-
 
   const navigate = useNavigate();
   const sortableId = useId();
@@ -868,14 +1143,13 @@ const LeadsListView = () => {
     console.log("Data", dataSample);
   }, []);
 
-
   if (loading) return <TableSkeleton />;
 
   return (
-    <div className="mx-1 lg:mx-2 flex flex-col justify-start gap-6" >
+    <div className="mx-1 lg:mx-2 flex flex-col justify-start gap-6">
       <Tabs
         defaultValue="all-leads"
-        className="w-full flex-col justify-start gap-6"
+        className="w-full flex-col justify-start gap-2"
       >
         {/* HEADER */}
         <div className="flex items-center justify-end mx-1 lg:mx-2">
@@ -933,7 +1207,9 @@ const LeadsListView = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuItem onClick={() => setIsMassUpdateModalOpen(true)}>
+                <DropdownMenuItem
+                  onClick={() => setIsMassUpdateModalOpen(true)}
+                >
                   <IconDotsVertical className="mr-2 h-4 w-4" />
                   Mass Update
                 </DropdownMenuItem>
@@ -946,7 +1222,9 @@ const LeadsListView = () => {
                   Convert to Deal
                 </DropdownMenuItem>
                 <DropdownMenuSeparator /> */}
-                <DropdownMenuItem onClick={() => setIsColumnManageDrawerOpen(true)}>
+                <DropdownMenuItem
+                  onClick={() => setIsColumnManageDrawerOpen(true)}
+                >
                   <IconLayoutColumns className="mr-2 h-4 w-4" />
                   Manage Columns
                 </DropdownMenuItem>
@@ -972,9 +1250,17 @@ const LeadsListView = () => {
           value="all-leads"
           className="relative flex flex-col gap-4 overflow-auto mx-1 lg:mx-2"
         >
-          <div className="flex flex-col" style={{ height: 'calc(100vh - 250px)' }}>
-            <div className="flex-1 overflow-y-auto relative ">
-              <div className="relative border">
+          <div
+            className="flex flex-col"
+          >
+            <div className="flex-1 relative pb-20">
+              <div
+                className="relative  grid w-full border rounded"
+                style={{
+                  height: "calc(100vh - 140px)",
+                  maxHeight: "calc(100vh - 160px)"
+                }}
+              >
                 <DndContext
                   collisionDetection={closestCenter}
                   modifiers={[restrictToVerticalAxis]}
@@ -993,9 +1279,13 @@ const LeadsListView = () => {
                                 colSpan={header.colSpan}
                                 style={{
                                   width: header.getSize(),
-                                  position: 'relative',
+                                  position: "relative",
                                 }}
-                                className={header.column.id === "drag" ? "border-r border-dotted border-gray-600" : ""}
+                                className={
+                                  header.column.id === "drag"
+                                    ? "border-r border-dotted border-gray-600"
+                                    : ""
+                                }
                               >
                                 {header.isPlaceholder
                                   ? null
@@ -1007,9 +1297,10 @@ const LeadsListView = () => {
                                   <div
                                     onMouseDown={header.getResizeHandler()}
                                     onTouchStart={header.getResizeHandler()}
-                                    className={`absolute right-0 top-0 h-full w-1 cursor-col-resize select-none touch-none ${
-                                      header.column.getIsResizing() ? 'bg-primary' : 'bg-border hover:bg-primary/50'
-                                    }`}
+                                    className={`absolute right-0 top-0 h-full w-0.5 cursor-col-resize select-none touch-none ${header.column.getIsResizing()
+                                      ? "bg-primary"
+                                      : "bg-border hover:bg-primary/50"
+                                      }`}
                                   />
                                 )}
                               </TableHead>
@@ -1018,14 +1309,18 @@ const LeadsListView = () => {
                         </TableRow>
                       ))}
                     </TableHeader>
-                    <TableBody className="**:data-[slot=table-cell]:first:w-8">
+                    <TableBody className="**:data-[slot=table-cell]:first:w-8 overflow-hidden">
                       {table.getRowModel().rows?.length ? (
                         <SortableContext
                           items={dataIds}
                           strategy={verticalListSortingStrategy}
                         >
                           {table.getRowModel().rows.map((row) => (
-                            <DraggableRow key={row.id} row={row} />
+                            <DraggableRow
+                              key={row.id}
+                              row={row}
+                              navigate={navigate}
+                            />
                           ))}
                         </SortableContext>
                       ) : (
@@ -1051,14 +1346,17 @@ const LeadsListView = () => {
                 </DndContext>
               </div>
             </div>
-            <div className="fixed bottom-0 left-65 right-0 flex items-center justify-between px-4 border-t bg-background z-20">
+            <div className="fixed bottom-0 left-65 right-0 flex items-center justify-between px-4 py-2 border-t bg-background z-20">
               <div className="text-muted-foreground hidden flex-1 text-base lg:flex">
                 {table.getFilteredSelectedRowModel().rows.length} of{" "}
                 {table.getFilteredRowModel().rows.length} row(s) selected.
               </div>
               <div className="flex w-full items-center gap-8 lg:w-fit">
                 <div className="hidden items-center gap-2 lg:flex">
-                  <Label htmlFor="rows-per-page" className="text-base font-medium">
+                  <Label
+                    htmlFor="rows-per-page"
+                    className="text-base font-medium"
+                  >
                     Rows per page
                   </Label>
                   <Select
@@ -1067,7 +1365,11 @@ const LeadsListView = () => {
                       table.setPageSize(Number(value));
                     }}
                   >
-                    <SelectTrigger size="sm" className="w-20" id="rows-per-page">
+                    <SelectTrigger
+                      size="sm"
+                      className="w-20"
+                      id="rows-per-page"
+                    >
                       <SelectValue
                         placeholder={table.getState().pagination.pageSize}
                       />
@@ -1138,7 +1440,10 @@ const LeadsListView = () => {
             Tab 1
           </div>
         </TabsContent>
-        <TabsContent value="key-personnel" className="flex flex-col px-1 lg:px-1">
+        <TabsContent
+          value="key-personnel"
+          className="flex flex-col px-1 lg:px-1"
+        >
           <div className="aspect-video w-full flex-1 rounded-lg border border-dashed">
             {" "}
             Tab 2
@@ -1154,7 +1459,6 @@ const LeadsListView = () => {
           </div>
         </TabsContent>
       </Tabs>
-
 
       <TableDataDeleteAlert
         loading={deleteLoading}
@@ -1181,7 +1485,9 @@ const LeadsListView = () => {
         <MassUpdateModal
           isOpen={isMassUpdateModalOpen}
           onClose={() => setIsMassUpdateModalOpen(false)}
-          selectedLeads={table.getFilteredSelectedRowModel().rows.map(row => row.original)}
+          selectedLeads={table
+            .getFilteredSelectedRowModel()
+            .rows.map((row) => row.original)}
           fields={allColumns}
         />
       )}
@@ -1190,7 +1496,9 @@ const LeadsListView = () => {
         <MassUpdateEmailModal
           isOpen={isMassEmailModalOpen}
           onClose={() => setIsMassEmailModalOpen(false)}
-          selectedEmailLeads={table.getFilteredSelectedRowModel().rows.map(row => row.original)}
+          selectedEmailLeads={table
+            .getFilteredSelectedRowModel()
+            .rows.map((row) => row.original)}
           onSend={(emailData) => {
             // Simple handler: show success toast
             toast.success("Mass email sent successfully!");
@@ -1208,7 +1516,7 @@ const LeadsListView = () => {
             setVisibleColumns(newVisibleColumns);
             // Update columnVisibility state for TanStack Table using column IDs
             const visibilityMap = {};
-            allColumns.forEach(col => {
+            allColumns.forEach((col) => {
               const columnId = columnMapping[col];
               if (columnId) {
                 visibilityMap[columnId] = newVisibleColumns.includes(col);
@@ -1223,15 +1531,13 @@ const LeadsListView = () => {
         <LeadConvertDeal
           isOpen={isConvertDealModalOpen}
           onClose={() => setIsConvertDealModalOpen(false)}
-          selectedLeads={table.getFilteredSelectedRowModel().rows.map(row => row.original)}
+          selectedLeads={table
+            .getFilteredSelectedRowModel()
+            .rows.map((row) => row.original)}
         />
       )}
-
     </div>
-
-
   );
 };
 
 export default LeadsListView;
-

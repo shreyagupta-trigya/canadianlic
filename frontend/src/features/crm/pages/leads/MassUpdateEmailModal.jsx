@@ -202,10 +202,10 @@ const MassUpdateEmailModal = ({ isOpen, fields, selectedIds, selectedEmailLeads,
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={handleClose}>
+            <Button variant="destructive" onClick={handleClose}>
               Cancel
             </Button>
-            <Button onClick={sendMassEmail}>Send</Button>
+            <Button variant="primary" onClick={sendMassEmail}>Send</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -285,10 +285,10 @@ const MassUpdateEmailModal = ({ isOpen, fields, selectedIds, selectedEmailLeads,
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={closePreview}>
+            <Button variant="destructive" onClick={closePreview}>
               Close
             </Button>
-            <Button onClick={insertFromPreview}>
+            <Button variant="primary" onClick={insertFromPreview}>
               Insert This Template
             </Button>
           </DialogFooter>

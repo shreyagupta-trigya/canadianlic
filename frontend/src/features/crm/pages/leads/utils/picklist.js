@@ -28,31 +28,100 @@ export const insuranceLeadSourceOptions = [
   "Walk - Ins",
   "WhatsApp - Canadian LIC",
 ];
+export const insuranceStatusStageColorMap = {
+  "-None-": "#9e9e9e", // Grey
+  "Not Contacted": "#f44336", // Red
+  "Attempted to Contact": "#ff9800", // Orange
+  "Contact in Future": "#8bc34a", // Light Green
+  "Contacted & Not Interested": "#ce93d8", // Light Purple
+  "Pre-Qualified": "#7e57c2", // Dark Purple
+  "Appointment": "#3f51b5", // Indigo
+  "Quoted / In Process": "#26a69a", // Teal
+  "Confirmation of Application Go Ahead by Lead - Life": "#81c784", // Soft Green
+  "Confirmation of Application Go Ahead by Lead - Travel / Supervisa": "#4caf50", // Green
+  "Confirmation of Application Go Ahead by Lead - Investments": "#388e3c", // Darker Green
+  "Junk Lead": "#5d4037", // Brown
+  "Lost & Listed for Future Reactivation": "#b71c1c", // Dark Red
+  "Lost & Closed / Archived": "#1565c0", // Blue
+  "Escalated": "#7986cb", // Light Blue
+  "Not Qualified": "#607d8b", // Grey Blue
+  "Discovery Call": "#ff9800", // Orange
+  "Advisor Lead": "#7986cb" // Light Blue again for lack of distinct color
+};
+export const leadStatusStageColorMap = {
+  "-None-": "#9e9e9e", // Grey
+  "Not Contacted": "#f44336", // Red
+  "Email": "#3f51b5", // Indigo
+  "Call not Answered": "#ff5722", // Deep Orange
+  "Call Postponed by Lead": "#ba68c8", // Light Purple
+  "Call Scheduled": "#8bc34a", // Light Green
+  "Lead not Contactable from paid Ads": "#616161", // Dark Grey
+  "Wrong Number": "#b71c1c", // Dark Red
+  "Appointment Sought": "#7e57c2", // Medium Purple
+  "Appointment Fixed": "#4caf50", // Green
+  "Appointment Postponed": "#f8bbd0", // Light Pink
+  "Appointment Completed and Pending Quote Request": "#aed581", // Light Green
+  "Quoted": "#81c784", // Soft Green
+  "Quoted and Response Awaited": "#4db6ac", // Teal
+  "Info Shared (Travelers)": "#ff9800", // Orange
+  "Credit Card Info Pending/Provided": "#9e9e9e", // Grey
+  "Create Deal": "#757575", // Medium Grey
+  "Undecided": "#b71c1c", // Deep Red
+  "After 3 Months": "#e1bee7", // Light Purple
+  "After 5 Months": "#ce93d8", // Purple
+  "After 9 Months": "#ba68c8", // Purple
+  "After 1 Year": "#ab47bc" // Darker Purple
+};
 
 export const insuranceLeadStatusOptions = [
-  { value: "-None-", label: "-None-", color: "#FFFFFF" },
-  { value: "Not Contacted", label: "Not Contacted", color: "#4CAF50" },
-  { value: "Attempted to Contact", label: "Attempted to Contact", color: "#2196F3" },
-  { value: "Contact in Future", label: "Contact in Future", color: "#FF9800" },
-  { value: "Contacted & Not Interested", label: "Contacted & Not Interested", color: "#F44336" },
-  { value: "Pre-Qualified", label: "Pre-Qualified", color: "#9C27B0" },
-  { value: "Appointment", label: "Appointment", color: "#4CAF50" },
-  { value: "Quoted / In Process", label: "Quoted / In Process", color: "#2196F3" },
-  { value: "Confirmation of Application Go Ahead by Lead - Life", label: "Confirmation of Application Go Ahead by Lead - Life", color: "#FF9800" },
-  { value: "Confirmation of Application Go Ahead by Lead - Travel / Supervisa", label: "Confirmation of Application Go Ahead by Lead - Travel / Supervisa", color: "#9C27B0" },
-  { value: "Confirmation of Application Go Ahead by Lead - Investments", label: "Confirmation of Application Go Ahead by Lead - Investments", color: "#4CAF50" },
-  { value: "Junk Lead", label: "Junk Lead", color: "#F44336" },
-  { value: "Lost & Listed for Future Reactivation", label: "Lost & Listed for Future Reactivation", color: "#FF9800" },
-  { value: "Lost & Closed / Archived", label: "Lost & Closed / Archived", color: "#F44336" },
-  { value: "Escalated", label: "Escalated", color: "#9C27B0" },
-  { value: "Not Qualified", label: "Not Qualified", color: "#F44336" },
-  { value: "Discovery Call", label: "Discovery Call", color: "#2196F3" },
-  { value: "Advisor Lead", label: "Advisor Lead", color: "#4CAF50" },
+  { label: "-None-", value: "-None-", color: "#9e9e9e" },
+  { label: "Not Contacted", value: "Not Contacted", color: "#f44336" },
+  { label: "Attempted to Contact", value: "Attempted to Contact", color: "#ff9800" },
+  { label: "Contact in Future", value: "Contact in Future", color: "#8bc34a" },
+  { label: "Contacted & Not Interested", value: "Contacted & Not Interested", color: "#ce93d8" },
+  { label: "Pre-Qualified", value: "Pre-Qualified", color: "#7e57c2" },
+  { label: "Appointment", value: "Appointment", color: "#3f51b5" },
+  { label: "Quoted / In Process", value: "Quoted / In Process", color: "#26a69a" },
+  { label: "Confirmation of Application Go Ahead by Lead - Life", value: "Confirmation of Application Go Ahead by Lead - Life", color: "#81c784" },
+  { label: "Confirmation of Application Go Ahead by Lead - Travel / Supervisa", value: "Confirmation of Application Go Ahead by Lead - Travel / Supervisa", color: "#4caf50" },
+  { label: "Confirmation of Application Go Ahead by Lead - Investments", value: "Confirmation of Application Go Ahead by Lead - Investments", color: "#388e3c" },
+  { label: "Junk Lead", value: "Junk Lead", color: "#5d4037" },
+  { label: "Lost & Listed for Future Reactivation", value: "Lost & Listed for Future Reactivation", color: "#b71c1c" },
+  { label: "Lost & Closed / Archived", value: "Lost & Closed / Archived", color: "#1565c0" },
+  { label: "Escalated", value: "Escalated", color: "#7986cb" },
+  { label: "Not Qualified", value: "Not Qualified", color: "#607d8b" },
+  { label: "Discovery Call", value: "Discovery Call", color: "#ff9800" },
+  { label: "Advisor Lead", value: "Advisor Lead", color: "#7986cb" }
 ];
 
+export function getInsuranceLeadStatusColor(label) {
+  return insuranceStatusStageColorMap[label] || "#bdbdbd"; // fallback grey
+}
+
+
 export const leadStatusStageOption = [
-  { value: "-None-", label: "-None-", color: "#FFFFFF" },
-  { value: "Not Contacted", label: "Not Contacted", color: "#4CAF50" },
+  { label: "-None-", value: "-None-", color: "#9e9e9e" },
+  { label: "Not Contacted", value: "Not Contacted", color: "#f44336" },
+  { label: "Email", value: "Email", color: "#3f51b5" },
+  { label: "Call not Answered", value: "Call not Answered", color: "#ff5722" },
+  { label: "Call Postponed by Lead", value: "Call Postponed by Lead", color: "#ba68c8" },
+  { label: "Call Scheduled", value: "Call Scheduled", color: "#8bc34a" },
+  { label: "Lead not Contactable from paid Ads", value: "Lead not Contactable from paid Ads", color: "#616161" },
+  { label: "Wrong Number", value: "Wrong Number", color: "#b71c1c" },
+  { label: "Appointment Sought", value: "Appointment Sought", color: "#7e57c2" },
+  { label: "Appointment Fixed", value: "Appointment Fixed", color: "#4caf50" },
+  { label: "Appointment Postponed", value: "Appointment Postponed", color: "#f8bbd0" },
+  { label: "Appointment Completed and Pending Quote Request", value: "Appointment Completed and Pending Quote Request", color: "#aed581" },
+  { label: "Quoted", value: "Quoted", color: "#81c784" },
+  { label: "Quoted and Response Awaited", value: "Quoted and Response Awaited", color: "#4db6ac" },
+  { label: "Info Shared (Travelers)", value: "Info Shared (Travelers)", color: "#ff9800" },
+  { label: "Credit Card Info Pending/Provided", value: "Credit Card Info Pending/Provided", color: "#9e9e9e" },
+  { label: "Create Deal", value: "Create Deal", color: "#757575" },
+  { label: "Undecided", value: "Undecided", color: "#b71c1c" },
+  { label: "After 3 Months", value: "After 3 Months", color: "#e1bee7" },
+  { label: "After 5 Months", value: "After 5 Months", color: "#ce93d8" },
+  { label: "After 9 Months", value: "After 9 Months", color: "#ba68c8" },
+  { label: "After 1 Year", value: "After 1 Year", color: "#ab47bc" }
 ];
 
 export const referredByOptions = [

@@ -54,6 +54,97 @@ const Email = () => {
       message: "Upgraded Offer! Especially for you. Click here to see more details and enjoy the benefits.",
       time: "11:20 AM",
     },
+    {
+      name: "Paytm",
+      email: "paytm@example.com",
+      subject: "Upgraded Offer",
+      message: "Upgraded Offer! Especially for you. Click here to see more details and enjoy the benefits.",
+      time: "11:20 AM",
+    },
+    {
+      name: "Paytm",
+      email: "paytm@example.com",
+      subject: "Upgraded Offer",
+      message: "Upgraded Offer! Especially for you. Click here to see more details and enjoy the benefits.",
+      time: "11:20 AM",
+    },
+    {
+      name: "Paytm",
+      email: "paytm@example.com",
+      subject: "Upgraded Offer",
+      message: "Upgraded Offer! Especially for you. Click here to see more details and enjoy the benefits.",
+      time: "11:20 AM",
+    },
+    {
+      name: "Paytm",
+      email: "paytm@example.com",
+      subject: "Upgraded Offer",
+      message: "Upgraded Offer! Especially for you. Click here to see more details and enjoy the benefits.",
+      time: "11:20 AM",
+    },
+    {
+      name: "Paytm",
+      email: "paytm@example.com",
+      subject: "Upgraded Offer",
+      message: "Upgraded Offer! Especially for you. Click here to see more details and enjoy the benefits.",
+      time: "11:20 AM",
+    },
+    {
+      name: "Paytm",
+      email: "paytm@example.com",
+      subject: "Upgraded Offer",
+      message: "Upgraded Offer! Especially for you. Click here to see more details and enjoy the benefits.",
+      time: "11:20 AM",
+    },
+    {
+      name: "Paytm",
+      email: "paytm@example.com",
+      subject: "Upgraded Offer",
+      message: "Upgraded Offer! Especially for you. Click here to see more details and enjoy the benefits.",
+      time: "11:20 AM",
+    },
+    {
+      name: "Paytm",
+      email: "paytm@example.com",
+      subject: "Upgraded Offer",
+      message: "Upgraded Offer! Especially for you. Click here to see more details and enjoy the benefits.",
+      time: "11:20 AM",
+    },
+    {
+      name: "Paytm",
+      email: "paytm@example.com",
+      subject: "Upgraded Offer",
+      message: "Upgraded Offer! Especially for you. Click here to see more details and enjoy the benefits.",
+      time: "11:20 AM",
+    },
+    {
+      name: "Paytm",
+      email: "paytm@example.com",
+      subject: "Upgraded Offer",
+      message: "Upgraded Offer! Especially for you. Click here to see more details and enjoy the benefits.",
+      time: "11:20 AM",
+    },
+    {
+      name: "Paytm",
+      email: "paytm@example.com",
+      subject: "Upgraded Offer",
+      message: "Upgraded Offer! Especially for you. Click here to see more details and enjoy the benefits.",
+      time: "11:20 AM",
+    },
+    {
+      name: "Paytm",
+      email: "paytm@example.com",
+      subject: "Upgraded Offer",
+      message: "Upgraded Offer! Especially for you. Click here to see more details and enjoy the benefits.",
+      time: "11:20 AM",
+    },
+    {
+      name: "Paytm",
+      email: "paytm@example.com",
+      subject: "Upgraded Offer",
+      message: "Upgraded Offer! Especially for you. Click here to see more details and enjoy the benefits.",
+      time: "11:20 AM",
+    },
   ]);
 
   const toggleComposeMailDrawer = () => {
@@ -89,13 +180,13 @@ const Email = () => {
             />
           </div>
         </div>
-        <Button onClick={toggleComposeMailDrawer} className="w-full md:w-auto">
+        <Button onClick={toggleComposeMailDrawer} className="w-full bg-blue-500 hover:bg-blue-600 cursor-pointer md:w-auto">
           Send Email
         </Button>
       </div>
 
       {/* Messages List */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto max-h-[calc(80vh-100px)] overflow-y-scroll">
         <table className="w-full table-auto border-collapse">
           <thead>
             <tr className="border">

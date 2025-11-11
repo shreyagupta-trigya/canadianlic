@@ -409,11 +409,11 @@ const AdvisorsListNew = () => {
       advDob: 120,
       advDoh: 120,
       advCessD: 120,
-      advEOPolNum: 120,
-      advLicNum: 120,
-      isLlqpLicensed: 120,
-      insuranceLeadOwner: 150,
-      insuranceLeadSource: 150,
+      advEOPolNum: 180,
+      advLicNum: 150,
+      isLlqpLicensed: 200,
+      insuranceLeadOwner: 200,
+      insuranceLeadSource: 200,
       leadStatusStage: 150,
       assignedAdvisor: 150,
       gender: 100,
@@ -647,6 +647,15 @@ const AdvisorsListNew = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-32">
+              <DropdownMenuItem
+                onClick={() =>
+                  navigate(`/crm/leads/details/${row.original.ROWID}`, {
+                    state: row.original,
+                  })
+                }
+              >
+                Detail view
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => navigate(`/crm/advisor/details/${row.original.ROWID}`, { state: row.original })}>
                 Edit
               </DropdownMenuItem>
@@ -902,7 +911,7 @@ const AdvisorsListNew = () => {
     <div className="mx-1 lg:mx-2 flex flex-col justify-start gap-6" >
       <Tabs
         defaultValue="all-leads"
-        className="w-full flex-col justify-start gap-6"
+        className="w-full flex-col justify-start gap-2"
       >
         {/* HEADER */}
         <div className="flex items-center justify-end mx-1 lg:mx-2">
@@ -1000,9 +1009,15 @@ const AdvisorsListNew = () => {
           className="relative flex flex-col gap-4 overflow-auto mx-1 lg:mx-2"
         >
           {viewMode === "table" ? (
-            <div className="flex flex-col" style={{ height: 'calc(100vh - 250px)' }}>
-              <div className="flex-1 overflow-y-auto relative ">
-                <div className="relative border">
+            <div className="flex flex-col">
+              <div className="flex-1 relative pb-20">
+                <div
+                  className="relative grid w-full border rounded"
+                  style={{
+                    height: "calc(100vh - 140px)",
+                    maxHeight: "calc(100vh - 160px)"
+                  }}
+                >
                   <DndContext
                     collisionDetection={closestCenter}
                     modifiers={[restrictToVerticalAxis]}
@@ -1035,7 +1050,7 @@ const AdvisorsListNew = () => {
                                     <div
                                       onMouseDown={header.getResizeHandler()}
                                       onTouchStart={header.getResizeHandler()}
-                                      className={`absolute right-0 top-0 h-full w-1 cursor-col-resize select-none touch-none ${header.column.getIsResizing() ? 'bg-primary' : 'bg-border hover:bg-primary/50'
+                                      className={`absolute right-0 top-0 h-full w-0.5 cursor-col-resize select-none touch-none ${header.column.getIsResizing() ? 'bg-primary' : 'bg-border hover:bg-primary/50'
                                         }`}
                                     />
                                   )}
@@ -1045,7 +1060,7 @@ const AdvisorsListNew = () => {
                           </TableRow>
                         ))}
                       </TableHeader>
-                      <TableBody className="**:data-[slot=table-cell]:first:w-8">
+                      <TableBody className="**:data-[slot=table-cell]:first:w-8 overflow-hidden">
                         {table.getRowModel().rows?.length ? (
                           <SortableContext
                             items={dataIds}
@@ -1078,7 +1093,7 @@ const AdvisorsListNew = () => {
                   </DndContext>
                 </div>
               </div>
-              <div className="fixed bottom-0 left-65 right-0 flex items-center justify-between px-4 border-t bg-background z-20">
+              <div className="fixed bottom-0 left-65 right-0 flex items-center justify-between px-4 py-2 border-t bg-background z-20">
                 <div className="text-muted-foreground hidden flex-1 text-base lg:flex">
                   {table.getFilteredSelectedRowModel().rows.length} of{" "}
                   {table.getFilteredRowModel().rows.length} row(s) selected.

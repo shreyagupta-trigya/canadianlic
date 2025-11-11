@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Drawer, DrawerContent } from '../../../components/ui/drawer';
+import { Drawer, DrawerContent, DrawerHeader, DrawerFooter, DrawerTitle, DrawerClose } from '../../../components/ui/drawer';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,15 +25,14 @@ const CallNowDrawer = ({ isOpen, onClose }) => {
   return (
     <Drawer open={isOpen} onOpenChange={onClose} direction="right">
       <DrawerContent className="w-full max-w-2xl">
-        <div className="p-6 space-y-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold">Call Now</h2>
-          <Button variant="ghost" size="sm" onClick={onClose}>
-            ✕
-          </Button>
-        </div>
+        <DrawerHeader className="flex flex-row items-center justify-between">
+          <DrawerTitle>Call Now</DrawerTitle>
+          <DrawerClose asChild>
+            <Button variant="ghost" size="sm">✕</Button>
+          </DrawerClose>
+        </DrawerHeader>
 
-        <div className="space-y-6">
+        <div className="p-6 space-y-6 max-h-[calc(100vh-100px)] overflow-y-scroll">
           <div>
             <h3 className="text-lg font-semibold mb-4">Call Information</h3>
 
@@ -90,17 +89,18 @@ const CallNowDrawer = ({ isOpen, onClose }) => {
               </div>
             </div>
           </div>
+        </div>
 
-          <div className="flex justify-end space-x-2">
-            <Button variant="outline" onClick={onClose}>
-              Cancel
-            </Button>
-            <Button onClick={handleSubmit}>
+        <DrawerFooter>
+          <div className="flex gap-2 justify-center">
+            <Button className="bg-blue-500 hover:bg-blue-600 text-white" onClick={handleSubmit}>
               Call
             </Button>
+            <Button variant="destructive" onClick={onClose}>
+              Reset
+            </Button>
           </div>
-        </div>
-        </div>
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );

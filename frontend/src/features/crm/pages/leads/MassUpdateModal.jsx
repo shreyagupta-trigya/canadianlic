@@ -66,10 +66,10 @@ const MassUpdateModal = ({ isOpen, fields, onClose, onUpdate }) => {
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={handleClose}>
+          <Button variant="destructive" onClick={handleClose}>
             Cancel
           </Button>
-          <Button onClick={handleUpdate}>Update</Button>
+          <Button variant="primary" onClick={handleUpdate}>Update</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

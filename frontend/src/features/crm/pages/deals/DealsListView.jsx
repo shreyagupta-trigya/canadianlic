@@ -169,23 +169,30 @@ function SortableHeader({ column, title }) {
   );
 }
 
-function DraggableRow({ row }) {
+function DraggableRow({ row, navigate }) {
 
   const { transform, transition, setNodeRef, isDragging } = useSortable({
     id: row.original.ROWID,
   });
   console.log(row.original.dateValue);
 
+  const handleRowClick = () => {
+    if (!isDragging) {
+      navigate(`/crm/deals/details/${row.original.ROWID}`, { state: row.original });
+    }
+  };
+
   return (
     <TableRow
       data-state={row.getIsSelected() && "selected"}
       data-dragging={isDragging}
       ref={setNodeRef}
-      className="relative z-0 data-[dragging=true]:z-10 data-[dragging=true]:opacity-80"
+      className="relative z-0 data-[dragging=true]:z-10 data-[dragging=true]:opacity-80 cursor-pointer hover:bg-muted/50"
       style={{
         transform: CSS.Transform.toString(transform),
         transition: transition,
       }}
+      onClick={handleRowClick}
     >
       {row.getVisibleCells().map((cell) => (
         <TableCell key={cell.id}>
@@ -532,7 +539,11 @@ const DealsListView = () => {
     {
       id: "drag",
       header: "",
-      cell: ({ row }) => <DragHandle id={row.original.ROWID} />,
+      cell: ({ row }) => (
+        <div onClick={(e) => e.stopPropagation()}>
+          <DragHandle id={row.original.ROWID} />
+        </div>
+      ),
       enableSorting: false,
       enableHiding: false,
       size: 40,
@@ -541,7 +552,7 @@ const DealsListView = () => {
     {
       id: "select",
       header: ({ table }) => (
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center"  onClick={(e) => e.stopPropagation()}>
           <Checkbox
             checked={
               table.getIsAllPageRowsSelected() ||
@@ -553,7 +564,7 @@ const DealsListView = () => {
         </div>
       ),
       cell: ({ row }) => (
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center"  onClick={(e) => e.stopPropagation()}>
           <Checkbox
             checked={row.getIsSelected()}
             onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -951,7 +962,7 @@ const DealsListView = () => {
                           strategy={verticalListSortingStrategy}
                         >
                           {table.getRowModel().rows.map((row) => (
-                            <DraggableRow key={row.id} row={row} />
+                            <DraggableRow key={row.id} row={row} navigate={navigate} />
                           ))}
                         </SortableContext>
                       ) : (

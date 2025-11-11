@@ -180,10 +180,10 @@ const CampaignDrawer = ({ isOpen, onClose, maxWidth = "75%", speed = 300, backgr
         {loading && <div className="text-center py-2">Loading...</div>}
         <DrawerFooter className="flex justify-center">
           <div className="flex gap-2 justify-center">
-            <Button className="btn btn-info" onClick={submit}>
+            <Button className="btn btn-info" onClick={submit} variant="primary" >
               Submit
             </Button>
-            <Button className="btn btn-danger" onClick={onClose}>
+            <Button className="btn btn-danger" onClick={onClose} variant="destructive">
               Reset
             </Button>
           </div>

@@ -64,6 +64,7 @@ const ReferralClient = ({ leadId }) => {
     phone: '',
   });
   const [selectedRows, setSelectedRows] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (leadId && !referralClients.length) {
@@ -117,17 +118,20 @@ const ReferralClient = ({ leadId }) => {
 
   return (
     <div className="mx-1 lg:mx-2 flex flex-col justify-start gap-6">
-      <div className="flex items-center justify-end mx-1 lg:mx-2">
+      
+      <div className="flex justify-between items-center mb-4">
+        <div className="relative w-full lg:w-2/6 md:w-2/6 sm:w-full">
+          <Input
+            className="pl-4 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            type="search"
+            placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
+        </div>
         <div className="flex items-center gap-2">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground size-4" />
-            <Input
-              type="search"
-              placeholder="Search"
-              className="pl-10 w-64"
-              onChange={handleSearch}
-            />
-          </div>
+     
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm">
@@ -146,12 +150,12 @@ const ReferralClient = ({ leadId }) => {
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
               <Button
-                className="cursor-pointer"
-                variant="outline"
+                className="cursor-pointer "
+                variant="primary"
                 size="sm"
               >
                 <Plus />
-                <span className="hidden lg:inline">Add New</span>
+                <span className="hidden  lg:inline">Add New</span>
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[600px]">

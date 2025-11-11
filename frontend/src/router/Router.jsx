@@ -10,6 +10,7 @@ import LeadLayout from "@/features/crm/pages/leads/layout/LeadLayout";
 import ContactLayout from "@/features/crm/pages/contacts/layout/ContactLayout";
 import AccountLayout from "@/features/crm/pages/accounts/layout/AccountLayout";
 import OfferingLayout from "@/features/crm/pages/offerings/layout/OfferingLayout";
+import CustomerServiceLayout from "@/features/crm/pages/customerService/layout/CustomerServiceLayout";
 import AdvisorsListNew from "@/features/crm/pages/advisor/AdvisorsListNew";
 import LeadAdvisorForm from "@/features/crm/pages/advisor/LeadAdvisorForm";
 import AdvisorDetailsView from "@/features/crm/pages/advisor/AdvisorDetailsView";
@@ -223,11 +224,10 @@ import { JobWorkList } from "@/features/jobWork/pages/JobWorkList";
 import JobWorkForm from "@/features/jobWork/pages/JobWorkForm";
 import JobWorkDetail from "@/features/jobWork/pages/JobWorkDetail";
 import UsersDetail from "@/features/portal/manageUsers/users/pages/UsersDetail";
-import ContactsListView from "@/features/crm/pages/contacts/ContactsListView";
-import NewContactList from "@/features/crm/pages/contacts/NewContactList";
 import ContactList from "@/features/crm/pages/contacts/ContactList";
+import CustomerServiceForm from "@/features/crm/pages/customerService/CustomerServiceForm";
 import ContactClientForm from "@/features/crm/pages/contacts/contactForm/ContactClientForm";
-import ContactListView from "@/features/crm/pages/contacts/ContactListView";
+import PolicyList from "@/features/crm/pages/policies/PolicyList";
 
 
 
@@ -285,6 +285,10 @@ const OfferingForm = lazy(() => import("@/features/crm/pages/offerings/OfferingF
 const OfferingListView = lazy(() => import("@/features/crm/pages/offerings/OfferingListView"));
 const OfferingDetailsView = lazy(() => import("@/features/crm/pages/offerings/OfferingDetailsView"));
 
+// CUSTOMER SERVICE MODULE
+const CustomerServiceListView = lazy(() => import("@/features/crm/pages/customerService/CustomerServiceListView"));
+const CustomerServiceDetailView = lazy(() => import("@/features/crm/pages/customerService/CustomerServiceDetailView"));
+
 export default function AppRoutes() {
   return (
     <Suspense fallback={<Loader />}>
@@ -318,12 +322,11 @@ export default function AppRoutes() {
             </Route>
             {/* <Route path="contacts" element={<Contacts />} /> */}
             <Route path="contacts" element={<ContactLayout />}>
-              {/* <Route path="" element={<ContactList/>} /> */}
-              <Route path="" element={<ContactListView/>} />
+              <Route path="" element={<ContactList/>} />
               <Route path="create" element={<ContactClientForm />} />
               <Route path="update" element={<ContactsForm />} />
-              <Route path="details" element={<ContactDetailView />} />
-               <Route path="activity" element={<ContactActivityForm />} />
+              <Route path="details/:id" element={<ContactDetailView />} />
+               <Route path=" activity" element={<ContactActivityForm />} />
             </Route>
             {/* <Route path="accounts" element={<Accounts />} /> */}
             <Route path="accounts" element={<AccountLayout />}>
@@ -365,6 +368,12 @@ export default function AppRoutes() {
               <Route path="advisor-leads-form" element={<LeadAdvisorForm />} />
               <Route path="details/:id" element={<AdvisorDetailsView />} />
             </Route>
+            <Route path="customerService" element={<CustomerServiceLayout />}>
+              <Route path="" element={<CustomerServiceListView />} />
+              <Route path="create" element={<CustomerServiceForm />} />
+              <Route path="details/:id" element={<CustomerServiceDetailView />} />
+            </Route>
+            <Route path="policies" element={<PolicyList />} />
            <Route path="list" element={<ActivityMasterList />} />
           </Route>
 

@@ -118,7 +118,7 @@ const Whatsapp = ({ phoneNumber }) => {
             onChange={(e) => setMessageToSend(e.target.value)}
           />
           <div className=" ms-3     " onClick={sendMessage}>
-           <FiSend size={45} className='mt-1 border h-15 w-18 p-2 bg-blue-500 rounded-full' />
+           <FiSend size={45} className='mt-1 border h-15 w-18 p-2 bg-[#25D366] text-white rounded-full' />
           </div>
           </div>
         </div>

@@ -74,11 +74,11 @@ function FormCard({
     return (
         <Comp
             data-slot="card"
-            className={cn('border rounded-2xl mt-5 w-full px-5 py-5', className)}
+            className={cn('border rounded-2xl mt-2 w-full px-5 py-5', className)}
             {...props}
         >
             {title && <FormSubHeading>{checkBox && <Checkbox className={'mr-3'} id="terms" checked={value} onCheckedChange={setValue} />}{title}</FormSubHeading>}
-            <div className="my-7">
+            <div className="my-4">
                 {children}
             </div>
         </Comp>

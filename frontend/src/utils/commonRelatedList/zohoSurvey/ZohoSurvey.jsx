@@ -27,21 +27,19 @@ const ZohoSurvey = () => {
     <div>
       <ZohoSurveyDrawer isOpen={isDrawerOpen} onClose={closeDrawer} />
       <div className="row">
-        <div className="flex justify-between items-center p-3">
-          <div className="search-container-div col-lg-10 col-md-10 col-sm-12">
-            <div className="relative">
-              <Input
-                type="search"
-                placeholder="Search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pr-10"
-              />
-              <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-            </div>
+        <div className="flex justify-between items-center mb-4">
+          <div className="relative w-full lg:w-2/6 md:w-2/6 sm:w-full">
+            <Input
+              className="pl-4 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type="search"
+              placeholder="Search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
           </div>
           <div className="button">
-            <Button onClick={toggleDrawer} className="px-2 py-1  bg-white text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white">
+            <Button variant="primary" onClick={toggleDrawer} className="px-2 py-1 ">
               Send Survey
             </Button>
           </div>
