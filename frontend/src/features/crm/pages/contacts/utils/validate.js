@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-// Placeholder for validate utility
-// Migrated from Vue: validate.js
-
-// Add validation logic here
-=======
 function validateMandatoryFields(formData, requiredFields) {
   const errors = {};
 
@@ -17,4 +11,3 @@ function validateMandatoryFields(formData, requiredFields) {
 }
 
 export default validateMandatoryFields;
->>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16

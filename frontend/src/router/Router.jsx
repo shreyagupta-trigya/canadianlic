@@ -47,12 +47,7 @@ import ShipmentDetail from "@/features/finance/pages/sales/shipments/ShipmentDet
 const Contacts = lazy(() =>
   import("@/features/crm/pages/contacts/ContactsListView")
 );
-const ContactsForm = lazy(() =>
-  import("@/features/crm/pages/contacts/ContactForm")
-);
-const ContactDetailView = lazy(() =>
-  import("@/features/crm/pages/contacts/ContactDetailView")
-);
+
 
 // ACCOUNT MODULE
 const Accounts = lazy(() =>
@@ -224,11 +219,9 @@ import { JobWorkList } from "@/features/jobWork/pages/JobWorkList";
 import JobWorkForm from "@/features/jobWork/pages/JobWorkForm";
 import JobWorkDetail from "@/features/jobWork/pages/JobWorkDetail";
 import UsersDetail from "@/features/portal/manageUsers/users/pages/UsersDetail";
-import ContactList from "@/features/crm/pages/contacts/ContactList";
+import ContactsListView from "@/features/crm/pages/contacts/ContactsListView";
 import CustomerServiceForm from "@/features/crm/pages/customerService/CustomerServiceForm";
 import ContactClientForm from "@/features/crm/pages/contacts/contactForm/ContactClientForm";
-import PolicyList from "@/features/crm/pages/policies/PolicyList";
-import PolicyLayout from "@/features/crm/pages/policies/layout/PolicyLayout";
 
 
 
@@ -323,10 +316,10 @@ export default function AppRoutes() {
             </Route>
             {/* <Route path="contacts" element={<Contacts />} /> */}
             <Route path="contacts" element={<ContactLayout />}>
-              <Route path="" element={<ContactList/>} />
+              <Route path="" element={<ContactsListView/>} />
               <Route path="create" element={<ContactClientForm />} />
-              <Route path="update" element={<ContactsForm />} />
-              <Route path="details/:id" element={<ContactDetailView />} />
+              {/* <Route path="update" element={<ContactsForm />} /> */}
+              {/* <Route path="details/:id" element={<ContactDetailView />} /> */}
                <Route path=" activity" element={<ContactActivityForm />} />
             </Route>
             {/* <Route path="accounts" element={<Accounts />} /> */}
@@ -374,10 +367,7 @@ export default function AppRoutes() {
               <Route path="create" element={<CustomerServiceForm />} />
               <Route path="details/:id" element={<CustomerServiceDetailView />} />
             </Route>
-            <Route path="policies" element={<PolicyLayout />} >
-            <Route path="" element={<PolicyList />} />
            <Route path="list" element={<ActivityMasterList />} />
-           </Route>
           </Route>
 
           <Route path="jobWork" element={<JobWorkLayout />}>

@@ -85,10 +85,6 @@ const data = {
           url: "/crm/customerService",
         },
         {
-          title: "Policies",
-          url: "/crm/policies",
-        },
-        {
           title: "Contacts",
           // url: "/crm/leads",
           items: [

@@ -288,6 +288,9 @@ const CustomerServiceDetailView = () => {
               <SelectItem value="conversations">Conversations</SelectItem>
               <SelectItem value="attachments">Attachments</SelectItem>
               <SelectItem value="comms">Comms</SelectItem>
+              <SelectItem value="open-activity">Open Activity</SelectItem>
+              <SelectItem value="close-activity">Close Activity</SelectItem>
+              <SelectItem value="zoho-survey">Zoho Survey</SelectItem>
             </SelectContent>
           </Select>
           <TabsList className="hidden lg:flex **:data-[slot=badge]:bg-muted-foreground/30 **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:px-1">
@@ -295,6 +298,9 @@ const CustomerServiceDetailView = () => {
             <TabsTrigger value="conversations">Conversations ({comments.length})</TabsTrigger>
             <TabsTrigger value="attachments">Attachments</TabsTrigger>
             <TabsTrigger value="comms">Comms</TabsTrigger>
+            <TabsTrigger value="open-activity">Open Activity</TabsTrigger>
+            <TabsTrigger value="close-activity">Close Activity</TabsTrigger>
+            <TabsTrigger value="zoho-survey">Zoho Survey</TabsTrigger>
 
           </TabsList>
           <div className="flex items-right gap-2"></div>
@@ -707,60 +713,30 @@ const CustomerServiceDetailView = () => {
             </TabsContent>
           </Tabs>
         </TabsContent>
-{/* 
+
         <TabsContent
-          value="referralLead"
+          value="open-activity"
           className="flex flex-col px-2"
           style={{ border: "none" }}
         >
-          <ReferralLead />
+          <OpenActivity />
         </TabsContent>
 
         <TabsContent
-          value="referralClient"
+          value="close-activity"
           className="flex flex-col px-2"
           style={{ border: "none" }}
         >
-          <ReferralClient />
+          <CloseActivity />
         </TabsContent>
 
         <TabsContent
-          value="offering"
+          value="zoho-survey"
           className="flex flex-col px-2"
           style={{ border: "none" }}
         >
-          <Offering />
-        </TabsContent> */}
-{/* 
-        <TabsContent
-          value="dynamic"
-          className="flex flex-col px-2"
-          style={{ border: "none" }}
-        >
-          <div className="mb-4">
-            <Select value={dynamicTabValue} onValueChange={handleDropdownChange}>
-              <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder="Select an option" />
-              </SelectTrigger>
-              <SelectContent>
-                {dynamicOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          {dynamicTabValue === "open-activity" && <OpenActivity />}
-          {dynamicTabValue === "campaign" && <div>Campaign component here</div>}
-          {dynamicTabValue === "remote-assist" && <RemoteAssist />}
-          {dynamicTabValue === "ringcentral-sms" && <div>RingCentral SMS component here</div>}
-          {dynamicTabValue === "ringcentral-widget" && <RingCentralWidget />}
-          {dynamicTabValue === "session-recording" && <SessionRecording />}
-          {dynamicTabValue === "zoho-sales-iq" && <ZohoSalesIQ />}
-          {dynamicTabValue === "zoho-survey" && <ZohoSurvey />}
-          {dynamicTabValue === "close-activity" && <CloseActivity />}
-        </TabsContent> */}
+          <ZohoSurvey />
+        </TabsContent>
       </Tabs>
     </>
   );
