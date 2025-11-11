@@ -41,21 +41,18 @@ const RingCentralCMS = () => {
 
   return (
     <div>
-      <div className="row">
-        <div className="d-flex justify-content-between align-items-center">
-          <div className="search-container-div col-lg-10 col-md-10 col-sm-12">
-            <div className="relative">
-              <Input
-                className="search-input"
-                type="search"
-                placeholder="Search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <Search className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500" />
-            </div>
-          </div>
+      <div className="flex justify-between items-center mb-4">
+        <div className="relative w-full lg:w-2/6 md:w-2/6 sm:w-full">
+          <Input
+            className="pl-4 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            type="search"
+            placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
         </div>
+      </div>
         <div className="border overflow-scroll custom-scroll px-0 mt-3">
           <Table className="table table-striped custom-scroll">
             <TableHeader>
@@ -84,7 +81,6 @@ const RingCentralCMS = () => {
             </TableBody>
           </Table>
         </div>
-      </div>
     </div>
   );
 };

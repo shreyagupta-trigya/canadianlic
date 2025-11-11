@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { Drawer, DrawerContent } from '../../../components/ui/drawer';
+import { Drawer, DrawerContent, DrawerHeader, DrawerFooter, DrawerTitle, DrawerClose } from '../../../components/ui/drawer';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -122,18 +122,17 @@ const OpenActivityDrawer = ({ isOpen, onClose, addTask, updateData, updateTask, 
 
   return (
     <Drawer open={isOpen} onOpenChange={onClose} direction="right">
-      <DrawerContent   className="w-full max-w-2xl">
-        <div className="p-6 space-y-6 max-h-[100vh] overflow-y-scroll">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold">
+      <DrawerContent className="w-full max-w-2xl">
+        <DrawerHeader className="flex flex-row items-center justify-between">
+          <DrawerTitle>
             {selectedButton === 'Update' ? 'Update Task' : 'Add Task'}
-          </h2>
-          <Button variant="ghost" size="sm" onClick={onClose}>
-            ✕
-          </Button>
-        </div>
+          </DrawerTitle>
+          <DrawerClose asChild>
+            <Button variant="ghost" size="sm">✕</Button>
+          </DrawerClose>
+        </DrawerHeader>
 
-        <div className="space-y-4">
+        <div className="p-6 space-y-4 max-h-[calc(100vh-100px)] overflow-y-scroll">
           <div className="space-y-2">
             <Label htmlFor="subject">Subject</Label>
             <Input
@@ -272,17 +271,18 @@ const OpenActivityDrawer = ({ isOpen, onClose, addTask, updateData, updateTask, 
               </CardContent>
             </Card>
           )}
+        </div>
 
-          <div className="flex justify-end space-x-2 pt-4">
-            <Button variant="outline" onClick={onClose}>
+        <DrawerFooter>
+          <div className="flex gap-2 justify-center">
+            <Button className="bg-blue-500 hover:bg-blue-600 text-white" onClick={selectedButton === 'Update' ? handleUpdateTask : handleSubmit}>
+              Submit
+            </Button>
+            <Button variant="destructive" onClick={onClose}>
               Cancel
             </Button>
-            <Button onClick={selectedButton === 'Update' ? handleUpdateTask : handleSubmit}>
-              {selectedButton === 'Update' ? 'Update' : 'Add'}
-            </Button>
           </div>
-        </div>
-        </div>
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );

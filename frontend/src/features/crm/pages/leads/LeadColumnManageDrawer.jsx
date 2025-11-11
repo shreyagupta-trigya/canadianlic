@@ -70,7 +70,7 @@ const LeadColumnManageDrawer = ({ isOpen, visibleColumns, allColumns, onClose, o
             onChange={(e) => setSearchText(e.target.value)}
             className="mb-4"
           />
-          <div className="space-y-2 max-h-96 overflow-y-auto">
+          <div className="space-y-2 max-h-[calc(90vh-150px)] overflow-y-auto">
             {filteredColumns.map(col => (
               <div key={col.label} className="flex items-center space-x-2">
                 <Checkbox
@@ -83,12 +83,15 @@ const LeadColumnManageDrawer = ({ isOpen, visibleColumns, allColumns, onClose, o
             ))}
           </div>
         </div>
-        <DrawerFooter>
-          <Button onClick={handleUpdateVisibleList}>Save</Button>
-          <Button variant="outline" onClick={onClose}>
-            Cancel
-          </Button>
-        </DrawerFooter>
+     
+         <DrawerFooter>
+                  <div className="flex gap-2 justify-center">
+                    <Button className=" text-white" variant="primary" onClick={handleUpdateVisibleList}>Save</Button>
+                    <Button variant="destructive" onClick={onClose}>
+                      Reset
+                    </Button>
+                  </div>
+                </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );

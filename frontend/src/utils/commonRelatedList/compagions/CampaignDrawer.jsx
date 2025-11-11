@@ -124,28 +124,28 @@ const CampaignDrawer = ({ isOpen, onClose, maxWidth = "75%", speed = 300, backgr
             <Table className="table table-striped">
               <TableHeader>
                 <TableRow>
-                  <TableHead className="ps-2 pe-1 pb-0">
-                    <Checkbox onCheckedChange={toggleSelectAll} />
+                  <TableHead className="w-12 px-4 py-3">
+                    <Checkbox onCheckedChange={toggleSelectAll} className="w-4 h-4" />
                   </TableHead>
-                  <TableHead className="px-1">Type</TableHead>
-                  <TableHead className="px-1">Campaign Name</TableHead>
-                  <TableHead className="px-1">Status</TableHead>
-                  <TableHead className="px-1">Start Date</TableHead>
-                  <TableHead className="px-1">End Date</TableHead>
-                  <TableHead className="px-1">Expected Revenue</TableHead>
-                  <TableHead className="px-1">Campaign Subject</TableHead>
-                  <TableHead className="px-1">Sender Name</TableHead>
-                  <TableHead className="px-1">Sender Address</TableHead>
-                  <TableHead className="px-1">Reply-to Address</TableHead>
-                  <TableHead className="px-1">Survey Department</TableHead>
-                  <TableHead className="px-1">Survey Type</TableHead>
-                  <TableHead className="px-1">Survey</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Type</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Campaign Name</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Start Date</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">End Date</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Expected Revenue</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Campaign Subject</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Sender Name</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Sender Address</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Reply-to Address</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Survey Department</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Survey Type</TableHead>
+                  <TableHead className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Survey</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredItems.map((item) => (
-                  <TableRow key={item.id}>
-                    <TableCell>
+                  <TableRow key={item.id} className="hover:bg-gray-50 transition-colors duration-200">
+                    <TableCell className="px-4 py-3">
                       <Checkbox
                         checked={item.selected}
                         onCheckedChange={(checked) =>
@@ -155,21 +155,22 @@ const CampaignDrawer = ({ isOpen, onClose, maxWidth = "75%", speed = 300, backgr
                             )
                           )
                         }
+                        className="w-4 h-4"
                       />
                     </TableCell>
-                    <TableCell>{item.type}</TableCell>
-                    <TableCell>{item.campaignName}</TableCell>
-                    <TableCell>{item.status}</TableCell>
-                    <TableCell>{item.startDate}</TableCell>
-                    <TableCell>{item.endDate}</TableCell>
-                    <TableCell>{item.expectedRevenue}</TableCell>
-                    <TableCell>{item.campaignSubject}</TableCell>
-                    <TableCell>{item.senderName}</TableCell>
-                    <TableCell>{item.senderAddress}</TableCell>
-                    <TableCell>{item.replyToAddress}</TableCell>
-                    <TableCell>{item.surveyDepartment}</TableCell>
-                    <TableCell>{item.surveyType}</TableCell>
-                    <TableCell>{item.survey}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-900">{item.type}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-900">{item.campaignName}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-900">{item.status}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-600">{item.startDate}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-600">{item.endDate}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-600">{item.expectedRevenue}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-600">{item.campaignSubject}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-600">{item.senderName}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-600">{item.senderAddress}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-600">{item.replyToAddress}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-600">{item.surveyDepartment}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-600">{item.surveyType}</TableCell>
+                    <TableCell className="px-4 py-3 text-sm text-gray-600">{item.survey}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -179,10 +180,10 @@ const CampaignDrawer = ({ isOpen, onClose, maxWidth = "75%", speed = 300, backgr
         {loading && <div className="text-center py-2">Loading...</div>}
         <DrawerFooter className="flex justify-center">
           <div className="flex gap-2 justify-center">
-            <Button className="btn btn-info" onClick={submit}>
+            <Button className="btn btn-info" onClick={submit} variant="primary" >
               Submit
             </Button>
-            <Button className="btn btn-danger" onClick={onClose}>
+            <Button className="btn btn-danger" onClick={onClose} variant="destructive">
               Reset
             </Button>
           </div>

@@ -165,7 +165,7 @@ const LeadDrawer = ({ isOpen, onClose, onSearchResults }) => {
             onChange={(e) => setSearchFieldTitle(e.target.value)}
             className="mb-4"
           />
-          <div className="space-y-4 max-h-96 overflow-y-auto">
+          <div className="space-y-2 max-h-[calc(100vh-200px)] overflow-y-auto">
             {filteredFields.map(field => (
               <div key={field.model} className="space-y-2">
                 <div className="flex items-center space-x-2">
@@ -289,11 +289,14 @@ const LeadDrawer = ({ isOpen, onClose, onSearchResults }) => {
           </div>
         </div>
         <DrawerFooter>
-          <Button onClick={searchLeads}>Search</Button>
-          <Button variant="outline" onClick={resetFilters}>Reset</Button>
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
+          <div className="flex gap-2 justify-center">
+            <Button className="text-white" variant="primary" onClick={searchLeads}>
+              Search
+            </Button>
+            <Button variant="destructive" onClick={resetFilters}>
+              Reset
+            </Button>
+          </div>
         </DrawerFooter>
       </DrawerContent>
     </Drawer >

@@ -1,0 +1,62 @@
+.drawer {
+  visibility: hidden;
+}
+
+.drawer.is-visible {
+  visibility: visible;
+}
+
+.drawer.is-open .drawer__overlay {
+  opacity: 0.5;
+}
+
+.drawer.is-open .drawer__content {
+  max-width: 24rem !important;
+  transform: translateX(0);
+}
+
+.drawer__overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 200;
+  opacity: 0;
+  transition-property: opacity;
+  background-color: #000000;
+  user-select: none;
+}
+
+.drawer__content {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 9999;
+  overflow: auto;
+  transition-property: transform;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  box-shadow: 0 2px 6px #777;
+  background: #fff;
+}
+
+.drawer-main-div {
+  background-color: #fff;
+}
+
+.drawer-footer-buttons {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem;
+  background-color: white;
+  z-index: 100;
+  border-top: 1px solid #dee2e6;
+}

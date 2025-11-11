@@ -245,13 +245,13 @@ const Notes = ({ id }) => {
 
   return (
     <>
-  
-        {/* Notes Section */}
-         <FormCard className="w-full">
-            <h3 className="text-lg font-semibold">Notes</h3>
 
-          <div className="flex items-center justify-between mb-4">
-              {/* Search Bar */}
+      {/* Notes Section */}
+      <FormCard className="w-full">
+        <h3 className="text-lg font-semibold">Notes</h3>
+
+        <div className="flex items-center justify-between mb-4">
+          {/* Search Bar */}
           <div className="relative mb-4">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
             <Input
@@ -262,64 +262,64 @@ const Notes = ({ id }) => {
               className="pl-10"
             />
           </div>
-            <div className="flex items-center gap-2">
-              <i onClick={toggleDrawer} className="fa fa-plus-square fs-4 cursor-pointer mb-2 mx-2 blue-color" title="Add Note"></i>
-              <Button onClick={() => { toggleDrawer(); switchButton('Submit'); }} disabled={isLoading} className="flex items-center gap-2">
-                <Plus size={16} />
-                Add Note
-              </Button>
-            </div>
+          <div className="flex items-center gap-2">
+            <i onClick={toggleDrawer} className="fa fa-plus-square fs-4 cursor-pointer mb-2 mx-2 blue-color" title="Add Note"></i>
+            <Button variant="primary" onClick={() => { toggleDrawer(); switchButton('Submit'); }} disabled={isLoading} className="flex items-center gap-2">
+              <Plus size={16} />
+              Add Note
+            </Button>
           </div>
+        </div>
 
-        
 
-          {/* Notes List */}
-          <div className="overflow-x-auto max-h-96 overflow-y-auto">
-            {filteredNotes.length === 0 ? (
-              <div className="text-center py-8 text-muted-foreground">
-                <p>{searchTerm ? 'No notes match your search.' : 'No notes available'}</p>
-              </div>
-            ) : (
-              filteredNotes.map((item) => (
-                <div key={item.id} className="border rounded-lg p-4 bg-card">
-                  <div className="flex justify-between items-start mb-2">
-                    <h4 className="font-medium text-base">{item.noteTitle}</h4>
-                    <div className="flex items-center gap-2">
-                      <label htmlFor={`fileInput-${item.id}`}>
-                        <Paperclip className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
-                      </label>
-                      <input
-                        type="file"
-                        id={`fileInput-${item.id}`}
-                        onChange={(e) => selectfile(e, item.id)}
-                        multiple
-                        style={{ display: "none" }}
-                      />
-                      <Edit
-                        className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground"
-                        onClick={() => { toggleDrawer(); switchButton('Update', item.noteTitle, item.description, item.id); }}
-                      />
-                      <Trash2
-                        className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-destructive"
-                        onClick={() => deleteNotes(item.id)}
-                      />
-                    </div>
-                  </div>
-                  <p className="text-sm text-muted-foreground mb-2">
-                    {item.description.length > 100
-                      ? `${item.description.slice(0, 100)}...`
-                      : item.description}
-                  </p>
-                  <div className="flex items-center justify-between text-xs text-muted-foreground">
-                    <span>Added by: {item.AddedByName}</span>
-                    <span>{formatAndDisplayDateTime(item.time)}</span>
+
+        {/* Notes List */}
+        <div className="overflow-x-auto max-h-96 overflow-y-auto">
+          {filteredNotes.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              <p>{searchTerm ? 'No notes match your search.' : 'No notes available'}</p>
+            </div>
+          ) : (
+            filteredNotes.map((item) => (
+              <div key={item.id} className="border rounded-lg p-4 bg-card">
+                <div className="flex justify-between items-start mb-2">
+                  <h4 className="font-medium text-base">{item.noteTitle}</h4>
+                  <div className="flex items-center gap-2">
+                    <label htmlFor={`fileInput-${item.id}`}>
+                      <Paperclip className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground" />
+                    </label>
+                    <input
+                      type="file"
+                      id={`fileInput-${item.id}`}
+                      onChange={(e) => selectfile(e, item.id)}
+                      multiple
+                      style={{ display: "none" }}
+                    />
+                    <Edit
+                      className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground"
+                      onClick={() => { toggleDrawer(); switchButton('Update', item.noteTitle, item.description, item.id); }}
+                    />
+                    <Trash2
+                      className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-destructive"
+                      onClick={() => deleteNotes(item.id)}
+                    />
                   </div>
                 </div>
-              ))
-            )}
-          </div>
-        </FormCard>
-<FormCard className="w-full">
+                <p className="text-sm text-muted-foreground mb-2">
+                  {item.description.length > 100
+                    ? `${item.description.slice(0, 100)}...`
+                    : item.description}
+                </p>
+                <div className="flex items-center justify-between text-xs text-muted-foreground">
+                  <span>Added by: {item.AddedByName}</span>
+                  <span>{formatAndDisplayDateTime(item.time)}</span>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </FormCard>
+      <FormCard className="w-full">
         {/* Lead Management History Section */}
         <div>
           <div className="flex items-center justify-between mb-4">
@@ -444,11 +444,11 @@ const Notes = ({ id }) => {
             </table>
           </div>
         </div>
-    </FormCard>
+      </FormCard>
 
       {/* Drawer for Add/Edit Note */}
       <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen} direction="right">
-        <DrawerContent>
+        <DrawerContent className="w-full max-w-2xl">
           <DrawerHeader>
             <DrawerTitle>{selectedButton === 'Submit' ? 'Add Note' : 'Edit Note'}</DrawerTitle>
             <DrawerDescription>
@@ -518,10 +518,11 @@ const Notes = ({ id }) => {
             </div>
           </div>
           <DrawerFooter>
-            <Button onClick={closeDrawer} variant="outline">
+          <div className="flex gap-2 justify-center">
+              <Button onClick={closeDrawer} variant="outline">
               Cancel
             </Button>
-            <Button
+            <Button variant="primary"
               onClick={() => {
                 const data = selectedButton === 'Update' && updateData
                   ? { noteTitle: updateData.title, noteText: updateData.description }
@@ -536,6 +537,7 @@ const Notes = ({ id }) => {
             >
               {selectedButton}
             </Button>
+          </div>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

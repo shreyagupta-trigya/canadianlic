@@ -102,7 +102,7 @@ const LeadsMultiStepForm = () => {
         {renderStep()}
       </div>
 
-      <div className="flex justify-between mt-6">
+      <div className="flex justify-center mt-6 gap-3">
         <button
           type="button"
           onClick={handlePrevious}

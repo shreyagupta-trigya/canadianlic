@@ -29,6 +29,7 @@ const OpenActivity = ({ id }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedButton, setSelectedButton] = useState('');
   const [updateData, setUpdateData] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     getTaskList();
@@ -185,19 +186,21 @@ const OpenActivity = ({ id }) => {
 
       <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <div className="relative w-80">
+          <div className="relative w-full lg:w-2/6 md:w-2/6 sm:w-full">
             <Input
+              className="pl-4 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               type="search"
               placeholder="Search tasks..."
-              className="pl-10"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+            <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
           </div>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button className="bg-blue-600 hover:bg-blue-700">
-                <Plus className="h-4 w-4 mr-2" />
+              <Button variant="primary">
+                <Plus className="h-4 w-4 " />
                 Add New
               </Button>
             </DropdownMenuTrigger>
