@@ -21,15 +21,26 @@ const ZohoSalesIQ = () => {
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
+<<<<<<< HEAD
         <div className="relative w-full lg:w-2/6 md:w-2/6 sm:w-full">
           <Input
             className="pl-4 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+=======
+        <div className="relative w-10/12">
+          <Input
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
             type="search"
             placeholder="Search"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+<<<<<<< HEAD
           />
           <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
+=======
+            className="pl-10 pr-4 py-2 border border-gray-300 rounded focus:border-blue-500 w-full"
+          />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={16} />
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
         </div>
       </div>
       <div className="border border-gray-300 rounded overflow-auto custom-scroll px-0 mt-3">

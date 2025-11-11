@@ -4,11 +4,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Checkbox } from "@/components/ui/checkbox";
+<<<<<<< HEAD
 import { Search } from "lucide-react";
 
 const CloseActivity = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+=======
+
+const CloseActivity = () => {
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
     const [tasks, setTasks] = useState([
         { id: 1, name: 'Final Submission', status: 'Close' },
         { id: 2, name: 'Status pending', status: 'Close' },
@@ -27,6 +33,7 @@ const CloseActivity = () => {
         setTasks([...tasks, { id: Date.now(), ...newTask }]);
     };
 
+<<<<<<< HEAD
     const filteredTasks = tasks.filter(task =>
         task.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         task.status.toLowerCase().includes(searchQuery.toLowerCase())
@@ -46,6 +53,18 @@ const CloseActivity = () => {
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                         <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
+=======
+    return (
+        <>
+            <CloseActivityDrawer isOpen={isDrawerOpen} speed={500} onClose={closeDrawer} addTask={addTask} />
+            <div className="flex flex-col">
+                <div className="flex justify-between items-center">
+                    <div className="flex-1 mr-4">
+                        <div className="relative inline-block">
+                            <Input className="w-64" type="search" placeholder="Search" aria-label="Search" />
+                            <i className="fas fa-search absolute top-1/2 right-5 transform -translate-y-1/2 text-gray-600"></i>
+                        </div>
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
                     </div>
                     {/* <div>
                         <Button onClick={toggleDrawer} variant="outline">Add New</Button>
@@ -64,7 +83,11 @@ const CloseActivity = () => {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
+<<<<<<< HEAD
                             {filteredTasks.map(task => (
+=======
+                            {tasks.map(task => (
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
                                 <TableRow key={task.id}>
                                     <TableCell>
                                         <Checkbox />

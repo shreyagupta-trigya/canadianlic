@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { FormCard } from "@/components/custom/CustomFormComponents";
-import { Search, Trash2, Eye, Download, Upload } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Search, PlusSquare, Trash2, Eye, Download } from "lucide-react";
 import axios from 'axios';
 import { putUrl } from "@/boot/axios";
+// import Swal from "sweetalert2";
 
 const Attachment = ({ id }) => {
   const fileInputRef = useRef(null);
@@ -13,8 +14,8 @@ const Attachment = ({ id }) => {
   const [attachmentList, setAttachmentList] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredAttachments = attachmentList.filter(attachment =>
-    attachment.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredAttachments = attachmentList.filter(item =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const findUser = (id) => {
@@ -185,7 +186,17 @@ const Attachment = ({ id }) => {
   };
 
   const deleteFileOption = async (id, recId) => {
-    if (confirm('Are you sure you want to delete this file?')) {
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    });
+
+    if (result.isConfirmed) {
       await deleteFile(id, recId);
     }
   };
@@ -198,92 +209,85 @@ const Attachment = ({ id }) => {
 
   return (
     <>
-      {isLoading && <div>Loading...</div>}
-      <FormCard className="w-full">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold">Attachments</h3>
-          <div className="flex items-center gap-2">
-            <input
-              id="fileAttachments"
-              type="file"
-              multiple
-              style={{ display: 'none' }}
-              ref={fileInputRef}
-              onChange={handleFileSelect}
+      {isLoading && <div className="text-center py-4">Loading...</div>}
+      <div className="flex  justify-between flex-wrap gap-4 mb-4">
+        <div className="flex-1 ">
+          <div className="relative w-70">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
+            <Input
+              type="search"
+              placeholder="Search"
+              className="pl-10"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <label htmlFor="fileAttachments" className="btn custom-btn px-2 py-1 mt-0 mb-3">
-              Attach
-            </label>
-            {files.length > 0 && (
-              <Button onClick={uploadFile} disabled={isLoading} className="flex items-center gap-2">
-                <Upload size={16} />
-                Upload
-              </Button>
-            )}
           </div>
         </div>
-
-        {/* Search Bar */}
-        <div className="relative mb-4">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={16} />
-          <Input
-            type="text"
-            placeholder="Search attachments..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10"
+        <div className="flex items-end">
+          {/* <PlusSquare className="hidden sm:block w-6 h-6 cursor-pointer mb-2 mx-2 text-blue-600" title="Add Note" /> */}
+          <input
+            id="fileAttachments"
+            type="file"
+            multiple
+            className="hidden"
+            ref={fileInputRef}
+            onChange={handleFileSelect}
           />
+          <label htmlFor="fileAttachments" className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 cursor-pointer">
+            Attach
+          </label>
+          {files.length > 0 && (
+            <Button onClick={uploadFile} disabled={isLoading} className="ml-2" size="sm">
+              Upload
+            </Button>
+          )}
         </div>
-
-        {filteredAttachments.length > 0 ? (
-          <div className="border rounded-lg overflow-hidden">
-            <table className="w-full border-collapse">
-              <thead className="bg-muted">
-                <tr>
-                  <th className="border border-border p-2 text-left">File Name</th>
-                  <th className="border border-border p-2 text-left">Size</th>
-                  <th className="border border-border p-2 text-center">Added By</th>
-                  <th className="border border-border p-2 text-center">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredAttachments.map((item) => (
-                  <tr key={item.id} className="hover:bg-muted/50">
-                    <td
-                      className="border border-border p-2 cursor-pointer text-blue-600"
-                      onClick={() => previewFile(item.id)}
-                    >
-                      {item.name}
-                    </td>
-                    <td className="border border-border p-2">{formatFileSize(item.size)}</td>
-                    <td className="border border-border p-2 text-center">{item.addedBy}</td>
-                    <td className="border border-border p-2 text-center">
-                      <div className="flex items-center justify-center gap-2">
-                        <Trash2
-                          className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-destructive"
-                          onClick={() => deleteFileOption(item.id, item.recId)}
-                        />
-                        <Eye
-                          className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground"
-                          onClick={() => previewFile(item.id)}
-                        />
-                        <Download
-                          className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground"
-                          onClick={() => downloadFile(item.id)}
-                        />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <div className="text-center py-8 text-muted-foreground">
-            <p>No attachments available</p>
-          </div>
-        )}
-      </FormCard>
+      </div>
+      {attachmentList.length > 0 ? (
+        <div className="border rounded-lg overflow-hidden">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>File Name</TableHead>
+                <TableHead>Size</TableHead>
+                <TableHead className="text-center">Added By</TableHead>
+                <TableHead className="text-center">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredAttachments.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell className="cursor-pointer text-blue-600" onClick={() => previewFile(item.id)}>
+                    {item.name}
+                  </TableCell>
+                  <TableCell>{formatFileSize(item.size)}</TableCell>
+                  <TableCell className="text-center">{item.addedBy}</TableCell>
+                  <TableCell className="text-center">
+                    <div className="flex items-center justify-center gap-2">
+                      <Trash2
+                        className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-destructive"
+                        onClick={() => deleteFileOption(item.id, item.recId)}
+                      />
+                      <Eye
+                        className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground"
+                        onClick={() => previewFile(item.id)}
+                      />
+                      <Download
+                        className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground"
+                        onClick={() => downloadFile(item.id)}
+                      />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      ) : (
+        <div className="flex justify-center items-center py-8">
+       No attachments
+        </div>
+      )}
     </>
   );
 };

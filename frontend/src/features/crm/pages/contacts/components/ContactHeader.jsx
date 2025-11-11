@@ -52,7 +52,11 @@ const ContactHeader = ({
 
         
           <Button >
+<<<<<<< HEAD
             <Link to="/contact">
+=======
+            <Link to="/crm/contacts/create">
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
             <div className='flex'>
 
               <Plus className="h-4 w-4 mr-2" />

@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
-
-import Select from 'react-select';
+import { religionOptions, festivals, celebratedFestivalsOptions, religions, religionFestivals } from '../utils/picklist';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrashIcon } from 'lucide-react';
 import { Select as ShadcnSelect, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { religions ,religionFestivals, festivalsOptions} from '../utils/picklist';
+import Select from 'react-select';
 
 
 
-const FestivalForm = ({ onNext, onPrevious, FestivalForm, isDisabled = false }) => {
-  const [formData, setFormData] = useState(FestivalForm || {});
+const FestivalForm = ({ formData = {}, setFormData, isDisabled, handlePrevious, handleNext }) => {
   const [subform, setSubform] = useState([]);
 
   useEffect(() => {
@@ -41,11 +39,7 @@ const FestivalForm = ({ onNext, onPrevious, FestivalForm, isDisabled = false }) 
   };
 
   const availableFestivals = () => {
-<<<<<<< HEAD
-    if (!formData?.religion || formData.religion.length === 0) return [];
-=======
-    if (!formData.religion || !Array.isArray(formData.religion) || formData.religion.length === 0) return [];
->>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
+    if (!formData?.religion || !Array.isArray(formData.religion) || formData.religion.length === 0) return [];
     return formData.religion.reduce((all, rel) => {
       const list = religionFestivals[rel] || [];
       return all.concat(list);
@@ -53,16 +47,12 @@ const FestivalForm = ({ onNext, onPrevious, FestivalForm, isDisabled = false }) 
   };
 
   useEffect(() => {
-<<<<<<< HEAD
-    if (!formData?.religion || formData?.religion.length === 0) {
-=======
-    if (!formData.religion || !Array.isArray(formData.religion) || formData.religion.length === 0) {
->>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
+    if (!formData?.religion || !Array.isArray(formData.religion) || formData.religion.length === 0) {
       setFormData(prev => ({ ...prev, festival: [] }));
       return;
     }
-    const allFestivals = formData.religion.reduce((acc, rel) => {
-      const festivals = religionFestivals[rel] || [];
+    const allFestivals = formData.religion.reduce((acc, religion) => {
+      const festivals = religionFestivals[religion] || [];
       return acc.concat(festivals);
     }, []);
     setFormData(prev => ({ ...prev, festival: allFestivals }));
@@ -83,15 +73,10 @@ const FestivalForm = ({ onNext, onPrevious, FestivalForm, isDisabled = false }) 
               <Select
                 isMulti
                 options={religions.map(rel => ({ value: rel, label: rel }))}
-<<<<<<< HEAD
-                value={formData.religion ? formData.religion.map(rel => ({ value: rel, label: rel })) : []}
-=======
-                value={formData.religion && Array.isArray(formData.religion) ? formData.religion.map(rel => ({ value: rel, label: rel })) : []}
->>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
+                value={formData?.religion && Array.isArray(formData.religion) ? formData.religion.map(rel => ({ value: rel, label: rel })) : []}
                 onChange={(selected) => setFormData(prev => ({ ...prev, religion: selected ? selected.map(s => s.value) : [] }))}
                 placeholder="Select Religion"
                 className="custom-vselect"
-                isDisabled={isDisabled}
               />
             </div>
             <div className="space-y-2">
@@ -99,15 +84,10 @@ const FestivalForm = ({ onNext, onPrevious, FestivalForm, isDisabled = false }) 
               <Select
                 isMulti
                 options={availableFestivals().map(fest => ({ value: fest, label: fest }))}
-<<<<<<< HEAD
-                value={formData.festival ? formData.festival.map(fest => ({ value: fest, label: fest })) : []}
-=======
-                value={formData.festival && Array.isArray(formData.festival) ? formData.festival.map(fest => ({ value: fest, label: fest })) : []}
->>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
+                value={formData?.festival && Array.isArray(formData.festival) ? formData.festival.map(fest => ({ value: fest, label: fest })) : []}
                 onChange={(selected) => setFormData(prev => ({ ...prev, festival: selected ? selected.map(s => s.value) : [] }))}
                 placeholder="Select Celebrated Festivals"
                 className="custom-vselect"
-                isDisabled={isDisabled}
               />
             </div>
           </div>
@@ -139,7 +119,6 @@ const FestivalForm = ({ onNext, onPrevious, FestivalForm, isDisabled = false }) 
                         size="sm"
                         onClick={() => deleteFestivalTableRow(index)}
                         className="text-red-500 hover:text-red-700"
-                        disabled={isDisabled}
                       >
                         <TrashIcon className="h-4 w-4" />
                       </Button>
@@ -152,10 +131,9 @@ const FestivalForm = ({ onNext, onPrevious, FestivalForm, isDisabled = false }) 
                             onChange={(e) => handleSubformChange(index, 'festivalName', e.target.value)}
                             className="multisteps-form__select form-control choices__input border p-2 rounded-md"
                             name="choices-state"
-                            disabled={isDisabled}
                           >
                             <option value="">Select Festival</option>
-                            {festivalsOptions.map((option, idx) => (
+                            {celebratedFestivalsOptions.map((option, idx) => (
                               <option key={idx} value={option}>
                                 {option}
                               </option>
@@ -170,7 +148,6 @@ const FestivalForm = ({ onNext, onPrevious, FestivalForm, isDisabled = false }) 
                         onChange={(e) => handleSubformChange(index, 'dateOfFestival', e.target.value)}
                         type="date"
                         autoComplete="off"
-                        disabled={isDisabled}
                       />
                     </TableCell>
                   </TableRow>
@@ -182,26 +159,25 @@ const FestivalForm = ({ onNext, onPrevious, FestivalForm, isDisabled = false }) 
           <Button
             onClick={addRowToFestivalsTable}
             className="mt-4"
-            disabled={isDisabled}
           >
             Add Row
           </Button>
         </CardContent>
       </Card>
 
-      {/* <div className="flex justify-center gap-4" style={{ marginBottom: '200px' }}>
+      <div className="flex justify-center gap-4" style={{ marginBottom: '200px' }}>
         <Button
           variant="outline"
-          onClick={onPrevious}
+          onClick={handlePrevious}
         >
           Prev
         </Button>
         <Button
-          onClick={() => onNext(formData)}
+          onClick={handleNext}
         >
           Next
         </Button>
-      </div> */}
+      </div>
     </div>
   );
 };

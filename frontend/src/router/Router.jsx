@@ -227,7 +227,12 @@ import UsersDetail from "@/features/portal/manageUsers/users/pages/UsersDetail";
 import ContactsListView from "@/features/crm/pages/contacts/ContactsListView";
 import NewContactList from "@/features/crm/pages/contacts/NewContactList";
 import ContactList from "@/features/crm/pages/contacts/ContactList";
+<<<<<<< HEAD
 import CustomerServiceForm from "@/features/crm/pages/customerService/CustomerServiceForm";
+=======
+import ContactClientForm from "@/features/crm/pages/contacts/contactForm/ContactClientForm";
+import ContactListView from "@/features/crm/pages/contacts/ContactListView";
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
 
 
 
@@ -322,10 +327,16 @@ export default function AppRoutes() {
             </Route>
             {/* <Route path="contacts" element={<Contacts />} /> */}
             <Route path="contacts" element={<ContactLayout />}>
+<<<<<<< HEAD
               <Route path="" element={<ContactList/>} />
               <Route path="create" element={<ContactsForm />} />
+=======
+              {/* <Route path="" element={<ContactList/>} /> */}
+              <Route path="" element={<ContactListView/>} />
+              <Route path="create" element={<ContactClientForm />} />
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
               <Route path="update" element={<ContactsForm />} />
-              <Route path="details/:id" element={<ContactDetailView />} />
+              <Route path="details" element={<ContactDetailView />} />
                <Route path="activity" element={<ContactActivityForm />} />
             </Route>
             {/* <Route path="accounts" element={<Accounts />} /> */}

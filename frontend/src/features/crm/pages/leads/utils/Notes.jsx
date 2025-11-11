@@ -330,8 +330,8 @@ const Notes = ({ id }) => {
             </Button>
           </div>
 
-          <div className="overflow-x-auto max-h-96 overflow-y-auto">
-            <table className="w-full border-collapse border border-border">
+          <div className=" max-h-96 max-w-full overflow-auto">
+            <table className="w-[1300px] border-collapse border overflow-auto border-border">
               <thead>
                 <tr className="bg-muted">
                   <th className="border border-border p-2 text-left">#</th>
@@ -406,7 +406,7 @@ const Notes = ({ id }) => {
                         }}
                       />
                     </td>
-                    <td className="border border-border p-2">
+                    <td className="border border-border w-50 p-2">
                       <Textarea
                         value={parent.comments}
                         onChange={(e) => {

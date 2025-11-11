@@ -3,6 +3,9 @@ import { Button } from "@/components/ui/button";
 import axios from 'axios';
 import { putUrl } from "@/boot/axios"; // Assuming this is the axios config
 import InfiniteScroll from 'react-infinite-scroll-component'; // Assuming you have this library
+import { Textarea } from '@/components/ui/textarea';
+import { FiSend } from "react-icons/fi";
+
 
 const Whatsapp = ({ phoneNumber }) => {
   const [chatHistory, setChatHistory] = useState([]);
@@ -86,7 +89,7 @@ const Whatsapp = ({ phoneNumber }) => {
             dataLength={chatHistory.length}
             next={loadMoreMessages}
             hasMore={hasMore}
-            loader={<h4>Loading...</h4>}
+            // loader={<h4>Loading...</h4>}
             scrollableTarget="scrollableDiv"
           >
             <ul className="list-unstyled">
@@ -103,17 +106,21 @@ const Whatsapp = ({ phoneNumber }) => {
             </ul>
           </InfiniteScroll>
         </div>
-        <div className="chat-message position-sticky bottom-0 w-100">
-          <textarea
+        <div className="chat-message position-sticky bottom-0   ">
+          <div className='flex w-250'>
+            
+          <Textarea
+          
             placeholder="Type your message"
-            rows="3"
+            rows="4"
             className="form-control"
             value={messageToSend}
             onChange={(e) => setMessageToSend(e.target.value)}
           />
-          <Button className="send-button ms-3" onClick={sendMessage}>
-            <i className="fa fa-paper-plane fs-4"></i>
-          </Button>
+          <div className=" ms-3     " onClick={sendMessage}>
+           <FiSend size={45} className='mt-1 border h-15 w-18 p-2 bg-blue-500 rounded-full' />
+          </div>
+          </div>
         </div>
       </div>
     </div>
