@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+// Placeholder for picklist utility
+// Migrated from Vue: picklist.js
+
+// Add picklist logic here
+=======
 export const digitalStageTrackingOptions = [
   "-None-",
   "Pending Up-Selling/Cross-Selling",
@@ -320,3 +326,4 @@ export const homeInsuranceOptions = [
   "Rental Property Insurance",
   "Pet Insurance"
 ];
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16

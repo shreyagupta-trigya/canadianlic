@@ -264,7 +264,11 @@ const Notes = ({ id }) => {
           </div>
           <div className="flex items-center gap-2">
             <i onClick={toggleDrawer} className="fa fa-plus-square fs-4 cursor-pointer mb-2 mx-2 blue-color" title="Add Note"></i>
+<<<<<<<< HEAD:frontend/src/utils/commonRelatedList/notes/Notes.jsx
             <Button onClick={() => { toggleDrawer(); switchButton('Submit'); }} disabled={isLoading} className="flex items-center gap-2 bg-blue-500 cursor-pointer hover:bg-blue-600">
+========
+            <Button variant="primary" onClick={() => { toggleDrawer(); switchButton('Submit'); }} disabled={isLoading} className="flex items-center gap-2">
+>>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846:frontend/src/features/crm/pages/leads/utils/Notes.jsx
               <Plus size={16} />
               Add Note
             </Button>
@@ -518,10 +522,15 @@ const Notes = ({ id }) => {
             </div>
           </div>
           <DrawerFooter>
-            <Button onClick={closeDrawer} variant="outline">
+          <div className="flex gap-2 justify-center">
+              <Button onClick={closeDrawer} variant="outline">
               Cancel
             </Button>
+<<<<<<<< HEAD:frontend/src/utils/commonRelatedList/notes/Notes.jsx
             <Button className={"bg-blue-400"}
+========
+            <Button variant="primary"
+>>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846:frontend/src/features/crm/pages/leads/utils/Notes.jsx
               onClick={() => {
                 const data = selectedButton === 'Update' && updateData
                   ? { noteTitle: updateData.title, noteText: updateData.description }
@@ -536,6 +545,7 @@ const Notes = ({ id }) => {
             >
               {selectedButton}
             </Button>
+          </div>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

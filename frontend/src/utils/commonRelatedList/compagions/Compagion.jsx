@@ -101,6 +101,7 @@ const Compagion = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className=" min-h-screen">
       <CampaignDrawer isOpen={isDrawerOpen} onClose={closeDrawer} />
 
@@ -115,6 +116,42 @@ const Compagion = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
+=======
+<<<<<<< HEAD
+    <div className=" min-h-screen">
+      <CampaignDrawer isOpen={isDrawerOpen} onClose={closeDrawer} />
+
+      {/* Header Section */}
+        <div className="flex justify-between items-center mb-4">
+          <div className="relative w-full lg:w-2/6 md:w-2/6 sm:w-full">
+            <Input
+              className="pl-4 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type="search"
+              placeholder="Search campaigns..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4" />
+=======
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <CampaignDrawer isOpen={isDrawerOpen} onClose={closeDrawer} />
+
+      {/* Header Section */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
+          <div className="flex-1 max-w-md">
+            <div className="relative">
+              <Input
+                className="pl-10 pr-4 py-3 border-2 border-gray-200 rounded-lg text-base w-full transition-all duration-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 hover:border-gray-300"
+                type="search"
+                placeholder="Search campaigns..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <i className="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg"></i>
+            </div>
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
           </div>
 
           <div className="button">
@@ -220,7 +257,17 @@ const Compagion = () => {
             </div>
           </div>
         )}
+<<<<<<< HEAD
       </div>  );
+=======
+<<<<<<< HEAD
+      </div>  );
+=======
+      </div>
+    </div>
+  );
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
 };
 
 export default Compagion;

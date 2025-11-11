@@ -142,6 +142,7 @@ function SortableHeader({ column, title }) {
   );
 }
 
+<<<<<<< HEAD
 function DraggableRow({ row, navigate }) {
   const { transform, transition, setNodeRef, isDragging } = useSortable({
     id: row.original.ROWID,
@@ -153,6 +154,12 @@ function DraggableRow({ row, navigate }) {
       });
     }
   };
+=======
+function DraggableRow({ row }) {
+  const { transform, transition, setNodeRef, isDragging } = useSortable({
+    id: row.original.ROWID,
+  });
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
 
   return (
     <TableRow
@@ -166,7 +173,11 @@ function DraggableRow({ row, navigate }) {
       }}
     >
       {row.getVisibleCells().map((cell) => (
+<<<<<<< HEAD
         <TableCell key={cell.id} onClick={handleRowClick}>
+=======
+        <TableCell key={cell.id}>
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
           {flexRender(cell.column.columnDef.cell, cell.getContext())}
         </TableCell>
       ))}
@@ -316,6 +327,7 @@ const CustomerServiceListView = () => {
     return saved
       ? JSON.parse(saved)
       : [
+<<<<<<< HEAD
         "Activity Badge",
         "Created Time",
         "Task Name",
@@ -351,6 +363,43 @@ const CustomerServiceListView = () => {
         "Connected To",
         "Refund Amount",
       ];
+=======
+          "Activity Badge",
+          "Created Time",
+          "Task Name",
+          "Policies",
+          "Description",
+          "Status",
+          "Updated Policy Module - ZOHO",
+          "Request BOT/Email Company/Cancel Portal",
+          "Confirmation Received by us",
+          "Confirmation to Client",
+          "Comment on Contact Profile - ZOHO",
+          "Effective Date Matches on Confirmation",
+          "Task Completed CSR Name",
+          "Contacts",
+          "Last Activity Time",
+          "Customer Service Owner",
+          "Policy Advisor",
+          "Contact Mobile",
+          "Created By",
+          "Currency",
+          "Exchange Rate",
+          "Tag",
+          "Unsubscribed Mode",
+          "Unsubscribed Time",
+          "Group Insurance",
+          "Policy Expiry Date",
+          "Renewal Follow Up Date",
+          "Policy Renewal Date",
+          "Renewal Completed",
+          "New Policy Renewal Date",
+          "New Policy Premium",
+          "Issued By",
+          "Connected To",
+          "Refund Amount",
+        ];
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
   });
 
   // Handler for column changes
@@ -406,7 +455,11 @@ const CustomerServiceListView = () => {
     "Refund Amount": "Refund Amount",
   };
 
+<<<<<<< HEAD
   const CustomerServiceColumns = (navigate) => [
+=======
+  const CustomerServiceColumns = () => [
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
     {
       id: "drag",
       header: "",
@@ -461,6 +514,7 @@ const CustomerServiceListView = () => {
       header: "Action",
       cell: ({ row }) => (
         <div className="d-flex justify-content-center align-items-center gap-2">
+<<<<<<< HEAD
           <Button
             variant="link"
             className="text-foreground cursor-pointer w-fit px-0 text-left"
@@ -469,6 +523,18 @@ const CustomerServiceListView = () => {
             }}>
             <i className="fas fa-eye text-gray-400" aria-hidden="true"></i>
           </Button>
+=======
+      <Button
+        variant="link"
+        className="text-foreground cursor-pointer w-fit px-0 text-left"
+        onClick={(e) => {
+          e.stopPropagation();
+          navigate(`/crm/customerService/details/${row.original.ROWID}`, { state: row.original });
+        }}
+      >
+        <i className="fas fa-eye text-gray-400" aria-hidden="true"></i>
+      </Button>
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -476,6 +542,7 @@ const CustomerServiceListView = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-32">
+<<<<<<< HEAD
 
               <DropdownMenuItem onClick={(e) => {
                 e.stopPropagation();
@@ -487,6 +554,12 @@ const CustomerServiceListView = () => {
                   e.stopPropagation(); // ✅ stop bubbling
                   navigate(`/crm/customerService/create`);
                 }}>
+=======
+              <DropdownMenuItem>
+                Detail view
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
                 Edit
               </DropdownMenuItem>
               <DropdownMenuItem variant="destructive" className="text-red-500">
@@ -840,7 +913,11 @@ const CustomerServiceListView = () => {
     useSensor(KeyboardSensor, {})
   );
   const dataIds = useMemo(() => data?.map(({ ROWID }) => ROWID) || [], [data]);
+<<<<<<< HEAD
   const columns = CustomerServiceColumns(navigate);
+=======
+  const columns = CustomerServiceColumns();
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
 
   const table = useReactTable({
     data,
@@ -940,7 +1017,11 @@ const CustomerServiceListView = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+<<<<<<< HEAD
             <Button className="cursor-pointer" variant="outline" size="sm" onClick={() => navigate("/crm/customerService/create")}>
+=======
+            <Button className="cursor-pointer" variant="outline" size="sm"  onClick={() => navigate("/crm/customerService/create")}>
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
               <IconPlus />
               <span className="hidden lg:inline">Create Customer Service</span>
             </Button>
@@ -994,10 +1075,18 @@ const CustomerServiceListView = () => {
                                     <div
                                       onMouseDown={header.getResizeHandler()}
                                       onTouchStart={header.getResizeHandler()}
+<<<<<<< HEAD
                                       className={`absolute right-0 top-0 h-full w-0.5 cursor-col-resize select-none touch-none ${header.column.getIsResizing()
                                         ? "bg-primary"
                                         : "bg-border hover:bg-primary/50"
                                         }`}
+=======
+                                      className={`absolute right-0 top-0 h-full w-0.5 cursor-col-resize select-none touch-none ${
+                                        header.column.getIsResizing()
+                                          ? "bg-primary"
+                                          : "bg-border hover:bg-primary/50"
+                                      }`}
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
                                     />
                                   )}
                                 </>
@@ -1015,7 +1104,11 @@ const CustomerServiceListView = () => {
                         strategy={verticalListSortingStrategy}
                       >
                         {table.getRowModel().rows.map((row) => (
+<<<<<<< HEAD
                           <DraggableRow key={row.id} row={row} navigate={navigate} />
+=======
+                          <DraggableRow key={row.id} row={row} />
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
                         ))}
                       </SortableContext>
                     ) : (

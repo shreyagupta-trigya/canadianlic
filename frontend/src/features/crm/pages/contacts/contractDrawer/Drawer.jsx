@@ -95,7 +95,11 @@ const ContractDrawer = ({ isOpen, onSearchResults, onClose }) => {
   ];
 
   return (
+<<<<<<< HEAD
+    <Drawer open={isOpen} onOpenChange={onClose}>
+=======
     <Drawer open={isOpen} onOpenChange={onClose} direction="right">
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
       <DrawerContent className="max-w-md">
         <DrawerHeader>
           <DrawerTitle>Advanced Search</DrawerTitle>

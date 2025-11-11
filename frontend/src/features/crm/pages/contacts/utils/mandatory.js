@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+// Placeholder for mandatory utility
+// Migrated from Vue: mandatory.js
+
+// Add mandatory validation logic here
+=======
 export default [
   {
     id: "contactOwner",
@@ -16,3 +22,4 @@ export default [
     fieldName: "Email",
   }
 ];
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16

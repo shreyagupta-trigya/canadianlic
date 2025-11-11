@@ -228,6 +228,7 @@ import ContactList from "@/features/crm/pages/contacts/ContactList";
 import CustomerServiceForm from "@/features/crm/pages/customerService/CustomerServiceForm";
 import ContactClientForm from "@/features/crm/pages/contacts/contactForm/ContactClientForm";
 import PolicyList from "@/features/crm/pages/policies/PolicyList";
+import PolicyLayout from "@/features/crm/pages/policies/layout/PolicyLayout";
 
 
 
@@ -373,8 +374,10 @@ export default function AppRoutes() {
               <Route path="create" element={<CustomerServiceForm />} />
               <Route path="details/:id" element={<CustomerServiceDetailView />} />
             </Route>
-            <Route path="policies" element={<PolicyList />} />
+            <Route path="policies" element={<PolicyLayout />} >
+            <Route path="" element={<PolicyList />} />
            <Route path="list" element={<ActivityMasterList />} />
+           </Route>
           </Route>
 
           <Route path="jobWork" element={<JobWorkLayout />}>

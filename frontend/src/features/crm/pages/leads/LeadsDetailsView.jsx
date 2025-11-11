@@ -328,8 +328,17 @@ const LeadsDetailsView = () => {
               </div>
             )}
           </div>
+<<<<<<< HEAD
             {layout === "Client" ? (
        <Accordion
+=======
+<<<<<<< HEAD
+            {layout === "Client" ? (
+       <Accordion
+=======
+          <Accordion
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
             type="multiple"
             className="w-full"
             defaultValue={["lead-information"]}
@@ -419,6 +428,10 @@ const LeadsDetailsView = () => {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
       ) : (
         <Accordion
           type="multiple"
@@ -524,6 +537,11 @@ const LeadsDetailsView = () => {
         </Accordion>
       )}
          
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
         </TabsContent>
 
         <TabsContent
@@ -551,6 +569,10 @@ const LeadsDetailsView = () => {
             <TabsList className="flex gap-5">
               <TabsTrigger
                 value="whatsapp"
+<<<<<<< HEAD
+                className="relative border focus:border-[#25D366]  text-xs cursor-pointer"
+=======
+<<<<<<< HEAD
                 className="relative border focus:border-[#25D366]  text-xs cursor-pointer"
               >
                 <span className="text-[#25D366]">
@@ -560,12 +582,32 @@ const LeadsDetailsView = () => {
                 <Badge
                   variant="secondary"
                   className="ml-2 h-4 w-5 bg-[#25D366] text-white"
+=======
+                className="relative text-xs cursor-pointer"
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
+              >
+                <span className="text-[#25D366]">
+
+                WhatsApp
+                </span>
+                <Badge
+                  variant="secondary"
+<<<<<<< HEAD
+                  className="ml-2 h-4 w-5 bg-[#25D366] text-white"
+=======
+                  className="ml-2 h-4 w-5 bg-blue-500 text-white"
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
                 >
                   10
                 </Badge>
               </TabsTrigger>
               <TabsTrigger
                 value="sms"
+<<<<<<< HEAD
+                className="relative text-xs focus:border-blue-400 cursor-pointer"
+=======
+<<<<<<< HEAD
                 className="relative text-xs focus:border-blue-400 cursor-pointer"
               >
                        <span className="focus:text-[#2196F3]">
@@ -573,18 +615,48 @@ const LeadsDetailsView = () => {
                 <Badge
                   variant="secondary"
                   className="ml-2 h-4 w-5 bg-[#2196F3] text-white"
+=======
+                className="relative text-xs  cursor-pointer"
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
+              >
+                       <span className="focus:text-[#2196F3]">
+                SMS</span>
+                <Badge
+                  variant="secondary"
+<<<<<<< HEAD
+                  className="ml-2 h-4 w-5 bg-[#2196F3] text-white"
+=======
+                  className="ml-2 h-4 w-5 bg-blue-500 text-white"
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
                 >
                   15
                 </Badge>
               </TabsTrigger>
               <TabsTrigger
                 value="email"
+<<<<<<< HEAD
                 className="relative text-xs focus:border-[#B71C1C] cursor-pointer"
+=======
+<<<<<<< HEAD
+                className="relative text-xs focus:border-[#B71C1C] cursor-pointer"
+=======
+                className="relative text-xs  cursor-pointer"
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
               >
                 Email
                 <Badge
                   variant="secondary"
+<<<<<<< HEAD
                   className="ml-2 h-4 w-5 bg-[#B71C1C] text-white"
+=======
+<<<<<<< HEAD
+                  className="ml-2 h-4 w-5 bg-[#B71C1C] text-white"
+=======
+                  className="ml-2 h-4 w-5 bg-blue-500 text-white"
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
                 >
                   30
                 </Badge>
@@ -639,6 +711,13 @@ const LeadsDetailsView = () => {
           {dynamicTabValue === "referral-client" && <ReferralClient />}
           {dynamicTabValue === "offering" && <Offering />} */}
           {dynamicTabValue === "open-activity" && <OpenActivity />}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+          {dynamicTabValue === "close-activity" && <CloseActivity />}
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
           {dynamicTabValue === "campaign" && <Compagion />}
           {dynamicTabValue === "remote-assist" && <RemoteAssist />}
           {dynamicTabValue === "ringcentral-sms" && <RingCentralCMS />}
@@ -646,7 +725,14 @@ const LeadsDetailsView = () => {
           {dynamicTabValue === "session-recording" && <SessionRecording />}
           {dynamicTabValue === "zoho-sales-iq" && <ZohoSalesIQ />}
           {dynamicTabValue === "zoho-survey" && <ZohoSurvey />}
+<<<<<<< HEAD
           {dynamicTabValue === "close-activity" && <CloseActivity />}
+=======
+<<<<<<< HEAD
+          {dynamicTabValue === "close-activity" && <CloseActivity />}
+=======
+>>>>>>> f7991e1702bd5cb56de48f6fc1e79f7041f47d16
+>>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
           {/* Add more conditionals as needed */}
         </TabsContent>
       </Tabs>
