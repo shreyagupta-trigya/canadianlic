@@ -16,7 +16,6 @@ import LeadAdvisorForm from "@/features/crm/pages/advisor/LeadAdvisorForm";
 import AdvisorDetailsView from "@/features/crm/pages/advisor/AdvisorDetailsView";
 import ActivityMasterLayout from "@/features/activityMaster/layouts/ActivityMasterLayout";
 import ActivityMasterList from "@/features/activityMaster/pages/activityMasters/layout/ActivityMasterList";
-import DeliveryChallanActivityForm from "@/features/crm/pages/deliveryChallan/relatedList/deliveryChallanActivity/DeliveryChallanActivityForm";
 import QuoteActivityForm from "@/features/crm/pages/quotes/relatedList/quoteActivity/QuoteActivityForm";
 import DealActivityForm from "@/features/crm/pages/deals/relatedList/dealActivity/DealActivityForm";
 import FinanceLayout from "@/features/finance/layouts/FinanceLayout";
@@ -197,10 +196,7 @@ import WarehouseForm from "@/features/finance/pages/inventory/warehouse/pages/Wa
 import StockTransferForm from "@/features/finance/pages/inventory/stockTransfer/pages/StockTransferForm";
 import MaterialRequistionEmail from "@/features/finance/pages/Material Requisition/Pages/MaterialRequistionEmail";
 import StockTransferDetail from "@/features/finance/pages/inventory/stockTransfer/pages/StockTransferDetail";
-import DeliveryChallan from "@/features/crm/pages/deliveryChallan/layout/DeliveryChallan";
-import DeliveryChallanList from "@/features/crm/pages/deliveryChallan/DeliveryChallanList";
-import DeliveryChallanForm from "@/features/crm/pages/deliveryChallan/DeliveryChallanForm";
-import DeliveryChallanDetail from "@/features/crm/pages/deliveryChallan/sample/DeliveryChallanDetail";
+
 import PurchaseOrderForm from "@/features/finance/pages/purchase/PurchaseOrderForm";
 import AccountActivityForm from "@/features/crm/pages/accounts/relatedList/accountActivity/AccountActivityForm";
 import CategoryLayout from "@/features/portal/Masters/Category/Layout/CategoryLayout";
@@ -345,12 +341,7 @@ export default function AppRoutes() {
               <Route path="details/:id" element={<DealsDetailsView />} />
                <Route path="activity" element={<QuoteActivityForm />} />
             </Route>
-           <Route path="deliveryChallan" element={<DeliveryChallan />}>
-              <Route path="" element={<DeliveryChallanList />} />
-              <Route path="create" element={<DeliveryChallanForm />} />
-              <Route path="detail" element={<DeliveryChallanDetail />} />
-              <Route path="activity" element={<DeliveryChallanActivityForm />} />
-           </Route>
+          
             <Route path="offerings" element={<OfferingLayout />}>
               <Route path="" element={<OfferingListView />} />
               <Route path="create" element={<OfferingForm />} />

@@ -1,0 +1,167 @@
+[
+  {
+    "ROWID": 1,
+    "firstName": "John",
+    "lastName": "Smith",
+    "email": "john.smith@techcorp.com",
+    "phone": "+1-555-0101",
+    "contactType": "Primary",
+    "company": {
+      "companyName": "TechCorp Solutions"
+    }
+  },
+  {
+    "ROWID": 2,
+    "firstName": "Sarah",
+    "lastName": "Johnson",
+    "email": "sarah.j@innovatetech.com",
+    "phone": "+1-555-0102",
+    "contactType": "Decision Maker",
+    "company": {
+      "companyName": "InnovateTech Inc"
+    }
+  },
+  {
+    "ROWID": 3,
+    "firstName": "Michael",
+    "lastName": "Davis",
+    "email": "m.davis@globalsoft.com",
+    "phone": "+1-555-0103",
+    "contactType": "Technical",
+    "company": {
+      "companyName": "GlobalSoft Systems"
+    }
+  },
+  {
+    "ROWID": 4,
+    "firstName": "Emily",
+    "lastName": "Brown",
+    "email": "emily.brown@startup.io",
+    "phone": "+1-555-0104",
+    "contactType": "Primary",
+    "company": {
+      "companyName": "Startup.io"
+    }
+  },
+  {
+    "ROWID": 5,
+    "firstName": "David",
+    "lastName": "Wilson",
+    "email": "d.wilson@enterprises.com",
+    "phone": "+1-555-0105",
+    "contactType": "Financial",
+    "company": {
+      "companyName": "Wilson Enterprises"
+    }
+  },
+  {
+    "ROWID": 6,
+    "firstName": "Lisa",
+    "lastName": "Garcia",
+    "email": "lisa.garcia@consulting.com",
+    "phone": "+1-555-0106",
+    "contactType": "Decision Maker",
+    "company": {
+      "companyName": "Garcia Consulting"
+    }
+  },
+  {
+    "ROWID": 7,
+    "firstName": "Robert",
+    "lastName": "Martinez",
+    "email": "r.martinez@manufacturing.com",
+    "phone": "+1-555-0107",
+    "contactType": "Technical",
+    "company": {
+      "companyName": "Martinez Manufacturing"
+    }
+  },
+  {
+    "ROWID": 8,
+    "firstName": "Jennifer",
+    "lastName": "Anderson",
+    "email": "j.anderson@retail.com",
+    "phone": "+1-555-0108",
+    "contactType": "Primary",
+    "company": {
+      "companyName": "Anderson Retail Group"
+    }
+  },
+  {
+    "ROWID": 9,
+    "firstName": "James",
+    "lastName": "Taylor",
+    "email": "james.taylor@logistics.com",
+    "phone": "+1-555-0109",
+    "contactType": "Operations",
+    "company": {
+      "companyName": "Taylor Logistics"
+    }
+  },
+  {
+    "ROWID": 10,
+    "firstName": "Maria",
+    "lastName": "Rodriguez",
+    "email": "maria.r@healthcare.com",
+    "phone": "+1-555-0110",
+    "contactType": "Decision Maker",
+    "company": {
+      "companyName": "Rodriguez Healthcare"
+    }
+  },
+  {
+    "ROWID": 11,
+    "firstName": "Christopher",
+    "lastName": "Lee",
+    "email": "c.lee@finance.com",
+    "phone": "+1-555-0111",
+    "contactType": "Financial",
+    "company": {
+      "companyName": "Lee Financial Services"
+    }
+  },
+  {
+    "ROWID": 12,
+    "firstName": "Amanda",
+    "lastName": "White",
+    "email": "amanda.white@education.com",
+    "phone": "+1-555-0112",
+    "contactType": "Primary",
+    "company": {
+      "companyName": "White Education Group"
+    }
+  },
+  {
+    "ROWID": 13,
+    "firstName": "Daniel",
+    "lastName": "Harris",
+    "email": "daniel.harris@construction.com",
+    "phone": "+1-555-0113",
+    "contactType": "Technical",
+    "company": {
+      "companyName": "Harris Construction"
+    }
+  },
+  {
+    "ROWID": 14,
+    "firstName": "Jessica",
+    "lastName": "Clark",
+    "email": "jessica.clark@marketing.com",
+    "phone": "+1-555-0114",
+    "contactType": "Marketing",
+    "company": {
+      "companyName": "Clark Marketing Agency"
+    }
+  },
+  {
+    "ROWID": 15,
+    "firstName": "Matthew",
+    "lastName": "Lewis",
+    "email": "matthew.lewis@energy.com",
+    "phone": "+1-555-0115",
+    "contactType": "Decision Maker",
+    "company": {
+      "companyName": "Lewis Energy Solutions"
+    }
+  }
+]
