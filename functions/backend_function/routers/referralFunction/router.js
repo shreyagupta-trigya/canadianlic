@@ -16,18 +16,18 @@ const {
   updateRegisterReferral
 } = require("../../controller/referralFunction/referralController");
 
-referralRouter.put("/createreferral", createReferral);
-referralRouter.post("/getallreferrals/:id?", getAllReferrals);
-referralRouter.get("/getusers", getUsers);
-referralRouter.get("/getsinglereferral/:id", getSingleReferral);
-referralRouter.post("/update-referral/:id", updateReferral);
-referralRouter.delete("/deletereferral/:id", deleteReferral);
-referralRouter.post("/send-email-sample", sendEmailSample);
-referralRouter.post("/registerrefferal", registerReferral);
-referralRouter.post("/approveReferralEmail/:id", approveReferralEmail);
-referralRouter.get("/getcontactDetails/:id?", getContactDetails);
-referralRouter.get("/getReferrallist", getReferralList);
+referralRouter.post("/createReferral", createReferral);
+referralRouter.post("/getAllReferrals/:id?", getAllReferrals);
+referralRouter.get("/getUsers", getUsers);
+referralRouter.get("/getSingleReferral/:id", getSingleReferral);
+referralRouter.put("/updateReferral/:id", updateReferral);
+referralRouter.delete("/deleteReferral/:id", deleteReferral);
+referralRouter.post("/sendEmailSample", sendEmailSample);
+referralRouter.post("/registerReferral", registerReferral);
+referralRouter.put("/approveReferralEmail/:id", approveReferralEmail);
+referralRouter.get("/getContactDetails/:id?", getContactDetails);
+referralRouter.get("/getReferralList", getReferralList);
 referralRouter.get("/getReferralRegister/:id", getReferralRegister);
-referralRouter.post("/updateregisterreferral/:id", updateRegisterReferral);
+referralRouter.put("/updateRegisterReferral/:id", updateRegisterReferral);
 
 module.exports = referralRouter;
