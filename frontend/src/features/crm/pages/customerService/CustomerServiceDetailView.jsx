@@ -288,12 +288,6 @@ const CustomerServiceDetailView = () => {
               <SelectItem value="conversations">Conversations</SelectItem>
               <SelectItem value="attachments">Attachments</SelectItem>
               <SelectItem value="comms">Comms</SelectItem>
-<<<<<<< HEAD
-              <SelectItem value="open-activity">Open Activity</SelectItem>
-              <SelectItem value="close-activity">Close Activity</SelectItem>
-              <SelectItem value="zoho-survey">Zoho Survey</SelectItem>
-=======
->>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
             </SelectContent>
           </Select>
           <TabsList className="hidden lg:flex **:data-[slot=badge]:bg-muted-foreground/30 **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:px-1">
@@ -301,12 +295,6 @@ const CustomerServiceDetailView = () => {
             <TabsTrigger value="conversations">Conversations ({comments.length})</TabsTrigger>
             <TabsTrigger value="attachments">Attachments</TabsTrigger>
             <TabsTrigger value="comms">Comms</TabsTrigger>
-<<<<<<< HEAD
-            <TabsTrigger value="open-activity">Open Activity</TabsTrigger>
-            <TabsTrigger value="close-activity">Close Activity</TabsTrigger>
-            <TabsTrigger value="zoho-survey">Zoho Survey</TabsTrigger>
-=======
->>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
 
           </TabsList>
           <div className="flex items-right gap-2"></div>
@@ -719,32 +707,6 @@ const CustomerServiceDetailView = () => {
             </TabsContent>
           </Tabs>
         </TabsContent>
-<<<<<<< HEAD
-
-        <TabsContent
-          value="open-activity"
-          className="flex flex-col px-2"
-          style={{ border: "none" }}
-        >
-          <OpenActivity />
-        </TabsContent>
-
-        <TabsContent
-          value="close-activity"
-          className="flex flex-col px-2"
-          style={{ border: "none" }}
-        >
-          <CloseActivity />
-        </TabsContent>
-
-        <TabsContent
-          value="zoho-survey"
-          className="flex flex-col px-2"
-          style={{ border: "none" }}
-        >
-          <ZohoSurvey />
-        </TabsContent>
-=======
 {/* 
         <TabsContent
           value="referralLead"
@@ -799,7 +761,6 @@ const CustomerServiceDetailView = () => {
           {dynamicTabValue === "zoho-survey" && <ZohoSurvey />}
           {dynamicTabValue === "close-activity" && <CloseActivity />}
         </TabsContent> */}
->>>>>>> 6ec2f89292f9d12496c5b4fa2457c025ac55e846
       </Tabs>
     </>
   );
