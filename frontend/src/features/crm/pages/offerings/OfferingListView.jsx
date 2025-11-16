@@ -1,36 +1,58 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import * as React from "react";
 import {
-  fetchOfferings,
-  deleteOfferingFromList,
-} from "@/redux/slices/offerings/offeringsSlice";
-import { deleteOffering } from "@/services/crm/offeringApi";
+  closestCenter,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  restrictToVerticalAxis,
+  restrictToHorizontalAxis,
+} from "@dnd-kit/modifiers";
+import {
+  arrayMove,
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+  horizontalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import {
+  IconChevronDown,
+  IconChevronLeft,
+  IconChevronRight,
+  IconChevronsLeft,
+  IconChevronsRight,
+  IconDotsVertical,
+  IconGripVertical,
+  IconLoader,
+  IconPlus,
+  IconSearch,
+  IconDownload,
+  IconFilter,
+  IconChevronUp,
+  IconArrowUp,
+  IconArrowDown,
+  IconMail,
+} from "@tabler/icons-react";
+import {
+  flexRender,
+  getCoreRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { toast } from "sonner";
+
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Drawer,
@@ -42,34 +64,71 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-// import Swal from "sweetalert2";
 import {
-  Eye,
-  Edit,
-  Trash2,
-  Search,
-  RotateCcw,
-  Download,
-  Upload,
-  Plus,
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  ChevronUp,
-  ArrowUp,
-  ArrowDown,
-} from "lucide-react";
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+import noresult from "@assets/no-data.png";
+import { useState, useEffect, useMemo, useId } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchOfferings,
+  deleteOfferingFromList,
+} from "@/redux/slices/offerings/offeringsSlice";
+import { deleteOffering } from "@/services/crm/offeringApi";
+import TableSkeleton from "@/components/custom/TableSkeleton";
+import { TableDataDeleteAlert } from "@/components/custom/TableDataDeleteAlert";
+import { EllipsisVertical } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
+import dummyOfferings from "./sample/data.json";
+import OfferingDrawer from "./OfferingDrawer";
+import MassUpdateModal from "./MassUpdateModal";
+import MassUpdateEmailModal from "./MassUpdateEmailModal";
+
+function DragHandle({ id }) {
+  const { attributes, listeners } = useSortable({
+    id,
+  });
+  return (
+    <Button
+      {...attributes}
+      {...listeners}
+      variant="ghost"
+      size="icon"
+      className="text-muted-foreground size-7 hover:bg-transparent"
+    >
+      <IconGripVertical className="text-muted-foreground size-3" />
+      <span className="sr-only">Drag to reorder</span>
+    </Button>
+  );
+}
 
 function SortableHeader({ column, title }) {
-  const { sorting } = column.getContext().table.getState();
-  const sortDirection = sorting.find(s => s.id === column.id)?.desc;
+  const sortDirection = column.getIsSorted();
 
   return (
     <Button
@@ -79,501 +138,722 @@ function SortableHeader({ column, title }) {
     >
       <span className="flex items-center gap-1">
         {title}
-        {sortDirection === undefined ? (
-          <ChevronUp className="size-4 opacity-50" />
-        ) : sortDirection ? (
-          <ArrowDown className="size-4" />
+        {sortDirection === false ? (
+          <IconChevronUp className="size-4 opacity-50" />
+        ) : sortDirection === "asc" ? (
+          <IconArrowUp className="size-4" />
         ) : (
-          <ArrowUp className="size-4" />
+          <IconArrowDown className="size-4" />
         )}
       </span>
     </Button>
   );
 }
 
-const OfferingListView = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { data: offerings, loading, error, fetched } = useSelector(
-    (state) => state.offerings.all
+function DraggableRow({ row, navigate }) {
+  const { transform, transition, setNodeRef, isDragging } = useSortable({
+    id: row.original.ROWID,
+  });
+
+  const handleRowClick = () => {
+    if (!isDragging) {
+      navigate(`/crm/offerings/details/${row.original.ROWID}`, {
+        state: row.original,
+      });
+    }
+  };
+
+  return (
+    <TableRow
+      data-state={row.getIsSelected() && "selected"}
+      data-dragging={isDragging}
+      ref={setNodeRef}
+      className="relative z-0 data-[dragging=true]:z-10 data-[dragging=true]:opacity-80 cursor-pointer hover:bg-muted/50"
+      style={{
+        transform: CSS.Transform.toString(transform),
+        transition: transition,
+      }}
+      onClick={handleRowClick}
+    >
+      {row.getVisibleCells().map((cell) => (
+        <TableCell className="compact-table py-0.5 px-2 text-sm" key={cell.id}>
+          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+        </TableCell>
+      ))}
+    </TableRow>
   );
+}
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
-  const [totalItems, setTotalItems] = useState(0);
-  const [showSearchDetail, setShowSearchDetail] = useState(false);
-  const [searchForm, setSearchForm] = useState({
-    name: "",
-    offeringActive: "",
-    offeringCategory: "",
-    offeringType: "",
-    insurancePartnerName: "",
-  });
-  const [operationForm, setOperationForm] = useState({
-    name: "",
-    offeringActive: "",
-    offeringCategory: "",
-    offeringType: "",
-    insurancePartnerName: "",
-  });
-  const [fieldChecks, setFieldChecks] = useState({
-    name: false,
-    offeringActive: false,
-    offeringCategory: false,
-    offeringType: false,
-    insurancePartnerName: false,
-  });
-  const [inputVisibility, setInputVisibility] = useState({});
-  const [betweenFields, setBetweenFields] = useState({});
-  const [selectedRows, setSelectedRows] = useState([]);
+const OfferingListView = () => {
+  const isMobile = useIsMobile();
+  const [data, setData] = useState([]);
+  const [rowSelection, setRowSelection] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState({});
+  const [columnFilters, setColumnFilters] = useState([]);
   const [sorting, setSorting] = useState([]);
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+  const [columnOrder, setColumnOrder] = useState([
+    "drag",
+    "select",
+    "actions",
+    "offeringName",
+    "offeringActive",
+    "offeringCategory",
+    "offeringType",
+    "insurancePartnerName",
+  ]);
+  const [columnSizing, setColumnSizing] = useState(() => {
+    // Load column sizing from localStorage
+    const saved = localStorage.getItem("offerings-table-column-sizing");
+    const defaultSizes = {
+      drag: 40,
+      select: 50,
+      actions: 80,
+      offeringName: 50,
+      offeringActive: 50,
+      offeringCategory: 50,
+      offeringType: 50,
+      insurancePartnerName: 50,
+    };
+    return saved ? { ...defaultSizes, ...JSON.parse(saved) } : defaultSizes;
+  });
+  const [openAlert, setOpenAlert] = useState(false);
+  const [idToDelete, setIdToDelete] = useState("");
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
-  const allFields = [
-    { label: "Offering Name", model: "name", placeholder: "Offering Name", type: "text" },
-    { label: "Offering Active", model: "offeringActive", placeholder: "Offering Active", type: "text" },
-    { label: "Offering Category", model: "offeringCategory", placeholder: "Offering Category", type: "text" },
-    { label: "Offering Type", model: "offeringType", placeholder: "Offering Type", type: "text" },
-    { label: "Insurance Partner Name", model: "insurancePartnerName", placeholder: "Insurance Partner Name", type: "text" },
-  ];
+  const [isSearchDrawerOpen, setIsSearchDrawerOpen] = useState(false);
+  const [isMassUpdateModalOpen, setIsMassUpdateModalOpen] = useState(false);
+  const [isMassEmailModalOpen, setIsMassEmailModalOpen] = useState(false);
+  const [isColumnManageDrawerOpen, setIsColumnManageDrawerOpen] = useState(false);
+  const [viewMode, setViewMode] = useState("table");
+  const [visibleColumns, setVisibleColumns] = useState(() => {
+    return [
+      "Action",
+      "Offering Name",
+      "Offering Active",
+      "Offering Category",
+      "Offering Type",
+      "Insurance Partner Name",
+    ];
+  });
+  const [allColumns, setAllColumns] = useState([
+    "Action",
+    "Offering Name",
+    "Offering Active",
+    "Offering Category",
+    "Offering Type",
+    "Insurance Partner Name",
+  ]);
 
-  const stringComponent = [
-    { value: "is", label: "Is" },
-    { value: "is_not", label: "Is Not" },
-    { value: "contains", label: "Contains" },
-    { value: "does_not_contain", label: "Does Not Contain" },
-    { value: "starts_with", label: "Starts With" },
-    { value: "ends_with", label: "Ends With" },
-  ];
+  const columnMapping = {
+    Action: "actions",
+    "Offering Name": "offeringName",
+    "Offering Active": "offeringActive",
+    "Offering Category": "offeringCategory",
+    "Offering Type": "offeringType",
+    "Insurance Partner Name": "insurancePartnerName",
+  };
+
+
+
+  const dispatch = useDispatch();
+  const {
+    data: offeringsData,
+    loading,
+    error,
+    fetched,
+  } = useSelector((state) => state.offerings.all);
 
   useEffect(() => {
-    if (!fetched) {
-      dispatch(fetchOfferings());
-    }
-  }, [fetched, dispatch]);
+    // Use dummy data instead of fetching from API
+    setData(dummyOfferings);
+  }, []);
 
   useEffect(() => {
-    setTotalItems(offerings.length);
-  }, [offerings]);
-
-
-
-  const totalPages = Math.ceil(offerings.length / itemsPerPage);
-
-  const getOperationOptions = (field) => {
-    if (["text", "email", "picklist", "array"].includes(field.type)) {
-      return stringComponent;
-    }
-    return stringComponent;
-  };
-
-  const handleFieldCheckChange = (model, checked) => {
-    setFieldChecks((prev) => ({ ...prev, [model]: checked }));
-    if (checked) {
-      const operations = getOperationOptions({ type: "text" });
-      setOperationForm((prev) => ({ ...prev, [model]: operations[0]?.value || "" }));
-    } else {
-      setOperationForm((prev) => ({ ...prev, [model]: "" }));
-      setSearchForm((prev) => ({ ...prev, [model]: "" }));
-    }
-  };
-
-  const handleOperationChange = (fieldName, operation) => {
-    setBetweenFields((prev) => ({ ...prev, [fieldName]: false }));
-    setInputVisibility((prev) => ({ ...prev, [fieldName]: false }));
-
-    if (operation === "between") {
-      setBetweenFields((prev) => ({ ...prev, [fieldName]: true }));
-    } else if (operation) {
-      setInputVisibility((prev) => ({ ...prev, [fieldName]: true }));
-    }
-  };
-
-  const searchOffering = async () => {
-    // Implement search logic here
-    setShowSearchDetail(false);
-    toast.info("Search functionality to be implemented");
-  };
-
-  const resetFilters = () => {
-    setSearchForm({
-      name: "",
-      offeringActive: "",
-      offeringCategory: "",
-      offeringType: "",
-      insurancePartnerName: "",
-    });
-    setFieldChecks({
-      name: false,
-      offeringActive: false,
-      offeringCategory: false,
-      offeringType: false,
-      insurancePartnerName: false,
-    });
-    setOperationForm({
-      name: "",
-      offeringActive: "",
-      offeringCategory: "",
-      offeringType: "",
-      insurancePartnerName: "",
-    });
-    setInputVisibility({});
-    setBetweenFields({});
-  };
-
-  const resetOffering = () => {
-    dispatch(fetchOfferings());
-    setCurrentPage(1);
-  };
-
-  const confirmDelete = (id) => {
-    // Swal.fire({
-    //   title: "Are you sure?",
-    //   text: "You won't be able to revert this!",
-    //   icon: "warning",
-    //   iconColor: "red",
-    //   showCancelButton: true,
-    //   confirmButtonColor: "#E9C874",
-    //   cancelButtonColor: "red",
-    //   confirmButtonText: "Yes, delete it!",
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-    //     deleteProduct(id);
-    //   }
-    // });
-  };
-
-  const deleteProduct = async (id) => {
-    try {
-      const res = await deleteOffering(id);
-      if (res.success) {
-        dispatch(deleteOfferingFromList(id));
-        // Swal.fire({
-        //   title: "Policy Deleted Successfully",
-        //   icon: "success",
-        // });
+    const visibilityMap = {};
+    allColumns.forEach((col) => {
+      const columnId = columnMapping[col];
+      if (columnId) {
+        visibilityMap[columnId] = visibleColumns.includes(col);
       }
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to delete offering");
+    });
+    setColumnVisibility(visibilityMap);
+  }, [visibleColumns, allColumns]);
+
+  function handleDelete() {
+    if (idToDelete !== "") {
+      setDeleteLoading(true);
+      deleteOffering(idToDelete)
+        .then((res) => {
+          const count = res?.offerings?.[0]?.offerings?.DELETED_ROWS_COUNT;
+
+          if (res.success && count > 0) {
+            dispatch(deleteOfferingFromList(idToDelete));
+            toast.success("Offering deleted successfully");
+          } else {
+            toast.error("Offering not deleted");
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error(err?.response?.data?.message || "Failed to delete offering");
+        })
+        .finally(() => {
+          setDeleteLoading(false);
+          setOpenAlert(false);
+        });
     }
-  };
+  }
 
-  const downloadFile = async () => {
-    // Implement download logic here
-    toast.info("Download functionality to be implemented");
-  };
+  const OfferingColumns = (navigate) => [
+    {
+      id: "drag",
+      header: "",
+      cell: ({ row }) => (
+        <div onClick={(e) => e.stopPropagation()}>
+          <DragHandle id={row.original.ROWID} />
+        </div>
+      ),
+      enableSorting: false,
+      enableHiding: false,
+      size: 40,
+      minSize: 40,
+    },
+    {
+      id: "select",
+      header: ({ table }) => (
+        <div
+          className="flex items-center justify-center"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <Checkbox
+            checked={
+              table.getIsAllPageRowsSelected() ||
+              (table.getIsSomePageRowsSelected() && "indeterminate")
+            }
+            onCheckedChange={(value) =>
+              table.toggleAllPageRowsSelected(!!value)
+            }
+            aria-label="Select all"
+          />
+        </div>
+      ),
+      cell: ({ row }) => (
+        <div
+          className="flex items-center justify-center"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label="Select row"
+          />
+        </div>
+      ),
+      enableSorting: false,
+      enableHiding: false,
+      size: 50,
+      minSize: 50,
+    },
+    {
+      id: "actions",
+      header: "Action",
+      cell: ({ row }) => (
+        <div className="d-flex justify-content-center align-items-center gap-2 ">
+          <Button
+            onClick={() =>
+              navigate(`/crm/offerings/details/${row.original.ROWID}`, {
+                state: row.original,
+              })
+            }
+            variant="link"
+            className="text-foreground cursor-pointer w-fit px-0 text-left "
+          >
+            <i className="fas fa-eye text-gray-400 " aria-hidden="true"></i>
+          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <EllipsisVertical />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-32">
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/crm/offerings/details/${row.original.ROWID}`, {
+                    state: row.original,
+                  });
+                }}
+              >
+                Detail view
+              </DropdownMenuItem>
 
-  const goToFirstPage = () => setCurrentPage(1);
-  const goToLastPage = () => setCurrentPage(totalPages);
-  const prevPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
-  const nextPage = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
-  const gotoPage = (page) => setCurrentPage(page);
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/crm/offerings/create`);
+                }}
+              >
+                Edit
+              </DropdownMenuItem>
 
-  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpenAlert(true);
+                  setIdToDelete(row.original.ROWID);
+                }}
+                variant="destructive"
+                className="text-red-500"
+              >
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
 
-  const columns = [
+          </DropdownMenu>
+        </div>
+      ),
+      size: 50,
+      minSize: 50,
+    },
     {
       accessorKey: "offeringName",
-      header: ({ column }) => <SortableHeader column={column} title="Offering Name" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Offering Name" />
+      ),
+      cell: ({ row }) => (
+        <Button
+          onClick={() =>
+            navigate(`/crm/offerings/details/${row.original.ROWID}`, {
+              state: row.original,
+            })
+          }
+          variant="link"
+          className="w-full text-left truncate overflow-hidden"
+        >
+          {row.original.offeringName}
+        </Button>
+      ),
+      size: 50,
+      minSize: 50,
     },
     {
       accessorKey: "offeringActive",
-      header: ({ column }) => <SortableHeader column={column} title="Offering Active" />,
-      cell: ({ row }) => <div>{row.original.offeringActive ? "true" : "false"}</div>,
-    },
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Offering Active" />
+      ),
+      cell: ({ row }) => (
+        <Badge
+          className="badge-style break-words whitespace-normal rounded-full"
+          style={{
+            backgroundColor: row.original.offeringActive ? "#4caf50" : "#f44336",
+            color: "white",
+            maxWidth: '100%',  // ensures badge doesn’t overflow container
+            overflowWrap: "break-word", // breaks long words
+          }}
+        >
+          <span className="p-[1.5px] text-center">
+            {row.original.offeringActive ? "Active" : "Inactive"}
+          </span>
+        </Badge>
+      ),
+      size: 50,
+      minSize: 50,
+    }
+    ,
     {
       accessorKey: "offeringCategory",
-      header: ({ column }) => <SortableHeader column={column} title="Offering Category" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Offering Category" />
+      ),
+      cell: ({ row }) => <div className="truncate">{row.original.offeringCategory}</div>,
+      size: 50,
+      minSize: 50,
     },
     {
       accessorKey: "offeringType",
-      header: ({ column }) => <SortableHeader column={column} title="Offering Type" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Offering Type" />
+      ),
+      cell: ({ row }) => <div className="truncate">{row.original.offeringType}</div>,
+      size: 50,
+      minSize: 50,
     },
     {
       accessorKey: "insurancePartnerName",
-      header: ({ column }) => <SortableHeader column={column} title="Insurance Partner Name" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Insurance Partner Name" />
+      ),
+      cell: ({ row }) => <div className="truncate">{row.original.insurancePartnerName}</div>,
+      size: 50,
+      minSize: 50,
+      enableHiding: false,
     },
   ];
 
+  const navigate = useNavigate();
+  const sortableId = useId();
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {})
+  );
+  const dataIds = useMemo(() => data?.map(({ ROWID }) => ROWID) || [], [data]);
+  const columns = OfferingColumns(navigate);
   const table = useReactTable({
-    data: offerings,
+    data: data,
     columns,
     state: {
       sorting,
+      columnVisibility,
+      rowSelection,
+      columnFilters,
+      pagination,
+      columnOrder,
+      columnSizing,
     },
+    getRowId: (row) => row.ROWID,
+    enableRowSelection: true,
+    enableColumnResizing: true,
+    onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
+    onPaginationChange: setPagination,
+    onColumnOrderChange: setColumnOrder,
+    onColumnSizingChange: (updater) => {
+      setColumnSizing((old) => {
+        const newSizing = typeof updater === "function" ? updater(old) : updater;
+        // Clamp to minSize
+        const clamped = {};
+        Object.keys(newSizing).forEach((key) => {
+          const minSize = columns.find((col) => col.id === key)?.minSize || 40;
+          clamped[key] = Math.max(newSizing[key], minSize);
+        });
+        // Save to localStorage
+        localStorage.setItem("offerings-table-column-sizing", JSON.stringify(clamped));
+        return clamped;
+      });
+    },
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
-  const paginatedData = table.getRowModel().rows.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  function handleDragEnd(event) {
+    const { active, over } = event;
+    if (active && over && active.id !== over.id) {
+      setData((data) => {
+        const oldIndex = dataIds.indexOf(active.id);
+        const newIndex = dataIds.indexOf(over.id);
+        return arrayMove(data, oldIndex, newIndex);
+      });
+    }
+  }
+
+  if (loading) return <TableSkeleton />;
 
   return (
-    <div className="flex flex-col gap-4 p-4 min-h-screen">
-      <div className="grid grid-cols-1">
-        <div className="border rounded-lg">
-          {/* Header Section */}
-          <div className="flex justify-end items-center p-4">
-            <div className="flex items-center gap-2">
-              <Drawer open={showSearchDetail} onOpenChange={setShowSearchDetail}>
-                <DrawerTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    <Search className="w-4 h-4" />
-                  </Button>
-                </DrawerTrigger>
-                <DrawerContent>
-                  <DrawerHeader>
-                    <DrawerTitle>Advanced Search</DrawerTitle>
-                    <DrawerDescription>
-                      Filter offerings by various criteria
-                    </DrawerDescription>
-                  </DrawerHeader>
-                  <div className="flex flex-col gap-4 overflow-y-auto max-h-[calc(100vh-200px)] p-4">
-                    {allFields.map((field) => (
-                      <div key={field.model} className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <Checkbox
-                            checked={fieldChecks[field.model]}
-                            onCheckedChange={(checked) => handleFieldCheckChange(field.model, checked)}
-                          />
-                          <Label>{field.label}</Label>
-                        </div>
-                        {fieldChecks[field.model] && (
-                          <div className="space-y-2">
-                            <Select
-                              value={operationForm[field.model]}
-                              onValueChange={(value) => handleOperationChange(field.model, value)}
-                            >
-                              <SelectTrigger>
-                                <SelectValue />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {getOperationOptions(field).map((option) => (
-                                  <SelectItem key={option.value} value={option.value}>
-                                    {option.label}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            {betweenFields[field.model] ? (
-                              <div className="flex flex-col gap-2">
-                                <Input
-                                  type="datetime-local"
-                                  placeholder="From"
-                                  value={searchForm[`${field.model}From`] || ""}
-                                  onChange={(e) =>
-                                    setSearchForm((prev) => ({ ...prev, [`${field.model}From`]: e.target.value }))
-                                  }
-                                />
-                                <Input
-                                  type="datetime-local"
-                                  placeholder="To"
-                                  value={searchForm[`${field.model}To`] || ""}
-                                  onChange={(e) =>
-                                    setSearchForm((prev) => ({ ...prev, [`${field.model}To`]: e.target.value }))
-                                  }
-                                />
-                              </div>
-                            ) : (
-                              inputVisibility[field.model] && (
-                                <Input
-                                  type={field.type === "date" ? "datetime-local" : "text"}
-                                  placeholder={field.placeholder}
-                                  value={searchForm[field.model] || ""}
-                                  onChange={(e) =>
-                                    setSearchForm((prev) => ({ ...prev, [field.model]: e.target.value }))
-                                  }
-                                />
-                              )
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                  <DrawerFooter>
-                    <Button onClick={searchOffering}>Search</Button>
-                    <Button variant="outline" onClick={resetFilters}>
-                      Reset
-                    </Button>
-                    <DrawerClose asChild>
-                      <Button variant="outline">Close</Button>
-                    </DrawerClose>
-                  </DrawerFooter>
-                </DrawerContent>
-              </Drawer>
-              <Button variant="outline" size="sm" onClick={resetOffering}>
-                <RotateCcw className="w-4 h-4 mr-2" />
-                Reset
+    <div className="flex flex-col justify-start gap-2">
+      {/* HEADER */}
+      <div className="flex items-center justify-end mx-1 lg:mx-2">
+        <div className="flex items-right gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setIsSearchDrawerOpen(true)}
+          >
+            <IconSearch />
+            <span className="hidden lg:inline">Search</span>
+          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm">
+                <IconFilter />
+                <span className="hidden lg:inline">Actions</span>
+                <IconChevronDown />
               </Button>
-              <Button onClick={() => navigate("/crm/offerings/create")} size="sm">
-                <Plus className="w-4 h-4 mr-2" />
-                + New
-              </Button>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    ⋯
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem>
-                    <Upload className="w-4 h-4 mr-2" />
-                    Import
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={downloadFile}>
-                    <Download className="w-4 h-4 mr-2" />
-                    Exports
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </div>
-          {/* Header Section ends */}
-          <div className="p-0">
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  {table.getHeaderGroups().map((headerGroup) => (
-                    <TableRow key={headerGroup.id}>
-                      <TableHead>
-                        <Checkbox />
-                      </TableHead>
-                      <TableHead>Actions</TableHead>
-                      {headerGroup.headers.map((header) => (
-                        <TableHead key={header.id}>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                        </TableHead>
-                      ))}
-                    </TableRow>
-                  ))}
-                </TableHeader>
-                <TableBody>
-                  {paginatedData.map((row) => (
-                    <TableRow key={row.id}>
-                      <TableCell>
-                        <Checkbox />
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center gap-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => navigate(`/crm/offerings/details/${row.original.ROWID}`)}
-                          >
-                            <Eye className="w-4 h-4" />
-                          </Button>
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm">
-                                ⋯
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                              <DropdownMenuItem
-                                onClick={() => navigate(`/crm/offerings/update/${row.original.ROWID}`)}
-                              >
-                                <Edit className="w-4 h-4 mr-2" />
-                                Edit
-                              </DropdownMenuItem>
-                              <DropdownMenuItem
-                                onClick={() => confirmDelete(row.original.ROWID)}
-                                className="text-red-500"
-                              >
-                                <Trash2 className="w-4 h-4 mr-2" />
-                                Delete
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </div>
-                      </TableCell>
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-
-            {/* Pagination */}
-            <div className="flex flex-col items-center gap-4 p-4">
-              <div className="text-sm font-medium">
-                Total Offerings: {totalItems}
-              </div>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={goToFirstPage}
-                  disabled={currentPage === 1}
-                >
-                  <ChevronsLeft className="w-4 h-4" />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={prevPage}
-                  disabled={currentPage === 1}
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </Button>
-                {totalPages <= 3 ? (
-                  pages.map((page) => (
-                    <Button
-                      key={page}
-                      variant={currentPage === page ? "default" : "outline"}
-                      size="sm"
-                      onClick={() => gotoPage(page)}
-                    >
-                      {page}
-                    </Button>
-                  ))
-                ) : (
-                  <>
-                    {[1, 2, 3].map((index) => (
-                      <Button
-                        key={index}
-                        variant={currentPage === index ? "default" : "outline"}
-                        size="sm"
-                        onClick={() => gotoPage(index)}
-                      >
-                        {index}
-                      </Button>
-                    ))}
-                  </>
-                )}
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={nextPage}
-                  disabled={currentPage === totalPages}
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={goToLastPage}
-                  disabled={currentPage === totalPages}
-                >
-                  <ChevronsRight className="w-4 h-4" />
-                </Button>
-              </div>
-            </div>
-          </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuItem
+                onClick={() => setIsMassUpdateModalOpen(true)}
+              >
+                <IconDotsVertical className="mr-2 h-4 w-4" />
+                Mass Update
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => setIsMassEmailModalOpen(true)}
+              >
+                <IconMail className="mr-2 h-4 w-4" />
+                Mass Email
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <IconDownload className="mr-2 h-4 w-4" />
+                Export
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Button
+            onClick={() => navigate("/crm/offerings/create")}
+            className="cursor-pointer"
+            variant="outline"
+            size="sm"
+          >
+            <IconPlus />
+            <span className="hidden lg:inline ">Create Offering</span>
+          </Button>
         </div>
       </div>
+      {/* TABLE Contents */}
+      <div className="relative flex flex-col gap-4 overflow-auto ">
+        {isMobile ? (
+          <div className="text-center p-4">
+            <p>Mobile view for offerings not implemented yet</p>
+          </div>
+        ) : (
+          <div className="flex flex-col">
+            <div className="flex-1 relative ">
+              <div
+                className="relative grid w-full border rounded"
+                style={{
+                  height: "calc(100vh - 140px)",
+                  maxHeight: "calc(100vh - 160px)"
+                }}
+              >
+                <DndContext
+                  collisionDetection={closestCenter}
+                  modifiers={[restrictToVerticalAxis]}
+                  onDragEnd={handleDragEnd}
+                  sensors={sensors}
+                  id={sortableId}
+                >
+                  <Table className="table-fixed">
+                    <TableHeader className="sticky top-0 z-10 bg-background">
+                      {table.getHeaderGroups().map((headerGroup) => (
+                        <TableRow key={headerGroup.id}>
+                          {headerGroup.headers.map((header) => {
+                            return (
+                              <TableHead
+                                key={header.id}
+                                colSpan={header.colSpan}
+                                style={{
+                                  width: header.getSize(),
+                                  position: "relative",
+                                  transition: "width 0.1s ease-in-out",
+                                }}
+                                className={`truncate ${header.column.id === "drag"
+                                    ? "border-r border-dotted border-gray-600"
+                                    : ""
+                                  }`}
+                              >
+                                {header.isPlaceholder
+                                  ? null
+                                  : flexRender(
+                                    header.column.columnDef.header,
+                                    header.getContext()
+                                  )}
+                                {header.column.getCanResize() && (
+                                  <div
+                                    onMouseDown={header.getResizeHandler()}
+                                    onTouchStart={header.getResizeHandler()}
+                                    className={`absolute right-0 top-0 h-full w-0.5 cursor-col-resize select-none touch-none transition-colors duration-150 ${header.column.getIsResizing()
+                                      ? "bg-primary"
+                                      : "bg-border hover:bg-primary/50"
+                                      }`}
+                                  />
+                                )}
+                              </TableHead>
+                            );
+                          })}
+                        </TableRow>
+                      ))}
+                    </TableHeader>
+                    <TableBody className="**:data-[slot=table-cell]:first:w-8 overflow-hidden">
+                      {table.getRowModel().rows?.length ? (
+                        <SortableContext
+                          items={dataIds}
+                          strategy={verticalListSortingStrategy}
+                        >
+                          {table.getRowModel().rows.map((row) => (
+                            <DraggableRow
+                              key={row.id}
+                              row={row}
+                              navigate={navigate}
+                            />
+                          ))}
+                        </SortableContext>
+                      ) : (
+                        <TableRow className="h-24 text-center">
+                          <TableCell
+                            colSpan={columns.length}
+                            className="h-24 text-center"
+                          >
+                            <img
+                              src={noresult}
+                              alt="No Data"
+                              style={{ width: "12%" }}
+                              className="text-center"
+                            />
+                            <div className="text-muted-foreground text-md">
+                              No Data Found
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </Table>
+                </DndContext>
+              </div>
+            </div>
+            <div className="fixed bottom-0 left-65 right-0 flex items-center justify-between px-4 py-2 border-t bg-background z-20">
+              <div className="text-muted-foreground hidden flex-1 text-base lg:flex">
+                {table.getFilteredSelectedRowModel().rows.length} of{" "}
+                {table.getFilteredRowModel().rows.length} row(s) selected.
+              </div>
+              <div className="flex w-full items-center gap-8 lg:w-fit">
+                <div className="hidden items-center gap-2 lg:flex">
+                  <Label
+                    htmlFor="rows-per-page"
+                    className="text-base font-medium"
+                  >
+                    Rows per page
+                  </Label>
+                  <Select
+                    value={`${table.getState().pagination.pageSize}`}
+                    onValueChange={(value) => {
+                      table.setPageSize(Number(value));
+                    }}
+                  >
+                    <SelectTrigger
+                      size="sm"
+                      className="w-20"
+                      id="rows-per-page"
+                    >
+                      <SelectValue
+                        placeholder={table.getState().pagination.pageSize}
+                      />
+                    </SelectTrigger>
+                    <SelectContent side="top">
+                      {[10, 20, 30, 40, 50].map((pageSize) => (
+                        <SelectItem key={pageSize} value={`${pageSize}`}>
+                          {pageSize}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex w-fit items-center justify-center text-sm font-medium">
+                  Page {table.getState().pagination.pageIndex + 1} of{" "}
+                  {table.getPageCount()}
+                </div>
+              </div>
+              <div className="ml-auto flex items-center gap-2 lg:ml-0">
+                <Button
+                  variant="outline"
+                  className="hidden h-8 w-8 p-0 lg:flex"
+                  onClick={() => table.setPageIndex(0)}
+                  disabled={!table.getCanPreviousPage()}
+                >
+                  <span className="sr-only">Go to first page</span>
+                  <IconChevronsLeft />
+                </Button>
+                <Button
+                  variant="outline"
+                  className="size-8"
+                  size="icon"
+                  onClick={() => table.previousPage()}
+                  disabled={!table.getCanPreviousPage()}
+                >
+                  <span className="sr-only">Go to previous page</span>
+                  <IconChevronLeft />
+                </Button>
+                <Button
+                  variant="outline"
+                  className="size-8"
+                  size="icon"
+                  onClick={() => table.nextPage()}
+                  disabled={!table.getCanNextPage()}
+                >
+                  <span className="sr-only">Go to next page</span>
+                  <IconChevronRight />
+                </Button>
+                <Button
+                  variant="outline"
+                  className="hidden size-8 lg:flex"
+                  size="icon"
+                  onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+                  disabled={!table.getCanNextPage()}
+                >
+                  <span className="sr-only">Go to last page</span>
+                  <IconChevronsRight />
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <TableDataDeleteAlert
+        loading={deleteLoading}
+        handleDelete={handleDelete}
+        open={openAlert}
+        setOpen={setOpenAlert}
+      />
+
+      {/* Modals and Drawers */}
+      {isSearchDrawerOpen && (
+        <OfferingDrawer
+          isOpen={isSearchDrawerOpen}
+          onClose={() => setIsSearchDrawerOpen(false)}
+          onSearchResults={(searchFields) => {
+            console.log('Search fields:', searchFields);
+            // TODO: Implement search logic
+          }}
+        />
+      )}
+
+      {isMassUpdateModalOpen && (
+        <MassUpdateModal
+          isOpen={isMassUpdateModalOpen}
+          onClose={() => setIsMassUpdateModalOpen(false)}
+          selectedOfferings={table
+            .getFilteredSelectedRowModel()
+            .rows.map((row) => row.original)}
+          fields={allColumns}
+          onUpdate={(updateData) => {
+            // Handle mass update logic here
+            console.log('Mass update:', updateData);
+            // TODO: Implement mass update API call and state update
+            toast.success("Mass update completed successfully!");
+          }}
+        />
+      )}
+
+      {isMassEmailModalOpen && (
+        <MassUpdateEmailModal
+          isOpen={isMassEmailModalOpen}
+          onClose={() => setIsMassEmailModalOpen(false)}
+          selectedOfferings={table
+            .getFilteredSelectedRowModel()
+            .rows.map((row) => row.original)}
+          onSend={(emailData) => {
+            // Handle mass email logic here
+            console.log('Mass email:', emailData);
+            // TODO: Implement mass email API call
+            toast.success("Mass email sent successfully!");
+          }}
+        />
+      )}
     </div>
   );
 };

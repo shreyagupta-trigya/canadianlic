@@ -137,22 +137,20 @@ const CustomerServiceDetailView = () => {
     },
   ]);
 
- const handleAddComment = () => {
-  if (!newComment.trim()) return;
+  const handleAddComment = () => {
+    if (!newComment.trim()) return;
 
-  const newItem = {
-    id: Date.now(),
-    user: "trigya.demo5inn",
-    time: new Date().toLocaleString(),
-    text: newComment,
+    const newItem = {
+      id: Date.now(),
+      user: "trigya.demo5inn",
+      time: new Date().toLocaleString(),
+      text: newComment,
+    };
+    setComments([...comments, newItem]);
+    setNewComment("");
+    const editableDiv = document.querySelector('[contenteditable="true"]');
+    if (editableDiv) editableDiv.innerHTML = "";
   };
-  setComments([...comments, newItem]);
-  setNewComment("");
-  const editableDiv = document.querySelector(
-    '[contenteditable="true"]'
-  );
-  if (editableDiv) editableDiv.innerHTML = "";
-};
   const [deleteId, setDeleteId] = useState(null);
   const handleDelete = () => {
     setComments(comments.filter((c) => c.id !== deleteId));
@@ -161,8 +159,8 @@ const CustomerServiceDetailView = () => {
   const [isDisabled, setIsDisabled] = useState(true);
 
   useEffect(() => {
-  if (details) {
-  setFormData({
+    if (details) {
+      setFormData({
         ...details,
         currency: details.currency ?? "",
         customerServiceOwner: details.customerServiceOwner ?? "",
@@ -177,10 +175,12 @@ const CustomerServiceDetailView = () => {
         status: details.status ?? "",
         updatedpolicymodulezoho: details.updatedpolicymodulezoho ?? "",
         commentoncontactprofilezoho: details.commentoncontactprofilezoho ?? "",
-        requestbotemailcompanycancelportal: details.requestbotemailcompanycancelportal ?? "",
+        requestbotemailcompanycancelportal:
+          details.requestbotemailcompanycancelportal ?? "",
         confirmationreceivedbyus: details.confirmationreceivedbyus ?? "",
         confirmationtoclient: details.confirmationtoclient ?? "",
-        effectivedatematchesonconfirmation: details.effectivedatematchesonconfirmation ?? "",
+        effectivedatematchesonconfirmation:
+          details.effectivedatematchesonconfirmation ?? "",
         policyRenewalDate: details.policyRenewalDate ?? "",
         policyExpiryDate: details.policyExpiryDate ?? "",
         newPolicyRenewalDate: details.newPolicyRenewalDate ?? "",
@@ -199,8 +199,7 @@ const CustomerServiceDetailView = () => {
     if (e.target) {
       finalValue = e.target.value;
       finalName = e.target.name;
-    } else if (typeof e === 'string') {
-
+    } else if (typeof e === "string") {
       const name = e.name;
       const value = e.value;
       finalValue = value;
@@ -212,9 +211,9 @@ const CustomerServiceDetailView = () => {
 
     const finalVal = e.target ? e.target.value : e.value || e;
     const finalNam = e.target ? e.target.name : e.name;
-    if(finalNam) {
-        setFormData((prev) => ({ ...prev, [finalNam]: finalVal }));
-        !showUpdateBtn && setShowUpdateBtn(true);
+    if (finalNam) {
+      setFormData((prev) => ({ ...prev, [finalNam]: finalVal }));
+      !showUpdateBtn && setShowUpdateBtn(true);
     }
   };
 
@@ -272,10 +271,7 @@ const CustomerServiceDetailView = () => {
           <Label htmlFor="view-selector" className="sr-only">
             View
           </Label>
-          <Select
-            value={activeTab}
-            onValueChange={setActiveTab}
-          >
+          <Select value={activeTab} onValueChange={setActiveTab}>
             <SelectTrigger
               className="flex w-fit lg:hidden"
               size="sm"
@@ -295,354 +291,380 @@ const CustomerServiceDetailView = () => {
           </Select>
           <TabsList className="hidden lg:flex **:data-[slot=badge]:bg-muted-foreground/30 **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:px-1">
             <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="conversations">Conversations ({comments.length})</TabsTrigger>
+            <TabsTrigger value="conversations">
+              Conversations ({comments.length})
+            </TabsTrigger>
             <TabsTrigger value="attachments">Attachments</TabsTrigger>
             <TabsTrigger value="comms">Comms</TabsTrigger>
             <TabsTrigger value="open-activity">Open Activity</TabsTrigger>
             <TabsTrigger value="close-activity">Close Activity</TabsTrigger>
             <TabsTrigger value="zoho-survey">Zoho Survey</TabsTrigger>
-
           </TabsList>
-          <div className="flex items-right gap-2"></div>
+          <div className="flex items-right gap-2">
+            {" "}
+            {showUpdateBtn ? (
+              <Button
+                loadingText={"Updating..."}
+                loading={loading}
+                onClick={handleUpdate}
+                variant={"primary"}
+              >
+                Update
+              </Button>
+            ) : (
+              <Button
+                loadingText={"Updating..."}
+                loading={loading}
+                onClick={() => setIsDisabled(false)}
+                variant={"primary"}
+              >
+                Edit
+              </Button>
+            )}
+            {showUpdateBtn && (
+              <Button onClick={handleClearChanges} variant={"outline"}>
+                Cancel Edit
+              </Button>
+            )}
+          </div>
         </div>
 
         <TabsContent value="overview" className="flex flex-col px-2 lg:px-2">
-            <div className="aspect-video w-full flex-1 rounded-lg">
-                <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-2">
-                    <Card className="@container/card">
-                        <CardHeader>
-                            <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-2xl">
-                                Customer Service Details
-                            </CardTitle>
-                            <CardDescription>Task: {formData.taskName}</CardDescription>
-                        </CardHeader>
-                    </Card>
-                    <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-2">
-                        <Card className="@container/card">
-                            <div className="flex-col p-1 mx-4 text-muted-foreground justify-center items-center">
-                                <div className="flex">
-                                    <Badge variant={"secondary"}>
-                                        <Phone />
-                                    </Badge>
-                                    <p className="ml-2">{formData.contactMobile}</p>
-                                </div>
-                            </div>
-                        </Card>
-                        {
-                            <Card className="@container/card">
-                                <CardHeader>
-                                    {showUpdateBtn ? (
-                                        <Button
-                                            loadingText={"Updating..."}
-                                            loading={loading}
-                                            onClick={handleUpdate}
-                                            variant={"primary"}
-                                        >
-                                            Update
-                                        </Button>
-                                    ) : (
-                                        <Button
-                                            loadingText={"Updating..."}
-                                            loading={loading}
-                                            onClick={() => setIsDisabled(false)}
-                                            variant={"primary"}
-                                        >
-                                            Edit
-                                        </Button>
-                                    )}
-                                    {showUpdateBtn && (
-                                        <Button
-                                            onClick={handleClearChanges}
-                                            variant={"outline"}
-                                        >
-                                            Cancel Edit
-                                        </Button>
-                                    )}
-                                </CardHeader>
-                            </Card>
-                        }
+          <div className="aspect-video w-full flex-1 rounded-lg">
+            {/* <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-2">
+              <Card className="@container/card">
+                <CardHeader>
+                  <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-2xl">
+                    Customer Service Details
+                  </CardTitle>
+                  <CardDescription>Task: {formData.taskName}</CardDescription>
+                </CardHeader>
+              </Card>
+              <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-2">
+                <Card className="@container/card">
+                  <div className="flex-col p-1 mx-4 text-muted-foreground justify-center items-center">
+                    <div className="flex">
+                      <Badge variant={"secondary"}>
+                        <Phone />
+                      </Badge>
+                      <p className="ml-2">{formData.contactMobile}</p>
                     </div>
-                </div>
-
-                {/* Customer Service Information */}
-                <Card className={`shadow-background gap-4 mt-5 px-5 py-4`}>
-                    <FormSubHeading className="text-primary mb-4">
-                        Customer Service Information
-                    </FormSubHeading>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2">
-                        <GridEditableField label="Currency">
-                            <EditableField
-                                readOnly={isDisabled}
-                                value={formData.currency}
-                                name="currency"
-                                onChange={handleChange}
-                                placeholder="CAD"
-                            />
-                        </GridEditableField>
-
-                        <GridEditableField label="Customer Service Owner">
-                            <EditableField
-                                readOnly={isDisabled}
-                                value={formData.customerServiceOwner}
-                                name="customerServiceOwner"
-                                onChange={handleChange}
-                                placeholder="Select Owner"
-                            />
-                        </GridEditableField>
-
-                        <GridEditableField label="Policy Advisor">
-                            <EditableField
-                                readOnly={isDisabled}
-                                value={formData.policyAdvisor}
-                                name="policyAdvisor"
-                                onChange={handleChange}
-                                placeholder="Select Advisor"
-                            />
-                        </GridEditableField>
-
-                        <GridEditableField label="Task Name">
-                            <EditableSelectField
-                                readOnly={isDisabled}
-                                name="taskName"
-                                value={formData.taskName}
-                                onChange={handleChange}
-                                options={TaskTypeOptions}
-                            />
-                        </GridEditableField>
-                    </div>
+                  </div>
                 </Card>
+                {
+                  <Card className="@container/card">
+                    <CardHeader>
+                      {showUpdateBtn ? (
+                        <Button
+                          loadingText={"Updating..."}
+                          loading={loading}
+                          onClick={handleUpdate}
+                          variant={"primary"}
+                        >
+                          Update
+                        </Button>
+                      ) : (
+                        <Button
+                          loadingText={"Updating..."}
+                          loading={loading}
+                          onClick={() => setIsDisabled(false)}
+                          variant={"primary"}
+                        >
+                          Edit
+                        </Button>
+                      )}
+                      {showUpdateBtn && (
+                        <Button
+                          onClick={handleClearChanges}
+                          variant={"outline"}
+                        >
+                          Cancel Edit
+                        </Button>
+                      )}
+                    </CardHeader>
+                  </Card>
+                }
+              </div>
+            </div> */}
 
-                {/* Contact Information */}
-                <Card className="shadow-background gap-4 mt-5 px-5 py-4">
-                    <FormSubHeading className="text-primary mb-4">
-                        Contact Information
-                    </FormSubHeading>
+            {/* Customer Service Information */}
+            <Card className={`shadow-background gap-4 mt-5 px-5 py-4`}>
+              <FormSubHeading className="text-primary mb-4">
+                Customer Service Information
+              </FormSubHeading>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2">
+                <GridEditableField label="Currency">
+                  <EditableField
+                    readOnly={isDisabled}
+                    value={formData.currency}
+                    name="currency"
+                    onChange={handleChange}
+                    placeholder="CAD"
+                  />
+                </GridEditableField>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2">
-                        <GridEditableField label="Contact Mobile">
-                            <EditableField
-                                readOnly={isDisabled}
-                                name="contactMobile"
-                                value={formData.contactMobile}
-                                onChange={handleChange}
-                                type="tel"
-                            />
-                        </GridEditableField>
+                <GridEditableField label="Customer Service Owner">
+                  <EditableField
+                    readOnly={isDisabled}
+                    value={formData.customerServiceOwner}
+                    name="customerServiceOwner"
+                    onChange={handleChange}
+                    placeholder="Select Owner"
+                  />
+                </GridEditableField>
 
-                        <GridEditableField label="Contacts">
-                            <EditableField
-                                readOnly={isDisabled}
-                                name="contacts"
-                                value={formData.contacts}
-                                onChange={handleChange}
-                            />
-                        </GridEditableField>
+                <GridEditableField label="Policy Advisor">
+                  <EditableField
+                    readOnly={isDisabled}
+                    value={formData.policyAdvisor}
+                    name="policyAdvisor"
+                    onChange={handleChange}
+                    placeholder="Select Advisor"
+                  />
+                </GridEditableField>
 
-                        <GridEditableField label="Exchange Rate">
-                            <EditableField
-                                readOnly={isDisabled}
-                                name="exchangeRate"
-                                value={formData.exchangeRate}
-                                onChange={handleChange}
-                                type="number"
-                            />
-                        </GridEditableField>
+                <GridEditableField label="Task Name">
+                  <EditableSelectField
+                    readOnly={isDisabled}
+                    name="taskName"
+                    value={formData.taskName}
+                    onChange={handleChange}
+                    options={TaskTypeOptions}
+                  />
+                </GridEditableField>
+              </div>
+            </Card>
 
-                        <GridEditableField label="Policies">
-                            <EditableField
-                                readOnly={isDisabled}
-                                name="policies"
-                                value={formData.policies}
-                                onChange={handleChange}
-                            />
-                        </GridEditableField>
+            {/* Contact Information */}
+            <Card className="shadow-background gap-4 mt-5 px-5 py-4">
+              <FormSubHeading className="text-primary mb-4">
+                Contact Information
+              </FormSubHeading>
 
-                        <GridEditableField label="Group Insurance">
-                            <EditableField
-                                readOnly={isDisabled}
-                                name="groupInsurance"
-                                value={formData.groupInsurance}
-                                onChange={handleChange}
-                            />
-                        </GridEditableField>
-                    </div>
-                    <div className="grid grid-cols-1 gap-4 mt-3">
-                        <GridEditableField label="Description">
-                            <EditableField
-                                readOnly={isDisabled}
-                                className="w-full"
-                                onChange={handleChange}
-                                name="description"
-                                component={Textarea}
-                                value={formData.description}
-                            />
-                        </GridEditableField>
-                    </div>
-                </Card>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2">
+                <GridEditableField label="Contact Mobile">
+                  <EditableField
+                    readOnly={isDisabled}
+                    name="contactMobile"
+                    value={formData.contactMobile}
+                    onChange={handleChange}
+                    type="tel"
+                  />
+                </GridEditableField>
 
-                {/* Status & Progress */}
-                <Card className="shadow-background gap-4 mt-5 px-5 py-4">
-                    <FormSubHeading className="text-primary mb-4">
-                        Status & Progress
-                    </FormSubHeading>
+                <GridEditableField label="Contacts">
+                  <EditableField
+                    readOnly={isDisabled}
+                    name="contacts"
+                    value={formData.contacts}
+                    onChange={handleChange}
+                  />
+                </GridEditableField>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2">
-                        <GridEditableField label="Status">
-                            <EditableSelectField
-                                readOnly={isDisabled}
-                                name="status"
-                                value={formData.status}
-                                onChange={handleChange}
-                                options={statusOptions}
-                            />
-                        </GridEditableField>
+                <GridEditableField label="Exchange Rate">
+                  <EditableField
+                    readOnly={isDisabled}
+                    name="exchangeRate"
+                    value={formData.exchangeRate}
+                    onChange={handleChange}
+                    type="number"
+                  />
+                </GridEditableField>
 
-                        <GridEditableField label="Updated Policy Module - ZOHO">
-                            <EditableSelectField
-                                readOnly={isDisabled}
-                                name="updatedpolicymodulezoho"
-                                value={formData.updatedpolicymodulezoho}
-                                onChange={handleChange}
-                                options={ServiceStatusOptions}
-                            />
-                        </GridEditableField>
+                <GridEditableField label="Policies">
+                  <EditableField
+                    readOnly={isDisabled}
+                    name="policies"
+                    value={formData.policies}
+                    onChange={handleChange}
+                  />
+                </GridEditableField>
 
-                        <GridEditableField label="Comment on Contact Profile - ZOHO">
-                            <EditableSelectField
-                                readOnly={isDisabled}
-                                name="commentoncontactprofilezoho"
-                                value={formData.commentoncontactprofilezoho}
-                                onChange={handleChange}
-                                options={ServiceStatusOptions}
-                            />
-                        </GridEditableField>
+                <GridEditableField label="Group Insurance">
+                  <EditableField
+                    readOnly={isDisabled}
+                    name="groupInsurance"
+                    value={formData.groupInsurance}
+                    onChange={handleChange}
+                  />
+                </GridEditableField>
+              </div>
+              <div className="grid grid-cols-1 gap-4 mt-3">
+                <GridEditableField label="Description">
+                  <EditableField
+                    readOnly={isDisabled}
+                    className="w-full"
+                    onChange={handleChange}
+                    name="description"
+                    component={Textarea}
+                    value={formData.description}
+                  />
+                </GridEditableField>
+              </div>
+            </Card>
 
-                        <GridEditableField label="Request BOT/Email Company/Cancel Portal">
-                            <EditableSelectField
-                                readOnly={isDisabled}
-                                name="requestbotemailcompanycancelportal"
-                                value={formData.requestbotemailcompanycancelportal}
-                                onChange={handleChange}
-                                options={ServiceStatusOptions}
-                            />
-                        </GridEditableField>
+            {/* Status & Progress */}
+            <Card className="shadow-background gap-4 mt-5 px-5 py-4">
+              <FormSubHeading className="text-primary mb-4">
+                Status & Progress
+              </FormSubHeading>
 
-                        <GridEditableField label="Confirmation Received by us">
-                            <EditableSelectField
-                                readOnly={isDisabled}
-                                name="confirmationreceivedbyus"
-                                value={formData.confirmationreceivedbyus}
-                                onChange={handleChange}
-                                options={ServiceStatusOptions}
-                            />
-                        </GridEditableField>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2">
+                <GridEditableField label="Status">
+                  <EditableSelectField
+                    readOnly={isDisabled}
+                    name="status"
+                    value={formData.status}
+                    onChange={handleChange}
+                    options={statusOptions}
+                  />
+                </GridEditableField>
 
-                        <GridEditableField label="Confirmation to Client">
-                            <EditableSelectField
-                                readOnly={isDisabled}
-                                name="confirmationtoclient"
-                                value={formData.confirmationtoclient}
-                                onChange={handleChange}
-                                options={ServiceStatusOptions}
-                            />
-                        </GridEditableField>
+                <GridEditableField label="Updated Policy Module - ZOHO">
+                  <EditableSelectField
+                    readOnly={isDisabled}
+                    name="updatedpolicymodulezoho"
+                    value={formData.updatedpolicymodulezoho}
+                    onChange={handleChange}
+                    options={ServiceStatusOptions}
+                  />
+                </GridEditableField>
 
-                        <GridEditableField label="Effective Date Matches on Confirmation">
-                            <EditableSelectField
-                                readOnly={isDisabled}
-                                name="effectivedatematchesonconfirmation"
-                                value={formData.effectivedatematchesonconfirmation}
-                                onChange={handleChange}
-                                options={ServiceStatusOptions}
-                            />
-                        </GridEditableField>
-                    </div>
-                </Card>
+                <GridEditableField label="Comment on Contact Profile - ZOHO">
+                  <EditableSelectField
+                    readOnly={isDisabled}
+                    name="commentoncontactprofilezoho"
+                    value={formData.commentoncontactprofilezoho}
+                    onChange={handleChange}
+                    options={ServiceStatusOptions}
+                  />
+                </GridEditableField>
 
-                {/* Policy Details */}
-                <Card className={`shadow-background gap-4 mt-5 px-5 py-4`}>
-                    <FormSubHeading className="text-primary mb-4">
-                        Policy Details
-                    </FormSubHeading>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2">
-                        <GridEditableField label="Policy Renewal Date">
-                            <EditableField
-                                readOnly={isDisabled}
-                                value={formData.policyRenewalDate}
-                                name="policyRenewalDate"
-                                onChange={handleChange}
-                                type="date"
-                            />
-                        </GridEditableField>
+                <GridEditableField label="Request BOT/Email Company/Cancel Portal">
+                  <EditableSelectField
+                    readOnly={isDisabled}
+                    name="requestbotemailcompanycancelportal"
+                    value={formData.requestbotemailcompanycancelportal}
+                    onChange={handleChange}
+                    options={ServiceStatusOptions}
+                  />
+                </GridEditableField>
 
-                        <GridEditableField label="Policy Expiry Date">
-                            <EditableField
-                                readOnly={isDisabled}
-                                value={formData.policyExpiryDate}
-                                name="policyExpiryDate"
-                                onChange={handleChange}
-                                type="date"
-                            />
-                        </GridEditableField>
+                <GridEditableField label="Confirmation Received by us">
+                  <EditableSelectField
+                    readOnly={isDisabled}
+                    name="confirmationreceivedbyus"
+                    value={formData.confirmationreceivedbyus}
+                    onChange={handleChange}
+                    options={ServiceStatusOptions}
+                  />
+                </GridEditableField>
 
-                        <GridEditableField label="New Policy Renewal Date">
-                            <EditableField
-                                readOnly={isDisabled}
-                                value={formData.newPolicyRenewalDate}
-                                name="newPolicyRenewalDate"
-                                onChange={handleChange}
-                                type="date"
-                            />
-                        </GridEditableField>
+                <GridEditableField label="Confirmation to Client">
+                  <EditableSelectField
+                    readOnly={isDisabled}
+                    name="confirmationtoclient"
+                    value={formData.confirmationtoclient}
+                    onChange={handleChange}
+                    options={ServiceStatusOptions}
+                  />
+                </GridEditableField>
 
-                        <GridEditableField label="Issued By">
-                            <EditableField
-                                readOnly={isDisabled}
-                                value={formData.issuedBy}
-                                name="issuedBy"
-                                onChange={handleChange}
-                            />
-                        </GridEditableField>
+                <GridEditableField label="Effective Date Matches on Confirmation">
+                  <EditableSelectField
+                    readOnly={isDisabled}
+                    name="effectivedatematchesonconfirmation"
+                    value={formData.effectivedatematchesonconfirmation}
+                    onChange={handleChange}
+                    options={ServiceStatusOptions}
+                  />
+                </GridEditableField>
+              </div>
+            </Card>
 
-                        <GridEditableField label="Renewal Completed">
-                            <EditableSelectField
-                                readOnly={isDisabled}
-                                name="renewalCompleted"
-                                value={formData.renewalCompleted}
-                                onChange={handleChange}
-                                options={[
-                                    { label: "Yes", value: "Yes" },
-                                    { label: "No", value: "No" },
-                                ]}
-                            />
-                        </GridEditableField>
+            {/* Policy Details */}
+            <Card className={`shadow-background gap-4 mt-5 px-5 py-4`}>
+              <FormSubHeading className="text-primary mb-4">
+                Policy Details
+              </FormSubHeading>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2">
+                <GridEditableField label="Policy Renewal Date">
+                  <EditableField
+                    readOnly={isDisabled}
+                    value={formData.policyRenewalDate}
+                    name="policyRenewalDate"
+                    onChange={handleChange}
+                    type="date"
+                  />
+                </GridEditableField>
 
-                        <GridEditableField label="Renewal Follow Up Date">
-                            <EditableField
-                                readOnly={isDisabled}
-                                value={formData.renewalFollowUpDate}
-                                name="renewalFollowUpDate"
-                                onChange={handleChange}
-                                type="date"
-                            />
-                        </GridEditableField>
+                <GridEditableField label="Policy Expiry Date">
+                  <EditableField
+                    readOnly={isDisabled}
+                    value={formData.policyExpiryDate}
+                    name="policyExpiryDate"
+                    onChange={handleChange}
+                    type="date"
+                  />
+                </GridEditableField>
 
-                        <GridEditableField label="New Policy Premium">
-                            <EditableField
-                                readOnly={isDisabled}
-                                value={formData.newPolicyPremium}
-                                name="newPolicyPremium"
-                                onChange={handleChange}
-                                type="number"
-                            />
-                        </GridEditableField>
-                    </div>
-                </Card>
+                <GridEditableField label="New Policy Renewal Date">
+                  <EditableField
+                    readOnly={isDisabled}
+                    value={formData.newPolicyRenewalDate}
+                    name="newPolicyRenewalDate"
+                    onChange={handleChange}
+                    type="date"
+                  />
+                </GridEditableField>
 
-            </div>
+                <GridEditableField label="Issued By">
+                  <EditableField
+                    readOnly={isDisabled}
+                    value={formData.issuedBy}
+                    name="issuedBy"
+                    onChange={handleChange}
+                  />
+                </GridEditableField>
+
+                <GridEditableField label="Renewal Completed">
+                  <EditableSelectField
+                    readOnly={isDisabled}
+                    name="renewalCompleted"
+                    value={formData.renewalCompleted}
+                    onChange={handleChange}
+                    options={[
+                      { label: "Yes", value: "Yes" },
+                      { label: "No", value: "No" },
+                    ]}
+                  />
+                </GridEditableField>
+
+                <GridEditableField label="Renewal Follow Up Date">
+                  <EditableField
+                    readOnly={isDisabled}
+                    value={formData.renewalFollowUpDate}
+                    name="renewalFollowUpDate"
+                    onChange={handleChange}
+                    type="date"
+                  />
+                </GridEditableField>
+
+                <GridEditableField label="New Policy Premium">
+                  <EditableField
+                    readOnly={isDisabled}
+                    value={formData.newPolicyPremium}
+                    name="newPolicyPremium"
+                    onChange={handleChange}
+                    type="number"
+                  />
+                </GridEditableField>
+              </div>
+            </Card>
+          </div>
         </TabsContent>
 
-       <TabsContent value="attachments" className="flex flex-col px-2 lg:px-2">
+        <TabsContent value="attachments" className="flex flex-col px-2 lg:px-2">
           <Attachment id={details?.ROWID} />
         </TabsContent>
 
@@ -654,7 +676,7 @@ const CustomerServiceDetailView = () => {
           <Notes />
         </TabsContent>
 
-       <TabsContent value="comms" className="flex flex-col px-2 lg:px-2">
+        <TabsContent value="comms" className="flex flex-col px-2 lg:px-2">
           <Tabs
             value={selectedActionTab}
             onValueChange={setSelectedActionTab}
@@ -665,10 +687,7 @@ const CustomerServiceDetailView = () => {
                 value="whatsapp"
                 className="relative border focus:border-[#25D366]  text-xs cursor-pointer"
               >
-                <span className="text-[#25D366]">
-
-                WhatsApp
-                </span>
+                <span className="text-[#25D366]">WhatsApp</span>
                 <Badge
                   variant="secondary"
                   className="ml-2 h-4 w-5 bg-[#25D366] text-white"
@@ -680,8 +699,7 @@ const CustomerServiceDetailView = () => {
                 value="sms"
                 className="relative text-xs focus:border-blue-400 cursor-pointer"
               >
-                       <span className="focus:text-[#2196F3]">
-                SMS</span>
+                <span className="focus:text-[#2196F3]">SMS</span>
                 <Badge
                   variant="secondary"
                   className="ml-2 h-4 w-5 bg-[#2196F3] text-white"

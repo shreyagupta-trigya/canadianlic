@@ -33,6 +33,7 @@ export default function MainLayout() {
     }, [open, navigate])
     return (
         <SidebarProvider>
+            {/* <div className="font-sans"> */}
             <AppSidebar />
             <SidebarInset>
                 <header className="flex justify-between h-16 shrink-0 items-center gap-2 border-b px-4">
@@ -71,6 +72,7 @@ export default function MainLayout() {
                     </div>
                 </main>
             </SidebarInset>
+            {/* </div> */}
         </SidebarProvider>
     );
 }

@@ -80,10 +80,7 @@ const data = {
           title: "Deals",
           url: "/crm/deals",
         },
-         {
-          title: "Customer Service",
-          url: "/crm/customerService",
-        },
+        
         {
           title: "Contacts",
           // url: "/crm/leads",
@@ -98,6 +95,14 @@ const data = {
             }
           ],
 
+        },
+         {
+          title: "Customer Service",
+          url: "/crm/customerService",
+        },
+         {
+          title: "Offerings",
+          url: "/crm/offerings",
         },
     //       {
     //       title: "Accounts",

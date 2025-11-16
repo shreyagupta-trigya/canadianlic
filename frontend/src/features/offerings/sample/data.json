@@ -1,0 +1,615 @@
+[
+  {
+    "id": 1,
+    "header": "Cover page",
+    "company": "Cover page",
+    "email": "peterj@trigya.co",
+    "target": "18",
+    "limit": "5",
+    "source": "Eddie Lake",
+    "status": "In Process"
+  },
+  {
+    "id": 2,
+    "header": "Table of contents",
+    "company": "Table of contents",
+    "status": "Done",
+    "target": "29",
+    "limit": "24",
+    "source": "Eddie Lake"
+  },
+  {
+    "id": 3,
+    "header": "Executive summary",
+    "company": "Narrative",
+    "status": "Done",
+    "target": "10",
+    "limit": "13",
+    "source": "Eddie Lake"
+  },
+  {
+    "id": 4,
+    "header": "Technical approach",
+    "company": "Narrative",
+    "status": "Done",
+    "target": "27",
+    "limit": "23",
+    "source": "Jamik Tashpulatov"
+  },
+  {
+    "id": 5,
+    "header": "Design",
+    "company": "Narrative",
+    "status": "In Process",
+    "target": "2",
+    "limit": "16",
+    "source": "Jamik Tashpulatov"
+  },
+  {
+    "id": 6,
+    "header": "Capabilities",
+    "company": "Narrative",
+    "status": "In Process",
+    "target": "20",
+    "limit": "8",
+    "source": "Jamik Tashpulatov"
+  },
+  {
+    "id": 7,
+    "header": "Integration with existing systems",
+    "company": "Narrative",
+    "status": "In Process",
+    "target": "19",
+    "limit": "21",
+    "source": "Jamik Tashpulatov"
+  },
+  {
+    "id": 8,
+    "header": "Innovation and Advantages",
+    "company": "Narrative",
+    "status": "Done",
+    "target": "25",
+    "limit": "26",
+    "source": "Assign source"
+  },
+  {
+    "id": 9,
+    "header": "Overview of EMR's Innovative Solutions",
+    "company": "Technical content",
+    "status": "Done",
+    "target": "7",
+    "limit": "23",
+    "source": "Assign source"
+  },
+  {
+    "id": 10,
+    "header": "Advanced Algorithms and Machine Learning",
+    "company": "Narrative",
+    "status": "Done",
+    "target": "30",
+    "limit": "28",
+    "source": "Assign source"
+  },
+  {
+    "id": 11,
+    "header": "Adaptive Communication Protocols",
+    "company": "Narrative",
+    "status": "Done",
+    "target": "9",
+    "limit": "31",
+    "source": "Assign source"
+  },
+  {
+    "id": 12,
+    "header": "Advantages Over Current Technologies",
+    "company": "Narrative",
+    "status": "Done",
+    "target": "12",
+    "limit": "0",
+    "source": "Assign source"
+  },
+  {
+    "id": 13,
+    "header": "Past Performance",
+    "company": "Narrative",
+    "status": "Done",
+    "target": "22",
+    "limit": "33",
+    "source": "Assign source"
+  },
+  {
+    "id": 14,
+    "header": "Customer Feedback and Satisfaction Levels",
+    "company": "Narrative",
+    "status": "Done",
+    "target": "15",
+    "limit": "34",
+    "source": "Assign source"
+  },
+  {
+    "id": 15,
+    "header": "Implementation Challenges and Solutions",
+    "company": "Narrative",
+    "status": "Done",
+    "target": "3",
+    "limit": "35",
+    "source": "Assign source"
+  },
+  {
+    "id": 16,
+    "header": "Security Measures and Data Protection Policies",
+    "company": "Narrative",
+    "status": "In Process",
+    "target": "6",
+    "limit": "36",
+    "source": "Assign source"
+  },
+  {
+    "id": 17,
+    "header": "Scalability and Future Proofing",
+    "company": "Narrative",
+    "status": "Done",
+    "target": "4",
+    "limit": "37",
+    "source": "Assign source"
+  },
+  {
+    "id": 18,
+    "header": "Cost-Benefit Analysis",
+    "company": "Plain language",
+    "status": "Done",
+    "target": "14",
+    "limit": "38",
+    "source": "Assign source"
+  },
+  {
+    "id": 19,
+    "header": "User Training and Onboarding Experience",
+    "company": "Narrative",
+    "status": "Done",
+    "target": "17",
+    "limit": "39",
+    "source": "Assign source"
+  },
+  {
+    "id": 20,
+    "header": "Future Development Roadmap",
+    "company": "Narrative",
+    "status": "Done",
+    "target": "11",
+    "limit": "40",
+    "source": "Assign source"
+  },
+  {
+    "id": 21,
+    "header": "System Architecture Overview",
+    "company": "Technical content",
+    "status": "In Process",
+    "target": "24",
+    "limit": "18",
+    "source": "Maya Johnson"
+  },
+  {
+    "id": 22,
+    "header": "Risk Management Plan",
+    "company": "Narrative",
+    "status": "Done",
+    "target": "15",
+    "limit": "22",
+    "source": "Carlos Rodriguez"
+  },
+  {
+    "id": 23,
+    "header": "Compliance Documentation",
+    "company": "Legal",
+    "status": "In Process",
+    "target": "31",
+    "limit": "27",
+    "source": "Sarah Chen"
+  },
+  {
+    "id": 24,
+    "header": "API Documentation",
+    "company": "Technical content",
+    "status": "Done",
+    "target": "8",
+    "limit": "12",
+    "source": "Raj Patel"
+  },
+  {
+    "id": 25,
+    "header": "User Interface Mockups",
+    "company": "Visual",
+    "status": "In Process",
+    "target": "19",
+    "limit": "25",
+    "source": "Leila Ahmadi"
+  },
+  {
+    "id": 26,
+    "header": "Database Schema",
+    "company": "Technical content",
+    "status": "Done",
+    "target": "22",
+    "limit": "20",
+    "source": "Thomas Wilson"
+  },
+  {
+    "id": 27,
+    "header": "Testing Methodology",
+    "company": "Technical content",
+    "status": "In Process",
+    "target": "17",
+    "limit": "14",
+    "source": "Assign source"
+  },
+  {
+    "id": 28,
+    "header": "Deployment Strategy",
+    "company": "Narrative",
+    "status": "Done",
+    "target": "26",
+    "limit": "30",
+    "source": "Eddie Lake"
+  },
+  {
+    "id": 29,
+    "header": "Budget Breakdown",
+    "company": "Financial",
+    "status": "In Process",
+    "target": "13",
+    "limit": "16",
+    "source": "Jamik Tashpulatov"
+  },
+  {
+    "id": 30,
+    "header": "Market Analysis",
+    "company": "Research",
+    "status": "Done",
+    "target": "29",
+    "limit": "32",
+    "source": "Sophia Martinez"
+  },
+  {
+    "id": 31,
+    "header": "Competitor Comparison",
+    "company": "Research",
+    "status": "In Process",
+    "target": "21",
+    "limit": "19",
+    "source": "Assign source"
+  },
+  {
+    "id": 32,
+    "header": "Maintenance Plan",
+    "company": "Technical content",
+    "status": "Done",
+    "target": "16",
+    "limit": "23",
+    "source": "Alex Thompson"
+  },
+  {
+    "id": 33,
+    "header": "User Personas",
+    "company": "Research",
+    "status": "In Process",
+    "target": "27",
+    "limit": "24",
+    "source": "Nina Patel"
+  },
+  {
+    "id": 34,
+    "header": "Accessibility Compliance",
+    "company": "Legal",
+    "status": "Done",
+    "target": "18",
+    "limit": "21",
+    "source": "Assign source"
+  },
+  {
+    "id": 35,
+    "header": "Performance Metrics",
+    "company": "Technical content",
+    "status": "In Process",
+    "target": "23",
+    "limit": "26",
+    "source": "David Kim"
+  },
+  {
+    "id": 36,
+    "header": "Disaster Recovery Plan",
+    "company": "Technical content",
+    "status": "Done",
+    "target": "14",
+    "limit": "17",
+    "source": "Jamik Tashpulatov"
+  },
+  {
+    "id": 37,
+    "header": "Third-party Integrations",
+    "company": "Technical content",
+    "status": "In Process",
+    "target": "25",
+    "limit": "28",
+    "source": "Eddie Lake"
+  },
+  {
+    "id": 38,
+    "header": "User Feedback Summary",
+    "company": "Research",
+    "status": "Done",
+    "target": "20",
+    "limit": "15",
+    "source": "Assign source"
+  },
+  {
+    "id": 39,
+    "header": "Localization Strategy",
+    "company": "Narrative",
+    "status": "In Process",
+    "target": "12",
+    "limit": "19",
+    "source": "Maria Garcia"
+  },
+  {
+    "id": 40,
+    "header": "Mobile Compatibility",
+    "company": "Technical content",
+    "status": "Done",
+    "target": "28",
+    "limit": "31",
+    "source": "James Wilson"
+  },
+  {
+    "id": 41,
+    "header": "Data Migration Plan",
+    "company": "Technical content",
+    "status": "In Process",
+    "target": "19",
+    "limit": "22",
+    "source": "Assign source"
+  },
+  {
+    "id": 42,
+    "header": "Quality Assurance Protocols",
+    "company": "Technical content",
+    "status": "Done",
+    "target": "30",
+    "limit": "33",
+    "source": "Priya Singh"
+  },
+  {
+    "id": 43,
+    "header": "Stakeholder Analysis",
+    "company": "Research",
+    "status": "In Process",
+    "target": "11",
+    "limit": "14",
+    "source": "Eddie Lake"
+  },
+  {
+    "id": 44,
+    "header": "Environmental Impact Assessment",
+    "company": "Research",
+    "status": "Done",
+    "target": "24",
+    "limit": "27",
+    "source": "Assign source"
+  },
+  {
+    "id": 45,
+    "header": "Intellectual Property Rights",
+    "company": "Legal",
+    "status": "In Process",
+    "target": "17",
+    "limit": "20",
+    "source": "Sarah Johnson"
+  },
+  {
+    "id": 46,
+    "header": "Customer Support Framework",
+    "company": "Narrative",
+    "status": "Done",
+    "target": "22",
+    "limit": "25",
+    "source": "Jamik Tashpulatov"
+  },
+  {
+    "id": 47,
+    "header": "Version Control Strategy",
+    "company": "Technical content",
+    "status": "In Process",
+    "target": "15",
+    "limit": "18",
+    "source": "Assign source"
+  },
+  {
+    "id": 48,
+    "header": "Continuous Integration Pipeline",
+    "company": "Technical content",
+    "status": "Done",
+    "target": "26",
+    "limit": "29",
+    "source": "Michael Chen"
+  },
+  {
+    "id": 49,
+    "header": "Regulatory Compliance",
+    "company": "Legal",
+    "status": "In Process",
+    "target": "13",
+    "limit": "16",
+    "source": "Assign source"
+  },
+  {
+    "id": 50,
+    "header": "User Authentication System",
+    "company": "Technical content",
+    "status": "Done",
+    "target": "28",
+    "limit": "31",
+    "source": "Eddie Lake"
+  },
+  {
+    "id": 51,
+    "header": "Data Analytics Framework",
+    "company": "Technical content",
+    "status": "In Process",
+    "target": "21",
+    "limit": "24",
+    "source": "Jamik Tashpulatov"
+  },
+  {
+    "id": 52,
+    "header": "Cloud Infrastructure",
+    "company": "Technical content",
+    "status": "Done",
+    "target": "16",
+    "limit": "19",
+    "source": "Assign source"
+  },
+  {
+    "id": 53,
+    "header": "Network Security Measures",
+    "company": "Technical content",
+    "status": "In Process",
+    "target": "29",
+    "limit": "32",
+    "source": "Lisa Wong"
+  },
+  {
+    "id": 54,
+    "header": "Project Timeline",
+    "company": "Planning",
+    "status": "Done",
+    "target": "14",
+    "limit": "17",
+    "source": "Eddie Lake"
+  },
+  {
+    "id": 55,
+    "header": "Resource Allocation",
+    "company": "Planning",
+    "status": "In Process",
+    "target": "27",
+    "limit": "30",
+    "source": "Assign source"
+  },
+  {
+    "id": 56,
+    "header": "Team Structure and Roles",
+    "company": "Planning",
+    "status": "Done",
+    "target": "20",
+    "limit": "23",
+    "source": "Jamik Tashpulatov"
+  },
+  {
+    "id": 57,
+    "header": "Communication Protocols",
+    "company": "Planning",
+    "status": "In Process",
+    "target": "15",
+    "limit": "18",
+    "source": "Assign source"
+  },
+  {
+    "id": 58,
+    "header": "Success Metrics",
+    "company": "Planning",
+    "status": "Done",
+    "target": "30",
+    "limit": "33",
+    "source": "Eddie Lake"
+  },
+  {
+    "id": 59,
+    "header": "Internationalization Support",
+    "company": "Technical content",
+    "status": "In Process",
+    "target": "23",
+    "limit": "26",
+    "source": "Jamik Tashpulatov"
+  },
+  {
+    "id": 60,
+    "header": "Backup and Recovery Procedures",
+    "company": "Technical content",
+    "status": "Done",
+    "target": "18",
+    "limit": "21",
+    "source": "Assign source"
+  },
+  {
+    "id": 61,
+    "header": "Monitoring and Alerting System",
+    "company": "Technical content",
+    "status": "In Process",
+    "target": "25",
+    "limit": "28",
+    "source": "Daniel Park"
+  },
+  {
+    "id": 62,
+    "header": "Code Review Guidelines",
+    "company": "Technical content",
+    "status": "Done",
+    "target": "12",
+    "limit": "15",
+    "source": "Eddie Lake"
+  },
+  {
+    "id": 63,
+    "header": "Documentation Standards",
+    "company": "Technical content",
+    "status": "In Process",
+    "target": "27",
+    "limit": "30",
+    "source": "Jamik Tashpulatov"
+  },
+  {
+    "id": 64,
+    "header": "Release Management Process",
+    "company": "Planning",
+    "status": "Done",
+    "target": "22",
+    "limit": "25",
+    "source": "Assign source"
+  },
+  {
+    "id": 65,
+    "header": "Feature Prioritization Matrix",
+    "company": "Planning",
+    "status": "In Process",
+    "target": "19",
+    "limit": "22",
+    "source": "Emma Davis"
+  },
+  {
+    "id": 66,
+    "header": "Technical Debt Assessment",
+    "company": "Technical content",
+    "status": "Done",
+    "target": "24",
+    "limit": "27",
+    "source": "Eddie Lake"
+  },
+  {
+    "id": 67,
+    "header": "Capacity Planning",
+    "company": "Planning",
+    "status": "In Process",
+    "target": "21",
+    "limit": "24",
+    "source": "Jamik Tashpulatov"
+  },
+  {
+    "id": 68,
+    "header": "Service Level Agreements",
+    "company": "Legal",
+    "status": "Done",
+    "target": "26",
+    "limit": "29",
+    "source": "Assign source"
+  }
+]

@@ -70,8 +70,8 @@ const LeadsDetailsView = () => {
   const location = useLocation();
   const [newComment, setNewComment] = useState("");
   const details = location.state;
-  console.log("details",details);
-  const layout = details.layoutName || "advisor"; 
+  console.log("details", details);
+  const layout = details.layoutName || "advisor";
   const [activeTab, setActiveTab] = useState("overview");
   const [dynamicTabValue, setDynamicTabValue] = useState("open-activity");
   const [selectedActionTab, setSelectedActionTab] = useState("whatsapp");
@@ -217,13 +217,76 @@ const LeadsDetailsView = () => {
   // Labels for fixed tabs
   const fixedTabs = [
     { value: "overview", label: "Overview" },
-    { value: "conversations", label: `Conversations (${comments.length})` },
-    { value: "attachments", label: "Attachments" },
+    {
+      value: "conversations",
+      label: (
+        <span>
+          Conversations{" "}
+          <Badge className=" h-4 w-5  rounded-full bg-[#3b7b94] text-white">
+            {comments.length}
+          </Badge>
+        </span>
+      ),
+    },
+    { value: "attachments",     label: (
+        <span>
+          Attachments{" "}
+          <Badge className=" h-4 w-5  rounded-full bg-[#3b7b94] text-white">
+            5
+          </Badge>
+        </span>
+      ), },
     // { value: "activity", label: "Tasks" },
-    { value: "comms", label: "Comms" },
-    { value: "referralLead", label: "Referral Lead" },
-    { value: "referralClient", label: "Referral Client" },
-    { value: "offering", label: "Offering" },
+    {
+      value: "comms",
+      label: (
+        <span>
+          Comms{" "}
+          <Badge
+            variant="secondary"
+            className=" h-4 w-5 bg-[#25D366] text-white"
+          >
+            10
+          </Badge>
+          <Badge
+            variant="secondary"
+            className="ml-1 h-4 w-5 bg-[#2196F3] text-white"
+          >
+            15
+          </Badge>
+          <Badge
+            variant="secondary"
+            className="ml-1 h-4 w-5 bg-[#B71C1C] text-white"
+          >
+            30
+          </Badge>
+        </span>
+      ),
+    },
+    { value: "referralLead",     label: (
+        <span>
+          Referral Lead{" "}
+          <Badge className=" h-4 w-5  rounded-full bg-[#3b7b94] text-white">
+            9
+          </Badge>
+        </span>
+      ), },
+    { value: "referralClient", label: (
+        <span>
+          Referral CLient{" "}
+          <Badge className=" h-4 w-5  rounded-full bg-[#3b7b94] text-white">
+            5
+          </Badge>
+        </span>
+      ), },,
+    { value: "offering", label: (
+        <span>
+          Offering {" "}
+          <Badge className=" h-4 w-5  rounded-full bg-[#3b7b94] text-white">
+            7
+          </Badge>
+        </span>
+      ), },,
   ];
 
   // Options for dropdown that controls the 5th tab dynamically
@@ -231,15 +294,78 @@ const LeadsDetailsView = () => {
     // { value: "referral-lead", label: "Referral Lead" },
     // { value: "referral-client", label: "Referral Client" },
     // { value: "offering", label: "Offering" },
-    { value: "open-activity", label: "Open Activity" },
-    { value: "campaign", label: "Campaign" },
-    { value: "remote-assist", label: "Remote Assist" },
-    { value: "ringcentral-sms", label: "RingCentral SMS" },
-    { value: "ringcentral-widget", label: "Ring Central Widget" },
-    { value: "session-recording", label: "Session Recording" },
-    { value: "zoho-sales-iq", label: "ZohoSales IQ" },
-    { value: "zoho-survey", label: "Zoho Survey" },
-  { value: "close-activity", label: "Close Activity" },
+    { value: "open-activity", label: (
+        <span>
+          Open Activity{" "}
+          <Badge className=" h-4 w-5  rounded-full bg-[#3b7b94] text-white">
+            9
+          </Badge>
+        </span>
+      ), },
+    { value: "campaign", label: (
+        <span>
+          Campaign{" "}
+          <Badge className=" h-4 w-5  rounded-full bg-[#3b7b94] text-white">
+            1
+          </Badge>
+        </span>
+      ), },,
+    { value: "remote-assist", label: (
+        <span>
+          Remote Assist{" "}
+          <Badge className=" h-4 w-5  rounded-full bg-[#3b7b94] text-white">
+            2
+          </Badge>
+        </span>
+      ), },
+    { value: "ringcentral-sms",label: (
+        <span>
+          RingCentral SMS{" "}
+          <Badge className=" h-4 w-5  rounded-full bg-[#3b7b94] text-white">
+            11
+          </Badge>
+        </span>
+      ), },
+    { value: "ringcentral-widget", label: (
+        <span>
+          RingCentral Widget{" "}
+          <Badge className=" h-4 w-5  rounded-full bg-[#3b7b94] text-white">
+            7
+          </Badge>
+        </span>
+      ), },
+    { value: "session-recording", label: (
+        <span>
+          Session Recording{" "}
+          <Badge className=" h-4 w-5  rounded-full bg-[#3b7b94] text-white">
+            24
+          </Badge>
+        </span>
+      ), },
+    { value: "zoho-sales-iq",label: (
+        <span>
+          Zoho Sales IQ{" "}
+          <Badge className=" h-4 w-5  rounded-full bg-[#3b7b94] text-white">
+            18
+          </Badge>
+        </span>
+      ), },
+    { value: "zoho-survey", label: (
+        <span>
+          Zoho Survey{" "}
+          <Badge className=" h-4 w-5  rounded-full bg-[#3b7b94] text-white">
+            11
+          </Badge>
+        </span>
+      ), },
+    { value: "close-activity", label: (
+        <span>
+          Referral Lead{" "}
+          <Badge className=" h-4 w-5  rounded-full bg-[#3b7b94] text-white">
+            9
+          </Badge>
+        </span>
+      ), },
 
     // add more as needed
   ];
@@ -250,7 +376,7 @@ const LeadsDetailsView = () => {
     {
       value: dynamicTabValue,
       label:
-        dynamicOptions.find((opt) => opt.value === dynamicTabValue)?.label ||
+        dynamicOptions.find((opt) => opt?.value === dynamicTabValue)?.label ||
         "Dynamic",
     },
   ];
@@ -297,8 +423,11 @@ const LeadsDetailsView = () => {
         {/* Content for fixed tabs */}
         <TabsContent value="overview" className="flex flex-col px-2 lg:px-2">
           <div className="flex justify-between mb-4 gap-2">
-         
-            <h1 className="text-2xl font-semibold">{layout === "Client" ? "Lead Client Details":"Lead Advisor Details"}</h1>
+            <h1 className="text-2xl font-semibold">
+              {layout === "Client"
+                ? "Lead Client Details"
+                : "Lead Advisor Details"}
+            </h1>
             {showUpdateBtn ? (
               <div className="flex gap-2">
                 <Button
@@ -328,202 +457,204 @@ const LeadsDetailsView = () => {
               </div>
             )}
           </div>
-            {layout === "Client" ? (
-       <Accordion
-            type="multiple"
-            className="w-full"
-            defaultValue={["lead-information"]}
-          >
-            <AccordionItem value="lead-information" className="mb-1 ">
-              <AccordionTrigger className="text-xl">
-                Lead Information
-              </AccordionTrigger>
-              <AccordionContent>
-                <LeadInformation
-                  formData={formData}
-                  setFormData={setFormData}
-                  isDisabled={isDisabled}
-                />
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="description-info" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">
-                Description Info
-              </AccordionTrigger>
-              <AccordionContent>
-                <DescriptionInfo
-                  formData={formData}
-                  setFormData={setFormData}
-                  isDisabled={isDisabled}
-                />
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="family-tree" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">
-                Family Tree
-              </AccordionTrigger>
-              <AccordionContent>
-                <FamilyTree
-                  formData={formData}
-                  setFormData={setFormData}
-                  isDisabled={isDisabled}
-                />
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="address-information" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">
-                Address Information
-              </AccordionTrigger>
-              <AccordionContent>
-                <AddressInformation
-                  formData={formData}
-                  setFormData={setFormData}
-                  isDisabled={isDisabled}
-                />
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="umt-details" className=" mb-1 ">
-              <AccordionTrigger className="text-xl">
-                UMT Details
-              </AccordionTrigger>
-              <AccordionContent>
-                <UMTDetails
-                  formData={formData}
-                  setFormData={setFormData}
-                  isDisabled={isDisabled}
-                />
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="festival-form" className="mb-1 ">
-              <AccordionTrigger className="text-xl">
-                Festival Form
-              </AccordionTrigger>
-              <AccordionContent>
-                <FestivalForm
-                  formData={formData}
-                  setFormData={setFormData}
-                  isDisabled={isDisabled}
-                />
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="service-request-details" className="mb-1 ">
-              <AccordionTrigger className="text-xl">
-                Service Request Details
-              </AccordionTrigger>
-              <AccordionContent>
-                <ServiceRequestDetails
-                  formData={formData}
-                  setFormData={setFormData}
-                  isDisabled={isDisabled}
-                />
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-      ) : (
-        <Accordion
-          type="multiple"
-          className="w-full"
-          defaultValue={["lead-information"]}
-        >
-          <AccordionItem value="lead-information" className="mb-1 ">
-            <AccordionTrigger className="text-xl">
-              Lead Information
-            </AccordionTrigger>
-            <AccordionContent>
-              <AdvisorLeadInformation
-                formData={formData}
-                setFormData={setFormData}
-                isDisabled={isDisabled}
-              />
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="description-info" className=" mb-1 ">
-            <AccordionTrigger className="text-xl">
-              Description Info
-            </AccordionTrigger>
-            <AccordionContent>
-              <AdvisorDescriptonInfo
-                formData={formData}
-                setFormData={setFormData}
-                isDisabled={isDisabled}
-              />
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="family-tree" className=" mb-1 ">
-            <AccordionTrigger className="text-xl">
-              Family Tree
-            </AccordionTrigger>
-            <AccordionContent>
-              <AdvisorFamilyTree
-                formData={formData}
-                setFormData={setFormData}
-                isDisabled={isDisabled}
-              />
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="address-information" className=" mb-1 ">
-            <AccordionTrigger className="text-xl">
-              Address Information
-            </AccordionTrigger>
-            <AccordionContent>
-              <AdvisorAddressInformation
-                formData={formData}
-                setFormData={setFormData}
-                isDisabled={isDisabled}
-              />
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="umt-details" className=" mb-1 ">
-            <AccordionTrigger className="text-xl">
-              UMT Details
-            </AccordionTrigger>
-            <AccordionContent>
-              <AdvisorUMTDetails
-                formData={formData}
-                setFormData={setFormData}
-                isDisabled={isDisabled}
-              />
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="festival-form" className="mb-1 ">
-            <AccordionTrigger className="text-xl">
-              Festival Form
-            </AccordionTrigger>
-            <AccordionContent>
-              <AdvisorFestivalForm
-                formData={formData}
-                setFormData={setFormData}
-                isDisabled={isDisabled}
-              />
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="service-request-details" className="mb-1 ">
-            <AccordionTrigger className="text-xl">
-              Service Request Details
-            </AccordionTrigger>
-            <AccordionContent>
-              <AdvisorServiceRequestDetails
-                formData={formData}
-                setFormData={setFormData}
-                isDisabled={isDisabled}
-              />
-            </AccordionContent>
-          </AccordionItem>
-          <AccordionItem value="lead-management-information" className="mb-1 ">
-            <AccordionTrigger className="text-xl">
-              Lead Management Information
-            </AccordionTrigger>
-            <AccordionContent>
-              <AdvisorLeadManagementInformation
-                formData={formData}
-                setFormData={setFormData}
-                isDisabled={isDisabled}
-              />
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      )}
-         
+          {layout === "Client" ? (
+            <Accordion
+              type="multiple"
+              className="w-full"
+              defaultValue={["lead-information"]}
+            >
+              <AccordionItem value="lead-information" className="mb-1 ">
+                <AccordionTrigger className="text-xl">
+                  Lead Information
+                </AccordionTrigger>
+                <AccordionContent>
+                  <LeadInformation
+                    formData={formData}
+                    setFormData={setFormData}
+                    isDisabled={isDisabled}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="description-info" className=" mb-1 ">
+                <AccordionTrigger className="text-xl">
+                  Description Info
+                </AccordionTrigger>
+                <AccordionContent>
+                  <DescriptionInfo
+                    formData={formData}
+                    setFormData={setFormData}
+                    isDisabled={isDisabled}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="family-tree" className=" mb-1 ">
+                <AccordionTrigger className="text-xl">
+                  Family Tree
+                </AccordionTrigger>
+                <AccordionContent>
+                  <FamilyTree
+                    formData={formData}
+                    setFormData={setFormData}
+                    isDisabled={isDisabled}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="address-information" className=" mb-1 ">
+                <AccordionTrigger className="text-xl">
+                  Address Information
+                </AccordionTrigger>
+                <AccordionContent>
+                  <AddressInformation
+                    formData={formData}
+                    setFormData={setFormData}
+                    isDisabled={isDisabled}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="umt-details" className=" mb-1 ">
+                <AccordionTrigger className="text-xl">
+                  UMT Details
+                </AccordionTrigger>
+                <AccordionContent>
+                  <UMTDetails
+                    formData={formData}
+                    setFormData={setFormData}
+                    isDisabled={isDisabled}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="festival-form" className="mb-1 ">
+                <AccordionTrigger className="text-xl">
+                  Festival Form
+                </AccordionTrigger>
+                <AccordionContent>
+                  <FestivalForm
+                    formData={formData}
+                    setFormData={setFormData}
+                    isDisabled={isDisabled}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="service-request-details" className="mb-1 ">
+                <AccordionTrigger className="text-xl">
+                  Service Request Details
+                </AccordionTrigger>
+                <AccordionContent>
+                  <ServiceRequestDetails
+                    formData={formData}
+                    setFormData={setFormData}
+                    isDisabled={isDisabled}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          ) : (
+            <Accordion
+              type="multiple"
+              className="w-full"
+              defaultValue={["lead-information"]}
+            >
+              <AccordionItem value="lead-information" className="mb-1 ">
+                <AccordionTrigger className="text-xl">
+                  Lead Information
+                </AccordionTrigger>
+                <AccordionContent>
+                  <AdvisorLeadInformation
+                    formData={formData}
+                    setFormData={setFormData}
+                    isDisabled={isDisabled}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="description-info" className=" mb-1 ">
+                <AccordionTrigger className="text-xl">
+                  Description Info
+                </AccordionTrigger>
+                <AccordionContent>
+                  <AdvisorDescriptonInfo
+                    formData={formData}
+                    setFormData={setFormData}
+                    isDisabled={isDisabled}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="family-tree" className=" mb-1 ">
+                <AccordionTrigger className="text-xl">
+                  Family Tree
+                </AccordionTrigger>
+                <AccordionContent>
+                  <AdvisorFamilyTree
+                    formData={formData}
+                    setFormData={setFormData}
+                    isDisabled={isDisabled}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="address-information" className=" mb-1 ">
+                <AccordionTrigger className="text-xl">
+                  Address Information
+                </AccordionTrigger>
+                <AccordionContent>
+                  <AdvisorAddressInformation
+                    formData={formData}
+                    setFormData={setFormData}
+                    isDisabled={isDisabled}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="umt-details" className=" mb-1 ">
+                <AccordionTrigger className="text-xl">
+                  UMT Details
+                </AccordionTrigger>
+                <AccordionContent>
+                  <AdvisorUMTDetails
+                    formData={formData}
+                    setFormData={setFormData}
+                    isDisabled={isDisabled}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="festival-form" className="mb-1 ">
+                <AccordionTrigger className="text-xl">
+                  Festival Form
+                </AccordionTrigger>
+                <AccordionContent>
+                  <AdvisorFestivalForm
+                    formData={formData}
+                    setFormData={setFormData}
+                    isDisabled={isDisabled}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="service-request-details" className="mb-1 ">
+                <AccordionTrigger className="text-xl">
+                  Service Request Details
+                </AccordionTrigger>
+                <AccordionContent>
+                  <AdvisorServiceRequestDetails
+                    formData={formData}
+                    setFormData={setFormData}
+                    isDisabled={isDisabled}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem
+                value="lead-management-information"
+                className="mb-1 "
+              >
+                <AccordionTrigger className="text-xl">
+                  Lead Management Information
+                </AccordionTrigger>
+                <AccordionContent>
+                  <AdvisorLeadManagementInformation
+                    formData={formData}
+                    setFormData={setFormData}
+                    isDisabled={isDisabled}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          )}
         </TabsContent>
 
         <TabsContent
@@ -553,10 +684,7 @@ const LeadsDetailsView = () => {
                 value="whatsapp"
                 className="relative border focus:border-[#25D366]  text-xs cursor-pointer"
               >
-                <span className="text-[#25D366]">
-
-                WhatsApp
-                </span>
+                <span className="text-[#25D366]">WhatsApp</span>
                 <Badge
                   variant="secondary"
                   className="ml-2 h-4 w-5 bg-[#25D366] text-white"
@@ -568,8 +696,7 @@ const LeadsDetailsView = () => {
                 value="sms"
                 className="relative text-xs focus:border-blue-400 cursor-pointer"
               >
-                       <span className="focus:text-[#2196F3]">
-                SMS</span>
+                <span className="focus:text-[#2196F3]">SMS</span>
                 <Badge
                   variant="secondary"
                   className="ml-2 h-4 w-5 bg-[#2196F3] text-white"

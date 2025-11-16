@@ -102,7 +102,6 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import noresult from "@assets/no-data.png";
 import { useState, useEffect, useMemo, useId } from "react";
-import dataSample from "./sample/data.json";
 import {
   leadStatus,
   leadSource,
@@ -115,7 +114,7 @@ import {
   deleteLeadFromList,
   updateLeadInList,
 } from "@/redux/slices/leads/leadsSlice";
-import { deleteLead, updateLead } from "@/services/crm/leadApi";
+import { deleteLead, updateLead, sendMassEmail } from "@/services/crm/leadApi";
 import TableSkeleton from "@/components/custom/TableSkeleton";
 import { TableDataDeleteAlert } from "@/components/custom/TableDataDeleteAlert";
 
@@ -196,7 +195,7 @@ function DraggableRow({ row, navigate }) {
       onClick={handleRowClick}
     >
       {row.getVisibleCells().map((cell) => (
-        <TableCell key={cell.id}>
+        <TableCell className="compact-table py-0.5 px-2 text-sm" key={cell.id}>
           {flexRender(cell.column.columnDef.cell, cell.getContext())}
         </TableCell>
       ))}
@@ -225,167 +224,10 @@ const chartConfig = {
   },
 };
 
-function TableCellViewer({ item }) {
-  const isMobile = useIsMobile();
 
-  return (
-    <Drawer direction={isMobile ? "bottom" : "right"} size="lg">
-      <DrawerTrigger asChild>
-        <Button variant="link" className="text-foreground w-fit px-0 text-left">
-          {item.header}
-        </Button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader className="gap-1">
-          <DrawerTitle>{item.header}</DrawerTitle>
-          <DrawerDescription>
-            Showing total visitors for the last 6 months
-          </DrawerDescription>
-        </DrawerHeader>
-        <div className="flex flex-col gap-4 overflow-y-auto px-4 text-sm">
-          {!isMobile && (
-            <>
-              <ChartContainer config={chartConfig}>
-                <AreaChart
-                  accessibilityLayer
-                  data={chartData}
-                  margin={{
-                    left: 0,
-                    right: 10,
-                  }}
-                >
-                  <CartesianGrid vertical={false} />
-                  <XAxis
-                    dataKey="month"
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={8}
-                    tickFormatter={(value) => value.slice(0, 3)}
-                    hide
-                  />
-                  <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent indicator="dot" />}
-                  />
-                  <Area
-                    dataKey="mobile"
-                    type="natural"
-                    fill="var(--color-mobile)"
-                    fillOpacity={0.6}
-                    stroke="var(--color-mobile)"
-                    stackId="a"
-                  />
-                  <Area
-                    dataKey="desktop"
-                    type="natural"
-                    fill="var(--color-desktop)"
-                    fillOpacity={0.4}
-                    stroke="var(--color-desktop)"
-                    stackId="a"
-                  />
-                </AreaChart>
-              </ChartContainer>
-              <Separator />
-              <div className="grid gap-2">
-                <div className="flex gap-2 leading-none font-medium">
-                  Trending up by 5.2% this month{" "}
-                  <IconTrendingUp className="size-4" />
-                </div>
-                <div className="text-muted-foreground">
-                  Showing total visitors for the last 6 months. This is just
-                  some random text to test the layout. It spans multiple lines
-                  and should wrap around.
-                </div>
-              </div>
-              <Separator />
-            </>
-          )}
-          <form className="flex flex-col gap-4">
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="header">Header</Label>
-              <Input id="header" defaultValue={item.header} />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="type">Type</Label>
-                <Select defaultValue={item.type}>
-                  <SelectTrigger id="type" className="w-full">
-                    <SelectValue placeholder="Select a type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Table of Contents">
-                      Table of Contents
-                    </SelectItem>
-                    <SelectItem value="Executive Summary">
-                      Executive Summary
-                    </SelectItem>
-                    <SelectItem value="Technical Approach">
-                      Technical Approach
-                    </SelectItem>
-                    <SelectItem value="Design">Design</SelectItem>
-                    <SelectItem value="Capabilities">Capabilities</SelectItem>
-                    <SelectItem value="Focus Documents">
-                      Focus Documents
-                    </SelectItem>
-                    <SelectItem value="Narrative">Narrative</SelectItem>
-                    <SelectItem value="Cover Page">Cover Page</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="status">Status</Label>
-                <Select defaultValue={item.status}>
-                  <SelectTrigger id="status" className="w-full">
-                    <SelectValue placeholder="Select a status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Done">Done</SelectItem>
-                    <SelectItem value="In Progress">In Progress</SelectItem>
-                    <SelectItem value="Not Started">Not Started</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="target">Target</Label>
-                <Input id="target" defaultValue={item.target} />
-              </div>
-              <div className="flex flex-col gap-3">
-                <Label htmlFor="limit">Limit</Label>
-                <Input id="limit" defaultValue={item.limit} />
-              </div>
-            </div>
-            <div className="flex flex-col gap-3">
-              <Label htmlFor="reviewer">Reviewer</Label>
-              <Select defaultValue={item.reviewer}>
-                <SelectTrigger id="reviewer" className="w-full">
-                  <SelectValue placeholder="Select a reviewer" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Eddie Lake">Eddie Lake</SelectItem>
-                  <SelectItem value="Jamik Tashpulatov">
-                    Jamik Tashpulatov
-                  </SelectItem>
-                  <SelectItem value="Emily Whalen">Emily Whalen</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </form>
-        </div>
-        <DrawerFooter>
-          <Button>Submit</Button>
-          <DrawerClose asChild>
-            <Button variant="outline">Done</Button>
-          </DrawerClose>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
-  );
-}
 
 const LeadsListView = () => {
-  const [data, setData] = useState(dataSample);
+  const [data, setData] = useState([]);
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState({});
   const [columnFilters, setColumnFilters] = useState([]);
@@ -431,29 +273,29 @@ const LeadsListView = () => {
       drag: 40,
       select: 50,
       actions: 80,
-      CREATEDTIME: 150,
-      layoutName: 150,
-      insuranceLeadNameAll: 200,
-      insuranceLeadStatus: 200,
-      leadStatusStage: 200,
-      mobile: 120,
-      insuranceLeadSource: 250,
-      advisorfullName: 150,
-      email: 200,
-      servicesRequested: 200,
-      gclid: 120,
-      firstPageVisited: 150,
-      MODIFIEDTIME: 150,
-      totalInteractionTime: 300,
-      phoneNumber: 120,
-      UserfullName: 150,
-      adCampaign: 150,
-      facebookAd: 150,
-      firstName: 120,
-      lastName: 120,
-      keywordData: 150,
-      submitPageURL: 200,
-      lpUrlData: 150,
+      CREATEDTIME: 50,
+      layoutName: 50,
+      insuranceLeadNameAll: 50,
+      insuranceLeadStatus: 50,
+      leadStatusStage: 50,
+      mobile: 50,
+      insuranceLeadSource: 50,
+      advisorfullName: 50,
+      email: 50,
+      servicesRequested: 50,
+      gclid: 50,
+      firstPageVisited: 50,
+      MODIFIEDTIME: 50,
+      totalInteractionTime: 50,
+      phoneNumber: 50,
+      UserfullName: 50,
+      adCampaign: 50,
+      facebookAd: 50,
+      firstName: 50,
+      lastName: 50,
+      keywordData: 50,
+      submitPageURL: 50,
+      lpUrlData: 50,
       gclidData: 120,
       adNetwork: 120,
     };
@@ -722,7 +564,6 @@ const LeadsListView = () => {
             variant="link"
             className="text-foreground cursor-pointer w-fit px-0 text-left "
           >
-            <i className="fas fa-eye text-gray-400 " aria-hidden="true"></i>
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -763,12 +604,11 @@ const LeadsListView = () => {
                 Delete
               </DropdownMenuItem>
             </DropdownMenuContent>
-
           </DropdownMenu>
         </div>
       ),
-      size: 80,
-      minSize: 80,
+      size: 50,
+      minSize: 50,
     },
     {
       accessorKey: "CREATEDTIME",
@@ -776,139 +616,164 @@ const LeadsListView = () => {
         <SortableHeader column={column} title="Created Time *" />
       ),
       cell: ({ row }) => (
-        <div>
+        <div className="truncate">
           {row.original.CREATEDTIME
-            ? new Date(row.original.CREATEDTIME).toLocaleString()
+            ? new Date(row.original.CREATEDTIME).toLocaleString("en-GB", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: true,
+            })
             : "N/A"}
         </div>
       ),
-      size: 150,
-      minSize: 150,
+      size: 50,
+      minSize: 50,
     },
-    {
-      accessorKey: "layoutName",
-      header: ({ column }) => <SortableHeader column={column} title="Layout" />,
-      cell: ({ row }) => {
-        const layout = row.original.layoutName?.toLowerCase();
-        const bgColor =
-          layout === "client"
-            ? "rgba(160, 32, 240, 0.7)"
-            : layout === "advisor"
-              ? "red"
-              : "rgba(229, 32, 32, 0.6)"; // Default to original color if neither
-        return (
-          <Badge
-            className="badge-style"
-            style={{ backgroundColor: bgColor, color: "white", width: "100px" }}
-          >
-            <span className="p-[3px]  w-35 text-center ">{row.original.layoutName}</span>
-          </Badge>
-        );
-      },
-      size: 150,
-      minSize: 150,
-    },
-    {
-      accessorKey: "insuranceLeadNameAll",
-      header: ({ column }) => (
-        <SortableHeader column={column} title="Insurance Lead Name All" />
-      ),
-      cell: ({ row }) => (
-        <Button
-          onClick={() =>
-            navigate(`/crm/leads/details/${row.original.ROWID}`, {
-              state: row.original,
-            })
-          }
-          variant="link"
-          className="text-foreground cursor-pointer w-fit px-0 text-left"
-        >
-          {`${row.original.firstName ?? ""} ${row.original.lastName ?? ""
-            }`.trim()}
-        </Button>
-      ),
-      size: 200,
-      minSize: 200,
-    },
-    {
-      accessorKey: "insuranceLeadStatus",
-      header: ({ column }) => (
-        <SortableHeader column={column} title="Insurance Lead Status" />
-      ),
-      cell: ({ row }) => {
-        const status = row.original.insuranceLeadStatus || "N/A";
-        const statusColor = getInsuranceLeadStatusColor(status);
+   {
+  accessorKey: "layoutName",
+  header: ({ column }) => <SortableHeader column={column} title="Layout" />,
+  cell: ({ row }) => {
+    const layout = row.original.layoutName?.toLowerCase();
+    const bgColor =
+      layout === "client"
+        ? "rgba(160, 32, 240, 0.7)"
+        : layout === "advisor"
+        ? "#e5202099"
+        : ""; // default color if neither
 
-        return (
-          <Badge
-            className="badge-style"
-            style={{
-              backgroundColor: statusColor,
-              color:
-                statusColor === "#fdd835" ||
-                  statusColor === "#FFFFFF" ||
-                  statusColor === "#8bc34a" ||
-                  statusColor === "#81c784"
-                  ? "black"
-                  : "white",
+    return (
+      <div
+        className="rounded-2xl text-[14px] px-2 py-1 mx-auto text-center overflow-hidden max-w-[120px]"
+        style={{
+          backgroundColor: bgColor,
+          color: "white",
+          fontWeight: 500,
+        }}
+        title={row.original.layoutName} // full text on hover
+      >
+        <span className="truncate block w-full">
+          {row.original.layoutName}
+        </span>
+      </div>
+    );
+  },
+  size: 120, // initial column width
+  minSize: 50, // min width
+}
+,
+{
+  accessorKey: "insuranceLeadNameAll",
+  header: ({ column }) => (
+    <SortableHeader column={column} title="Insurance Lead Name All" />
+  ),
+  cell: ({ row }) => (
+    <Button
+      onClick={() =>
+        navigate(`/crm/leads/details/${row.original.ROWID}`, {
+          state: row.original,
+        })
+      }
+      variant="link"
+    className="w-full text-left truncate overflow-hidden"
+    >
+      {`${row.original.firstName ?? ""} ${row.original.lastName ?? ""}`.trim()}
+    </Button>
+  ),
+  size: 50,
+  minSize: 50,
+}
 
-            }}
-          >
-            <span className="p-[2px]  w-35 text-center  ">{status}</span>
-          </Badge>
-        );
-      },
-      size: 200,
-      minSize: 200,
-    },
+,
+  {
+  accessorKey: "insuranceLeadStatus",
+  header: ({ column }) => (
+    <SortableHeader column={column} title="Insurance Lead Status" />
+  ),
+  cell: ({ row }) => {
+    const status = row.original.insuranceLeadStatus || "N/A";
+    const statusColor = getInsuranceLeadStatusColor(status);
+
+    return (
+      <div
+        className="rounded-2xl text-[14px] px-2 py-1 mx-auto text-center overflow-hidden max-w-[150px]"
+        style={{
+          fontWeight: 500,
+          backgroundColor: statusColor,
+          color:
+            statusColor === "#98d681" ||
+            statusColor === "#f6c1ff" ||
+            statusColor === "#8bc34a" ||
+            statusColor === "#81c784"
+              ? "black"
+              : "white",
+        }}
+        title={status} // show full status on hover
+      >
+        <span className="truncate block w-full">{status}</span>
+      </div>
+    );
+  },
+  size: 120, // adjust initial column width
+  minSize: 50,
+},
     {
       accessorKey: "leadStatusStage",
       header: ({ column }) => (
         <SortableHeader column={column} title="Lead Status Stage" />
       ),
-      cell: ({ row }) => (
-        <Badge
-          className="badge-style"
-          style={{
-            backgroundColor: row.original.leadStatusStageColor || "#fdd835",
-            color:
-              row.original.leadStatusStageColor === "#fdd835"
-                ? "black"
-                : "white",
-          }}
-        >
-          <span className="p-[2px]  w-35  text-center">
-            {row.original.leadStatusStage || "N/A"}
-          </span>
-        </Badge>
-      ),
-      size: 200,
-      minSize: 200,
+      cell: ({ row }) => {
+        return (
+          <div
+            className="rounded-2xl text-[14px] px-2 py-1 mx-auto text-center overflow-hidden  max-w-[150px]"
+            style={{
+              fontWeight: "500",
+              backgroundColor: row.original.leadStatusStageColor || "#fdd835",
+              color:
+                row.original.leadStatusStageColor === "#f6c1ff"
+                  ? "black"
+                  : "white",
+            }}
+          >
+            <span className="truncate block w-full">
+              {row.original.leadStatusStage || "N/A"}
+            </span>
+          </div>
+        );
+      },
+      size: 50,
+      minSize: 50,
     },
     {
       accessorKey: "mobile",
       header: ({ column }) => <SortableHeader column={column} title="Mobile" />,
-      cell: ({ row }) => <div>{row.original.mobile}</div>,
-      size: 120,
-      minSize: 120,
+      cell: ({ row }) => <div className="truncate">{row.original.mobile}</div>,
+      size: 50,
+      minSize: 50,
     },
     {
       accessorKey: "insuranceLeadSource",
       header: ({ column }) => (
         <SortableHeader column={column} title="Insurance Lead Source" />
       ),
-      cell: ({ row }) => <div>{row.original.insuranceLeadSource}</div>,
-      size: 200,
-      minSize: 200,
+      cell: ({ row }) => (
+        <div className="truncate">
+          {row.original.insuranceLeadSource}
+        </div>
+      ),
+      size: 50,
+      minSize: 50,
     },
     {
       accessorKey: "advisorfullName",
       header: ({ column }) => (
         <SortableHeader column={column} title="Assigned Advisor" />
       ),
-      cell: ({ row }) => <div>{row.original.advisorfullName}</div>,
-      size: 150,
-      minSize: 150,
+      cell: ({ row }) => <div className="truncate">{row.original.advisorfullName}</div>,
+      size: 50,
+      minSize: 50,
     },
 
     {
@@ -922,23 +787,29 @@ const LeadsListView = () => {
             })
           }
           variant="link"
-          className="text-foreground cursor-pointer w-fit px-0 text-left"
+          className="w-full" // <-- w-full instead of w-fit
         >
-          {row.original.email}
+          <div
+            className="truncate w-full"
+            title={row.original.email} // full text on hover
+          >
+            {row.original.email}
+          </div>
         </Button>
       ),
-      size: 200,
-      minSize: 200,
-    },
+      size: 200, // adjust column size as needed
+      minSize: 50,
+    }
+    ,
 
     {
       accessorKey: "firstPageVisited",
       header: ({ column }) => (
         <SortableHeader column={column} title="First Page Visited" />
       ),
-      cell: ({ row }) => <div>{row.original.firstPageVisited}</div>,
-      size: 150,
-      minSize: 150,
+      cell: ({ row }) => <div className="truncate">{row.original.firstPageVisited}</div>,
+      size: 50,
+      minSize: 50,
     },
 
     {
@@ -946,9 +817,20 @@ const LeadsListView = () => {
       header: ({ column }) => (
         <SortableHeader column={column} title="Last Activity Time" />
       ),
-      cell: ({ row }) => <div>{row.original.MODIFIEDTIME}</div>,
-      size: 150,
-      minSize: 150,
+      cell: ({ row }) => <div className="truncate">
+        {row.original.MODIFIEDTIME
+          ? new Date(row.original.MODIFIEDTIME).toLocaleString("en-GB", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          })
+          : "N/A"}
+      </div>,
+      size: 50,
+      minSize: 50,
     },
 
     {
@@ -956,17 +838,17 @@ const LeadsListView = () => {
       header: ({ column }) => (
         <SortableHeader column={column} title="Total Interaction Time (mins)" />
       ),
-      cell: ({ row }) => <div>{row.original.totalInteractionTime}</div>,
-      size: 300,
-      minSize: 300,
+      cell: ({ row }) => <div className="truncate">{row.original.totalInteractionTime}</div>,
+      size: 50,
+      minSize: 50,
     },
 
     {
       accessorKey: "phoneNumber",
       header: ({ column }) => <SortableHeader column={column} title="Phone" />,
-      cell: ({ row }) => <div>{row.original.phoneNumber}</div>,
-      size: 120,
-      minSize: 120,
+      cell: ({ row }) => <div className="truncate">{row.original.phoneNumber}</div>,
+      size: 50,
+      minSize: 50,
     },
 
     {
@@ -974,9 +856,9 @@ const LeadsListView = () => {
       header: ({ column }) => (
         <SortableHeader column={column} title="Created By" />
       ),
-      cell: ({ row }) => <div>{row.original.UserfullName}</div>,
-      size: 150,
-      minSize: 150,
+      cell: ({ row }) => <div className="truncate">{row.original.UserfullName}</div>,
+      size: 50,
+      minSize: 50,
     },
 
     {
@@ -984,9 +866,9 @@ const LeadsListView = () => {
       header: ({ column }) => (
         <SortableHeader column={column} title="Ad Campaign Name" />
       ),
-      cell: ({ row }) => <div>{row.original.adCampaign}</div>,
-      size: 150,
-      minSize: 150,
+      cell: ({ row }) => <div className="truncate">{row.original.adCampaign}</div>,
+      size: 50,
+      minSize: 50,
     },
 
     {
@@ -994,9 +876,9 @@ const LeadsListView = () => {
       header: ({ column }) => (
         <SortableHeader column={column} title="FaceBook Ad" />
       ),
-      cell: ({ row }) => <div>{row.original.facebookAd}</div>,
-      size: 150,
-      minSize: 150,
+      cell: ({ row }) => <div className="truncate">{row.original.facebookAd}</div>,
+      size: 50,
+      minSize: 50,
     },
 
     {
@@ -1004,9 +886,9 @@ const LeadsListView = () => {
       header: ({ column }) => (
         <SortableHeader column={column} title="First Name" />
       ),
-      cell: ({ row }) => <div>{row.original.firstName}</div>,
-      size: 120,
-      minSize: 120,
+      cell: ({ row }) => <div className="truncate">{row.original.firstName}</div>,
+      size: 50,
+      minSize: 50,
     },
 
     {
@@ -1014,9 +896,9 @@ const LeadsListView = () => {
       header: ({ column }) => (
         <SortableHeader column={column} title="Last Name All" />
       ),
-      cell: ({ row }) => <div>{row.original.lastName}</div>,
-      size: 120,
-      minSize: 120,
+      cell: ({ row }) => <div className="truncate">{row.original.lastName}</div>,
+      size: 50,
+      minSize: 50,
     },
 
     {
@@ -1024,9 +906,9 @@ const LeadsListView = () => {
       header: ({ column }) => (
         <SortableHeader column={column} title="Keyword" />
       ),
-      cell: ({ row }) => <div>{row.original.keywordData}</div>,
-      size: 150,
-      minSize: 150,
+      cell: ({ row }) => <div className="truncate">{row.original.keywordData}</div>,
+      size: 50,
+      minSize: 50,
     },
 
     {
@@ -1034,9 +916,9 @@ const LeadsListView = () => {
       header: ({ column }) => (
         <SortableHeader column={column} title="Submit Page URL" />
       ),
-      cell: ({ row }) => <div>{row.original.submitPageURL}</div>,
-      size: 200,
-      minSize: 200,
+      cell: ({ row }) => <div className="truncate">{row.original.submitPageURL}</div>,
+      size: 50,
+      minSize: 50,
     },
 
     {
@@ -1044,9 +926,9 @@ const LeadsListView = () => {
       header: ({ column }) => (
         <SortableHeader column={column} title="LP URL Data" />
       ),
-      cell: ({ row }) => <div>{row.original.lpUrlData}</div>,
-      size: 150,
-      minSize: 150,
+      cell: ({ row }) => <div className="truncate">{row.original.lpUrlData}</div>,
+      size: 50,
+      minSize: 50,
     },
 
     {
@@ -1054,9 +936,9 @@ const LeadsListView = () => {
       header: ({ column }) => (
         <SortableHeader column={column} title="GCLID Data" />
       ),
-      cell: ({ row }) => <div>{row.original.gclidData}</div>,
-      size: 120,
-      minSize: 120,
+      cell: ({ row }) => <div className="truncate">{row.original.gclidData}</div>,
+      size: 50,
+      minSize: 50,
     },
 
     {
@@ -1064,25 +946,25 @@ const LeadsListView = () => {
       header: ({ column }) => (
         <SortableHeader column={column} title="Ad Network" />
       ),
-      cell: ({ row }) => <div>{row.original.adNetwork}</div>,
-      size: 120,
-      minSize: 120,
+      cell: ({ row }) => <div className="truncate">{row.original.adNetwork}</div>,
+      size: 50,
+      minSize: 50,
     },
     {
       accessorKey: "servicesRequested",
       header: ({ column }) => (
         <SortableHeader column={column} title="Services Requested" />
       ),
-      cell: ({ row }) => <div>{row.original.servicesRequested}</div>,
-      size: 200,
-      minSize: 200,
+      cell: ({ row }) => <div className="truncate">{row.original.servicesRequested}</div>,
+      size: 50,
+      minSize: 50,
     },
     {
       accessorKey: "gclid",
       header: ({ column }) => <SortableHeader column={column} title="GCLID" />,
-      cell: ({ row }) => <div>{row.original.gclid}</div>,
-      size: 120,
-      minSize: 120,
+      cell: ({ row }) => <div className="truncate">{row.original.gclid}</div>,
+      size: 50,
+      minSize: 50,
     },
   ];
 
@@ -1119,7 +1001,19 @@ const LeadsListView = () => {
     onColumnVisibilityChange: setColumnVisibility,
     onPaginationChange: setPagination,
     onColumnOrderChange: setColumnOrder,
-    onColumnSizingChange: setColumnSizing,
+    onColumnSizingChange: (updater) => {
+      setColumnSizing((prev) => {
+        const newSizing = typeof updater === 'function' ? updater(prev) : updater;
+        const clamped = { ...newSizing };
+        columns.forEach((col) => {
+          const colId = col.id || col.accessorKey;
+          if (colId && col.minSize) {
+            clamped[colId] = Math.max(clamped[colId] || prev[colId] || col.size, col.minSize);
+          }
+        });
+        return clamped;
+      });
+    },
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -1139,9 +1033,6 @@ const LeadsListView = () => {
       });
     }
   }
-  useEffect(() => {
-    console.log("Data", dataSample);
-  }, []);
 
   if (loading) return <TableSkeleton />;
 
@@ -1250,15 +1141,13 @@ const LeadsListView = () => {
           value="all-leads"
           className="relative flex flex-col gap-4 overflow-auto mx-1 lg:mx-2"
         >
-          <div
-            className="flex flex-col"
-          >
+          <div className="flex flex-col">
             <div className="flex-1 relative pb-20">
               <div
                 className="relative  grid w-full border rounded"
                 style={{
                   height: "calc(100vh - 140px)",
-                  maxHeight: "calc(100vh - 160px)"
+                  maxHeight: "calc(100vh - 160px)",
                 }}
               >
                 <DndContext
@@ -1280,12 +1169,12 @@ const LeadsListView = () => {
                                 style={{
                                   width: header.getSize(),
                                   position: "relative",
+                                  transition: "width 0.1s ease-in-out",
                                 }}
-                                className={
-                                  header.column.id === "drag"
-                                    ? "border-r border-dotted border-gray-600"
-                                    : ""
-                                }
+                                className={`truncate ${header.column.id === "drag"
+                                  ? "border-r border-dotted border-gray-600"
+                                  : ""
+                                  }`}
                               >
                                 {header.isPlaceholder
                                   ? null
@@ -1297,7 +1186,7 @@ const LeadsListView = () => {
                                   <div
                                     onMouseDown={header.getResizeHandler()}
                                     onTouchStart={header.getResizeHandler()}
-                                    className={`absolute right-0 top-0 h-full w-0.5 cursor-col-resize select-none touch-none ${header.column.getIsResizing()
+                                    className={`absolute right-0 top-0 h-full w-0.5 cursor-col-resize select-none touch-none transition-colors duration-150 ${header.column.getIsResizing()
                                       ? "bg-primary"
                                       : "bg-border hover:bg-primary/50"
                                       }`}

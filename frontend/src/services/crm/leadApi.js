@@ -14,3 +14,8 @@ export const deleteLead = async (ROWID) => {
   const res = await axiosInstance.delete(`/crm/delete-lead/${ROWID}`);
   return res;
 };
+
+export const sendMassEmail = async (emailData) => {
+  const res = await axiosInstance.post("/crm/send-mass-email", emailData);
+  return res;
+};

@@ -290,6 +290,23 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: textfield !important;
 }
+.compact-table {
+    --table-row-height: 2rem;
+    --table-cell-padding: 0.25rem 0.5rem;
+  }
+  
+  .compact-table .table-row {
+    height: var(--table-row-height) !important;
+  }
+  
+  .compact-table .table-cell {
+    padding: var(--table-cell-padding) !important;
+    font-size: 0.875rem;
+  }
+  
+  .compact-table .table-header {
+    height: 2.5rem !important;
+  }
 
 @layer base {
   * {

@@ -187,7 +187,7 @@ function DraggableRow({ row }) {
       }}
     >
       {row.getVisibleCells().map((cell) => (
-        <TableCell key={cell.id}>
+        <TableCell className={"py-1 px-4"} key={cell.id}>
           {flexRender(cell.column.columnDef.cell, cell.getContext())}
         </TableCell>
       ))}
@@ -638,7 +638,6 @@ const AdvisorsListNew = () => {
             variant="link"
             className="text-foreground cursor-pointer w-fit px-0 text-left"
           >
-            <i className="fas fa-eye text-gray-400" aria-hidden="true"></i>
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -692,8 +691,10 @@ const AdvisorsListNew = () => {
       accessorKey: "layoutName",
       header: ({ column }) => <SortableHeader column={column} title="Layout" />,
       cell: ({ row }) => (
-        <Badge className={`badge-style ${row.original.layoutName?.toLowerCase() === 'client' ? 'client-layout' : 'advisor-layout'}`}>
+        <Badge className={`text-center mx-auto rounded-xl p-[3px] px-4 relative z-10 ${row.original.layoutName?.toLowerCase() === 'client' ? 'client-layout' : 'advisor-layout'}`}>
           {row.original.layoutName}
+                     
+
         </Badge>
       ),
       size: 100,
@@ -716,7 +717,7 @@ const AdvisorsListNew = () => {
       accessorKey: "insuranceLeadStatus",
       header: ({ column }) => <SortableHeader column={column} title="Insurance Lead Status" />,
       cell: ({ row }) => (
-        <Badge className="badge-style" style={{
+        <Badge className="text-center mx-auto rounded-xl p-[3px] px-4 relative z-10" style={{
           backgroundColor: row.original.insuranceLeadStatusColor || '#fdd835',
           color: (row.original.insuranceLeadStatusColor === '#fdd835') ? 'black' : 'white'
         }}>
@@ -728,7 +729,8 @@ const AdvisorsListNew = () => {
       accessorKey: "leadStatusStage",
       header: ({ column }) => <SortableHeader column={column} title="Lead Status Stage" />,
       cell: ({ row }) => (
-        <Badge className="badge-style" style={{
+        <Badge             className="text-center mx-auto rounded-xl p-[3px] px-4 relative z-10"
+ style={{
           backgroundColor: row.original.leadStatusStageColor || '#fdd835',
           color: (row.original.leadStatusStageColor === '#fdd835') ? 'black' : 'white'
         }}>

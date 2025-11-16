@@ -7,15 +7,14 @@ import MainLayout from "@/layout/MainLayout";
 import CRMLayout from "@/features/crm/layouts/CRMLayout";
 import DealsLayout from "@/features/crm/pages/deals/layout/DealsLayout";
 import LeadLayout from "@/features/crm/pages/leads/layout/LeadLayout";
-import ContactLayout from "@/features/crm/pages/contacts/layout/ContactLayout";
 import AccountLayout from "@/features/crm/pages/accounts/layout/AccountLayout";
-import OfferingLayout from "@/features/crm/pages/offerings/layout/OfferingLayout";
 import CustomerServiceLayout from "@/features/crm/pages/customerService/layout/CustomerServiceLayout";
 import AdvisorsListNew from "@/features/crm/pages/advisor/AdvisorsListNew";
 import LeadAdvisorForm from "@/features/crm/pages/advisor/LeadAdvisorForm";
 import AdvisorDetailsView from "@/features/crm/pages/advisor/AdvisorDetailsView";
 import ActivityMasterLayout from "@/features/activityMaster/layouts/ActivityMasterLayout";
 import ActivityMasterList from "@/features/activityMaster/pages/activityMasters/layout/ActivityMasterList";
+import DeliveryChallanActivityForm from "@/features/crm/pages/deliveryChallan/relatedList/deliveryChallanActivity/DeliveryChallanActivityForm";
 import QuoteActivityForm from "@/features/crm/pages/quotes/relatedList/quoteActivity/QuoteActivityForm";
 import DealActivityForm from "@/features/crm/pages/deals/relatedList/dealActivity/DealActivityForm";
 import FinanceLayout from "@/features/finance/layouts/FinanceLayout";
@@ -28,7 +27,6 @@ import ShipmentLayout from "@/features/finance/pages/sales/shipments/Layout/Ship
 import PackageLayout from "@/features/Packages/Layout/PackageLayout";
 import LeadActivityForm from "@/features/crm/pages/leads/relatedList/leadActivity/LeadActivityForm";
 import PurchaseRecieveLayout from "@/features/finance/pages/purchase/purchaseReceive/layout/PurchaseRecieveLayout";
-import ContactActivityForm from "@/features/crm/pages/contacts/relatedList/contactActivity/ContactActivityForm";
 import VendorLayout from "@/features/finance/pages/vendors/layouts/VendorLayout";
 import RecurringBillsLayout from "@/features/finance/pages/bills/pages/recurringbills/layout/RecurringBillsLayout";
 const Home = lazy(() => import("@/features/home/pages/Home"));
@@ -43,9 +41,6 @@ import ShipmentForm from "@/features/finance/pages/sales/shipments/ShipmentForm"
 import ShipmentDetail from "@/features/finance/pages/sales/shipments/ShipmentDetail";
 
 //Contacts
-const Contacts = lazy(() =>
-  import("@/features/crm/pages/contacts/ContactsListView")
-);
 
 
 // ACCOUNT MODULE
@@ -196,7 +191,10 @@ import WarehouseForm from "@/features/finance/pages/inventory/warehouse/pages/Wa
 import StockTransferForm from "@/features/finance/pages/inventory/stockTransfer/pages/StockTransferForm";
 import MaterialRequistionEmail from "@/features/finance/pages/Material Requisition/Pages/MaterialRequistionEmail";
 import StockTransferDetail from "@/features/finance/pages/inventory/stockTransfer/pages/StockTransferDetail";
-
+import DeliveryChallan from "@/features/crm/pages/deliveryChallan/layout/DeliveryChallan";
+import DeliveryChallanList from "@/features/crm/pages/deliveryChallan/DeliveryChallanList";
+import DeliveryChallanForm from "@/features/crm/pages/deliveryChallan/DeliveryChallanForm";
+import DeliveryChallanDetail from "@/features/crm/pages/deliveryChallan/sample/DeliveryChallanDetail";
 import PurchaseOrderForm from "@/features/finance/pages/purchase/PurchaseOrderForm";
 import AccountActivityForm from "@/features/crm/pages/accounts/relatedList/accountActivity/AccountActivityForm";
 import CategoryLayout from "@/features/portal/Masters/Category/Layout/CategoryLayout";
@@ -215,9 +213,12 @@ import { JobWorkList } from "@/features/jobWork/pages/JobWorkList";
 import JobWorkForm from "@/features/jobWork/pages/JobWorkForm";
 import JobWorkDetail from "@/features/jobWork/pages/JobWorkDetail";
 import UsersDetail from "@/features/portal/manageUsers/users/pages/UsersDetail";
-import ContactsListView from "@/features/crm/pages/contacts/ContactsListView";
 import CustomerServiceForm from "@/features/crm/pages/customerService/CustomerServiceForm";
-import ContactClientForm from "@/features/crm/pages/contacts/contactForm/ContactClientForm";
+import ContactsListView from "@/features/crm/pages/contacts/contacts/ContactsListView";
+import ContactClientForm from "@/features/crm/pages/contacts/contacts/contactForm/ContactClientForm";
+import ContactDetailView from "@/features/crm/pages/contacts/contacts/ContactDetailView";
+import ContactLayout from "@/features/crm/pages/contacts/contacts/layout/ContactLayout";
+import ContactActivityForm from "@/features/crm/pages/contacts/contacts/relatedList/contactActivity/ContactActivityForm";
 
 
 
@@ -269,6 +270,7 @@ const RolesListView = lazy(() =>
 const RolesForm = lazy(() =>
   import("@/features/portal/manageUsers/roles/pages/RolesForm")
 );
+import OfferingLayout from "@/features/crm/pages/offerings/layout/OfferingLayout";
 
 // OFFERINGS MODULE
 const OfferingForm = lazy(() => import("@/features/crm/pages/offerings/OfferingForm"));
@@ -311,11 +313,11 @@ export default function AppRoutes() {
                <Route path="activity" element={<LeadActivityForm />} />
             </Route>
             {/* <Route path="contacts" element={<Contacts />} /> */}
-            <Route path="contacts" element={<ContactLayout />}>
+            <Route path="contacts" element={<ContactLayout/>}>
               <Route path="" element={<ContactsListView/>} />
               <Route path="create" element={<ContactClientForm />} />
               {/* <Route path="update" element={<ContactsForm />} /> */}
-              {/* <Route path="details/:id" element={<ContactDetailView />} /> */}
+              <Route path="details" element={<ContactDetailView/>} />
                <Route path=" activity" element={<ContactActivityForm />} />
             </Route>
             {/* <Route path="accounts" element={<Accounts />} /> */}
@@ -341,8 +343,13 @@ export default function AppRoutes() {
               <Route path="details/:id" element={<DealsDetailsView />} />
                <Route path="activity" element={<QuoteActivityForm />} />
             </Route>
-          
-            <Route path="offerings" element={<OfferingLayout />}>
+           <Route path="deliveryChallan" element={<DeliveryChallan />}>
+              <Route path="" element={<DeliveryChallanList />} />
+              <Route path="create" element={<DeliveryChallanForm />} />
+              <Route path="detail" element={<DeliveryChallanDetail />} />
+              <Route path="activity" element={<DeliveryChallanActivityForm />} />
+           </Route>
+              <Route path="offerings" element={<OfferingLayout />}>
               <Route path="" element={<OfferingListView />} />
               <Route path="create" element={<OfferingForm />} />
               <Route path="details/:id" element={<OfferingDetailsView />} />

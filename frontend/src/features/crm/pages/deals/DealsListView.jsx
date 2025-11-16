@@ -195,7 +195,7 @@ function DraggableRow({ row, navigate }) {
       onClick={handleRowClick}
     >
       {row.getVisibleCells().map((cell) => (
-        <TableCell key={cell.id}>
+        <TableCell  className={"py-1 px-4"} key={cell.id}>
           {flexRender(cell.column.columnDef.cell, cell.getContext())}
         </TableCell>
       ))}
@@ -587,7 +587,6 @@ const DealsListView = () => {
             variant="link"
             className="text-foreground cursor-pointer w-fit px-0 text-left"
           >
-            <i className="fas fa-eye text-gray-400" aria-hidden="true"></i>
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -644,7 +643,7 @@ const DealsListView = () => {
       accessorKey: "stage",
       header: ({ column }) => <SortableHeader column={column} title="Stage" />,
       cell: ({ row }) => (
-        <Badge className="badge-style" style={{
+        <Badge className="rounded-2xl p-[3px] px-2" style={{
           backgroundColor: row.original.stageColor || '#fdd835',
           color: (row.original.stageColor === '#fdd835') ? 'black' : 'white'
         }}>
@@ -658,7 +657,7 @@ const DealsListView = () => {
       accessorKey: "layoutName",
       header: ({ column }) => <SortableHeader column={column} title="Layout" />,
       cell: ({ row }) => (
-        <Badge className={`badge-style ${row.original.layoutName?.toLowerCase() === 'client' ? 'client-layout' : 'advisor-layout'}`}>
+        <Badge className={`rounded-2xl p-[3px] px-2 ${row.original.layoutName?.toLowerCase() === 'client' ? 'client-layout' : 'advisor-layout'}`}>
           {row.original.layoutName}
         </Badge>
       ),

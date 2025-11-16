@@ -95,11 +95,17 @@ import noresult from "@assets/no-data.png";
 import { useState, useEffect, useMemo, useId } from "react";
 import { useNavigate } from "react-router-dom";
 import dataSample from "./sample/customerServiceData.json";
+import {
+  statusOptions,
+  ServiceStatusOptions,
+  TaskTypeOptions,
+} from "./utils/picklist.js";
 
 // New imports for enhanced functionality
 import CustomerServiceSearchDrawer from "./CustomerServiceSearchDrawer";
 import CustomerServiceColumnManageDrawer from "./CustomerServiceColumnManageDrawer";
 import CustomerServiceMassUpdateModal from "./CustomerServiceMassUpdateModal";
+import { Bandage, Eye } from "lucide-react";
 
 function DragHandle({ id }) {
   const { attributes, listeners } = useSortable({
@@ -166,7 +172,11 @@ function DraggableRow({ row, navigate }) {
       }}
     >
       {row.getVisibleCells().map((cell) => (
-        <TableCell key={cell.id} onClick={handleRowClick}>
+        <TableCell
+          className={"py-1 px-2 "}
+          key={cell.id}
+          onClick={handleRowClick}
+        >
           {flexRender(cell.column.columnDef.cell, cell.getContext())}
         </TableCell>
       ))}
@@ -232,7 +242,7 @@ const CustomerServiceListView = () => {
       actions: 80,
       "Activity Badge": 120,
       "Created Time": 150,
-      "Task Name": 150,
+      "Task Name": 180,
       Policies: 150,
       Description: 250,
       Status: 120,
@@ -271,7 +281,8 @@ const CustomerServiceListView = () => {
   // New state variables for enhanced functionality
   const [isSearchDrawerOpen, setIsSearchDrawerOpen] = useState(false);
   const [isMassUpdateModalOpen, setIsMassUpdateModalOpen] = useState(false);
-  const [isColumnManageDrawerOpen, setIsColumnManageDrawerOpen] = useState(false);
+  const [isColumnManageDrawerOpen, setIsColumnManageDrawerOpen] =
+    useState(false);
 
   const [allColumns, setAllColumns] = useState([
     "Activity Badge",
@@ -316,47 +327,50 @@ const CustomerServiceListView = () => {
     return saved
       ? JSON.parse(saved)
       : [
-        "Activity Badge",
-        "Created Time",
-        "Task Name",
-        "Policies",
-        "Description",
-        "Status",
-        "Updated Policy Module - ZOHO",
-        "Request BOT/Email Company/Cancel Portal",
-        "Confirmation Received by us",
-        "Confirmation to Client",
-        "Comment on Contact Profile - ZOHO",
-        "Effective Date Matches on Confirmation",
-        "Task Completed CSR Name",
-        "Contacts",
-        "Last Activity Time",
-        "Customer Service Owner",
-        "Policy Advisor",
-        "Contact Mobile",
-        "Created By",
-        "Currency",
-        "Exchange Rate",
-        "Tag",
-        "Unsubscribed Mode",
-        "Unsubscribed Time",
-        "Group Insurance",
-        "Policy Expiry Date",
-        "Renewal Follow Up Date",
-        "Policy Renewal Date",
-        "Renewal Completed",
-        "New Policy Renewal Date",
-        "New Policy Premium",
-        "Issued By",
-        "Connected To",
-        "Refund Amount",
-      ];
+          "Activity Badge",
+          "Created Time",
+          "Task Name",
+          "Policies",
+          "Description",
+          "Status",
+          "Updated Policy Module - ZOHO",
+          "Request BOT/Email Company/Cancel Portal",
+          "Confirmation Received by us",
+          "Confirmation to Client",
+          "Comment on Contact Profile - ZOHO",
+          "Effective Date Matches on Confirmation",
+          "Task Completed CSR Name",
+          "Contacts",
+          "Last Activity Time",
+          "Customer Service Owner",
+          "Policy Advisor",
+          "Contact Mobile",
+          "Created By",
+          "Currency",
+          "Exchange Rate",
+          "Tag",
+          "Unsubscribed Mode",
+          "Unsubscribed Time",
+          "Group Insurance",
+          "Policy Expiry Date",
+          "Renewal Follow Up Date",
+          "Policy Renewal Date",
+          "Renewal Completed",
+          "New Policy Renewal Date",
+          "New Policy Premium",
+          "Issued By",
+          "Connected To",
+          "Refund Amount",
+        ];
   });
 
   // Handler for column changes
   const handleColumnsChange = (newVisibleColumns) => {
     setVisibleColumns(newVisibleColumns);
-    localStorage.setItem("customer-service-visible-columns", JSON.stringify(newVisibleColumns));
+    localStorage.setItem(
+      "customer-service-visible-columns",
+      JSON.stringify(newVisibleColumns)
+    );
   };
 
   // Sync columnVisibility with visibleColumns
@@ -373,25 +387,27 @@ const CustomerServiceListView = () => {
     "Activity Badge": "Activity Badge",
     "Created Time": "Created Time",
     "Task Name": "Task Name",
-    "Policies": "Policies",
-    "Description": "Description",
-    "Status": "Status",
+    Policies: "Policies",
+    Description: "Description",
+    Status: "Status",
     "Updated Policy Module - ZOHO": "Updated Policy Module - ZOHO",
-    "Request BOT/Email Company/Cancel Portal": "Request BOT/Email Company/Cancel Portal",
+    "Request BOT/Email Company/Cancel Portal":
+      "Request BOT/Email Company/Cancel Portal",
     "Confirmation Received by us": "Confirmation Received by us",
     "Confirmation to Client": "Confirmation to Client",
     "Comment on Contact Profile - ZOHO": "Comment on Contact Profile - ZOHO",
-    "Effective Date Matches on Confirmation": "Effective Date Matches on Confirmation",
+    "Effective Date Matches on Confirmation":
+      "Effective Date Matches on Confirmation",
     "Task Completed CSR Name": "Task Completed CSR Name",
-    "Contacts": "Contacts",
+    Contacts: "Contacts",
     "Last Activity Time": "Last Activity Time",
     "Customer Service Owner": "Customer Service Owner",
     "Policy Advisor": "Policy Advisor",
     "Contact Mobile": "Contact Mobile",
     "Created By": "Created By",
-    "Currency": "Currency",
+    Currency: "Currency",
     "Exchange Rate": "Exchange Rate",
-    "Tag": "Tag",
+    Tag: "Tag",
     "Unsubscribed Mode": "Unsubscribed Mode",
     "Unsubscribed Time": "Unsubscribed Time",
     "Group Insurance": "Group Insurance",
@@ -465,9 +481,11 @@ const CustomerServiceListView = () => {
             variant="link"
             className="text-foreground cursor-pointer w-fit px-0 text-left"
             onClick={(e) => {
-              navigate(`/crm/customerService/details/${row.original.ROWID}`, { state: row.original });
-            }}>
-            <i className="fas fa-eye text-gray-400" aria-hidden="true"></i>
+              navigate(`/crm/customerService/details/${row.original.ROWID}`, {
+                state: row.original,
+              });
+            }}
+          >
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -476,17 +494,23 @@ const CustomerServiceListView = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-32">
-
-              <DropdownMenuItem onClick={(e) => {
-                e.stopPropagation();
-                navigate(`/crm/customerService/details/${row.original.ROWID}`, { state: row.original });
-              }}>
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(
+                    `/crm/customerService/details/${row.original.ROWID}`,
+                    { state: row.original }
+                  );
+                }}
+              >
                 Detail view
               </DropdownMenuItem>
-              <DropdownMenuItem   onClick={(e) => {
+              <DropdownMenuItem
+                onClick={(e) => {
                   e.stopPropagation(); // ✅ stop bubbling
                   navigate(`/crm/customerService/create`);
-                }}>
+                }}
+              >
                 Edit
               </DropdownMenuItem>
               <DropdownMenuItem variant="destructive" className="text-red-500">
@@ -501,18 +525,34 @@ const CustomerServiceListView = () => {
     },
     {
       accessorKey: "Activity Badge",
-      header: ({ column }) => <SortableHeader column={column} title="Activity Badge" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Activity Badge" />
+      ),
       cell: ({ row }) => <div>{row.original["Activity Badge"]}</div>,
       size: 120,
       minSize: 120,
     },
     {
       accessorKey: "Created Time",
-      header: ({ column }) => <SortableHeader column={column} title="Created Time" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Created Time" />
+      ),
       cell: ({ row }) => (
+        // <div>
+        //   {row.original["Created Time"]
+        //     ? new Date(row.original["Created Time"]).toLocaleString()
+        //     : "N/A"}
+        // </div>
         <div>
           {row.original["Created Time"]
-            ? new Date(row.original["Created Time"]).toLocaleString()
+            ? new Date(row.original["Created Time"]).toLocaleString("en-GB", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true,
+              })
             : "N/A"}
         </div>
       ),
@@ -521,21 +561,41 @@ const CustomerServiceListView = () => {
     },
     {
       accessorKey: "Task Name",
-      header: ({ column }) => <SortableHeader column={column} title="Task Name" />,
-      cell: ({ row }) => <div>{row.original["Task Name"]}</div>,
-      size: 150,
-      minSize: 150,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Task Name" />
+      ),
+      cell: ({ row }) => {
+        const taskName = row.original["Task Name"];
+        const taskOption = TaskTypeOptions.find(
+          (option) => option.value === taskName
+        );
+        const bgColor = taskOption ? taskOption.color : "#ffffff";
+        return (
+          <div
+            className="text-center rounded-3xl w-35"
+            style={{ backgroundColor: bgColor, color: "white", padding: "4px" }}
+          >
+            {taskName}
+          </div>
+        );
+      },
+      size: 180,
+      minSize: 180,
     },
     {
       accessorKey: "Policies",
-      header: ({ column }) => <SortableHeader column={column} title="Policies" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Policies" />
+      ),
       cell: ({ row }) => <div>{row.original.Policies}</div>,
       size: 150,
       minSize: 150,
     },
     {
       accessorKey: "Description",
-      header: ({ column }) => <SortableHeader column={column} title="Description" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Description" />
+      ),
       cell: ({ row }) => <div>{row.original.Description}</div>,
       size: 250,
       minSize: 250,
@@ -545,19 +605,17 @@ const CustomerServiceListView = () => {
       header: ({ column }) => <SortableHeader column={column} title="Status" />,
       cell: ({ row }) => {
         const status = row.original.Status || "N/A";
-        const statusColors = {
-          Completed: "#4caf50",
-          Pending: "#ff9800",
-          "In Progress": "#2196f3",
-        };
-        const bgColor = statusColors[status] || "#9e9e9e";
+        const statusOption = statusOptions.find(
+          (option) => option.value === status
+        );
+        const bgColor = statusOption ? statusOption.color : "#9e9e9e";
         return (
-          <Badge
-            className="badge-style"
+          <div
+            className="text-center mx-auto rounded-3xl p-[3px] relative z-10"
             style={{ backgroundColor: bgColor, color: "white", width: "100px" }}
           >
-            <span className="p-[3px] w-35 text-center">{status}</span>
-          </Badge>
+            {status}
+          </div>
         );
       },
       size: 120,
@@ -565,89 +623,174 @@ const CustomerServiceListView = () => {
     },
     {
       accessorKey: "Updated Policy Module - ZOHO",
-      header: ({ column }) => <SortableHeader column={column} title="Updated Policy Module - ZOHO" />,
-      cell: ({ row }) => <div>{row.original["Updated Policy Module - ZOHO"]}</div>,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Updated Policy Module - ZOHO" />
+      ),
+      cell: ({ row }) => {
+        const value = row.original["Updated Policy Module - ZOHO"];
+        const option = ServiceStatusOptions.find((opt) => opt.value === value);
+        const bgColor = option ? option.color : "#9e9e9e";
+        return (
+          <Badge
+            className="text-center mx-auto rounded-xl p-[3px] px-4 relative z-10"
+            style={{ backgroundColor: bgColor, color: "white" }}
+          >
+            {value}
+          </Badge>
+        );
+      },
       size: 250,
       minSize: 250,
     },
     {
       accessorKey: "Request BOT/Email Company/Cancel Portal",
-      header: ({ column }) => <SortableHeader column={column} title="Request BOT/Email Company/Cancel Portal" />,
-      cell: ({ row }) => <div>{row.original["Request BOT/Email Company/Cancel Portal"]}</div>,
+      header: ({ column }) => (
+        <SortableHeader
+          column={column}
+          title="Request BOT/Email Company/Cancel Portal"
+        />
+      ),
+      cell: ({ row }) => {
+        const value = row.original["Request BOT/Email Company/Cancel Portal"];
+        const option = ServiceStatusOptions.find((opt) => opt.value === value);
+        const bgColor = option ? option.color : "#9e9e9e";
+        return (
+          <Badge
+            className="text-center mx-auto rounded-xl p-[3px] px-4 relative z-10"
+            style={{ backgroundColor: bgColor, color: "white" }}
+          >
+            {value}
+          </Badge>
+        );
+      },
       size: 320,
       minSize: 320,
     },
     {
       accessorKey: "Confirmation Received by us",
-      header: ({ column }) => <SortableHeader column={column} title="Confirmation Received by us" />,
-      cell: ({ row }) => (
-        <Badge
-          className="badge-style"
-          style={{
-            backgroundColor: row.original["Confirmation Received by us"] ? "#4caf50" : "#f44336",
-            color: "white",
-            width: "80px"
-          }}
-        >
-          {row.original["Confirmation Received by us"] ? "Yes" : "No"}
-        </Badge>
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Confirmation Received by us" />
       ),
+      cell: ({ row }) => {
+        const value = row.original["Confirmation Received by us"];
+        const option = ServiceStatusOptions.find((opt) => opt.value === value);
+        const bgColor = option ? option.color : "#9e9e9e";
+        return (
+          <Badge
+            className="text-center mx-auto rounded-xl p-[3px] px-4 relative z-10"
+            style={{ backgroundColor: bgColor, color: "white" }}
+          >
+            {value}
+          </Badge>
+        );
+      },
       size: 250,
       minSize: 250,
     },
     {
       accessorKey: "Confirmation to Client",
-      header: ({ column }) => <SortableHeader column={column} title="Confirmation to Client" />,
-      cell: ({ row }) => <div>{row.original["Confirmation to Client"]}</div>,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Confirmation to Client" />
+      ),
+      cell: ({ row }) => {
+        const value = row.original["Confirmation to Client"];
+        const option = ServiceStatusOptions.find((opt) => opt.value === value);
+        const bgColor = option ? option.color : "#9e9e9e";
+        return (
+          <Badge
+            className="text-center mx-auto rounded-xl p-[3px] px-4 relative z-10"
+            style={{ backgroundColor: bgColor, color: "white" }}
+          >
+            {value}
+          </Badge>
+        );
+      },
       size: 200,
       minSize: 200,
     },
     {
       accessorKey: "Comment on Contact Profile - ZOHO",
-      header: ({ column }) => <SortableHeader column={column} title="Comment on Contact Profile - ZOHO" />,
-      cell: ({ row }) => <div>{row.original["Comment on Contact Profile - ZOHO"]}</div>,
+      header: ({ column }) => (
+        <SortableHeader
+          column={column}
+          title="Comment on Contact Profile - ZOHO"
+        />
+      ),
+      cell: ({ row }) => {
+        const value = row.original["Comment on Contact Profile - ZOHO"];
+        const option = ServiceStatusOptions.find((opt) => opt.value === value);
+        const bgColor = option ? option.color : "#9e9e9e";
+        return (
+          <Badge
+            className="text-center mx-auto rounded-xl p-[3px] px-4 relative z-10"
+            style={{ backgroundColor: bgColor, color: "white" }}
+          >
+            {value}
+          </Badge>
+        );
+      },
       size: 280,
       minSize: 280,
     },
     {
       accessorKey: "Effective Date Matches on Confirmation",
-      header: ({ column }) => <SortableHeader column={column} title="Effective Date Matches on Confirmation" />,
-      cell: ({ row }) => (
-        <Badge
-          className="badge-style"
-          style={{
-            backgroundColor: row.original["Effective Date Matches on Confirmation"] ? "#4caf50" : "#f44336",
-            color: "white",
-            width: "80px"
-          }}
-        >
-          {row.original["Effective Date Matches on Confirmation"] ? "Yes" : "No"}
-        </Badge>
+      header: ({ column }) => (
+        <SortableHeader
+          column={column}
+          title="Effective Date Matches on Confirmation"
+        />
       ),
+      cell: ({ row }) => {
+        const value = row.original["Effective Date Matches on Confirmation"];
+        const option = ServiceStatusOptions.find((opt) => opt.value === value);
+        const bgColor = option ? option.color : "#9e9e9e";
+        return (
+          <Badge
+            className="text-center mx-auto rounded-xl p-[3px] px-4 relative z-10"
+            style={{ backgroundColor: bgColor, color: "white" }}
+          >
+            {value}
+          </Badge>
+        );
+      },
       size: 300,
       minSize: 300,
     },
     {
       accessorKey: "Task Completed CSR Name",
-      header: ({ column }) => <SortableHeader column={column} title="Task Completed CSR Name" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Task Completed CSR Name" />
+      ),
       cell: ({ row }) => <div>{row.original["Task Completed CSR Name"]}</div>,
       size: 200,
       minSize: 200,
     },
     {
       accessorKey: "Contacts",
-      header: ({ column }) => <SortableHeader column={column} title="Contacts" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Contacts" />
+      ),
       cell: ({ row }) => <div>{row.original.Contacts}</div>,
       size: 150,
       minSize: 150,
     },
     {
       accessorKey: "Last Activity Time",
-      header: ({ column }) => <SortableHeader column={column} title="Last Activity Time" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Last Activity Time" />
+      ),
       cell: ({ row }) => (
+      
         <div>
           {row.original["Last Activity Time"]
-            ? new Date(row.original["Last Activity Time"]).toLocaleString()
+            ? new Date(row.original["Last Activity Time"]).toLocaleString("en-GB", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true,
+              })
             : "N/A"}
         </div>
       ),
@@ -656,42 +799,54 @@ const CustomerServiceListView = () => {
     },
     {
       accessorKey: "Customer Service Owner",
-      header: ({ column }) => <SortableHeader column={column} title="Customer Service Owner" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Customer Service Owner" />
+      ),
       cell: ({ row }) => <div>{row.original["Customer Service Owner"]}</div>,
       size: 180,
       minSize: 180,
     },
     {
       accessorKey: "Policy Advisor",
-      header: ({ column }) => <SortableHeader column={column} title="Policy Advisor" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Policy Advisor" />
+      ),
       cell: ({ row }) => <div>{row.original["Policy Advisor"]}</div>,
       size: 150,
       minSize: 150,
     },
     {
       accessorKey: "Contact Mobile",
-      header: ({ column }) => <SortableHeader column={column} title="Contact Mobile" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Contact Mobile" />
+      ),
       cell: ({ row }) => <div>{row.original["Contact Mobile"]}</div>,
       size: 150,
       minSize: 150,
     },
     {
       accessorKey: "Created By",
-      header: ({ column }) => <SortableHeader column={column} title="Created By" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Created By" />
+      ),
       cell: ({ row }) => <div>{row.original["Created By"]}</div>,
       size: 120,
       minSize: 120,
     },
     {
       accessorKey: "Currency",
-      header: ({ column }) => <SortableHeader column={column} title="Currency" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Currency" />
+      ),
       cell: ({ row }) => <div>{row.original.Currency}</div>,
       size: 100,
       minSize: 100,
     },
     {
       accessorKey: "Exchange Rate",
-      header: ({ column }) => <SortableHeader column={column} title="Exchange Rate" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Exchange Rate" />
+      ),
       cell: ({ row }) => <div>{row.original["Exchange Rate"]}</div>,
       size: 120,
       minSize: 120,
@@ -705,14 +860,31 @@ const CustomerServiceListView = () => {
     },
     {
       accessorKey: "Unsubscribed Mode",
-      header: ({ column }) => <SortableHeader column={column} title="Unsubscribed Mode" />,
-      cell: ({ row }) => <div>{row.original["Unsubscribed Mode"] || "N/A"}</div>,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Unsubscribed Mode" />
+      ),
+      cell: ({ row }) => (
+        <div>
+          {row.original["Unsubscribed Mode"]
+            ? new Date(row.original["Unsubscribed Mode"]).toLocaleString("en-GB", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true,
+              })
+            : "N/A"}
+        </div>
+      ),
       size: 150,
       minSize: 150,
     },
     {
       accessorKey: "Unsubscribed Time",
-      header: ({ column }) => <SortableHeader column={column} title="Unsubscribed Time" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Unsubscribed Time" />
+      ),
       cell: ({ row }) => (
         <div>
           {row.original["Unsubscribed Time"]
@@ -725,14 +897,18 @@ const CustomerServiceListView = () => {
     },
     {
       accessorKey: "Group Insurance",
-      header: ({ column }) => <SortableHeader column={column} title="Group Insurance" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Group Insurance" />
+      ),
       cell: ({ row }) => <div>{row.original["Group Insurance"]}</div>,
       size: 130,
       minSize: 130,
     },
     {
       accessorKey: "Policy Expiry Date",
-      header: ({ column }) => <SortableHeader column={column} title="Policy Expiry Date" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Policy Expiry Date" />
+      ),
       cell: ({ row }) => (
         <div>
           {row.original["Policy Expiry Date"]
@@ -745,11 +921,15 @@ const CustomerServiceListView = () => {
     },
     {
       accessorKey: "Renewal Follow Up Date",
-      header: ({ column }) => <SortableHeader column={column} title="Renewal Follow Up Date" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Renewal Follow Up Date" />
+      ),
       cell: ({ row }) => (
         <div>
           {row.original["Renewal Follow Up Date"]
-            ? new Date(row.original["Renewal Follow Up Date"]).toLocaleDateString()
+            ? new Date(
+                row.original["Renewal Follow Up Date"]
+              ).toLocaleDateString()
             : "N/A"}
         </div>
       ),
@@ -758,7 +938,9 @@ const CustomerServiceListView = () => {
     },
     {
       accessorKey: "Policy Renewal Date",
-      header: ({ column }) => <SortableHeader column={column} title="Policy Renewal Date" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Policy Renewal Date" />
+      ),
       cell: ({ row }) => (
         <div>
           {row.original["Policy Renewal Date"]
@@ -771,14 +953,18 @@ const CustomerServiceListView = () => {
     },
     {
       accessorKey: "Renewal Completed",
-      header: ({ column }) => <SortableHeader column={column} title="Renewal Completed" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Renewal Completed" />
+      ),
       cell: ({ row }) => (
         <Badge
-          className="badge-style"
+            className="text-center mx-auto rounded-xl p-[3px] px-4 relative z-10"
           style={{
-            backgroundColor: row.original["Renewal Completed"] ? "#4caf50" : "#f44336",
+            backgroundColor: row.original["Renewal Completed"]
+              ? "#4caf50"
+              : "#f44336",
             color: "white",
-            width: "80px"
+            width: "80px",
           }}
         >
           {row.original["Renewal Completed"] ? "Yes" : "No"}
@@ -789,11 +975,15 @@ const CustomerServiceListView = () => {
     },
     {
       accessorKey: "New Policy Renewal Date",
-      header: ({ column }) => <SortableHeader column={column} title="New Policy Renewal Date" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="New Policy Renewal Date" />
+      ),
       cell: ({ row }) => (
         <div>
           {row.original["New Policy Renewal Date"]
-            ? new Date(row.original["New Policy Renewal Date"]).toLocaleDateString()
+            ? new Date(
+                row.original["New Policy Renewal Date"]
+              ).toLocaleDateString()
             : "N/A"}
         </div>
       ),
@@ -802,28 +992,36 @@ const CustomerServiceListView = () => {
     },
     {
       accessorKey: "New Policy Premium",
-      header: ({ column }) => <SortableHeader column={column} title="New Policy Premium" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="New Policy Premium" />
+      ),
       cell: ({ row }) => <div>{row.original["New Policy Premium"]}</div>,
       size: 150,
       minSize: 150,
     },
     {
       accessorKey: "Issued By",
-      header: ({ column }) => <SortableHeader column={column} title="Issued By" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Issued By" />
+      ),
       cell: ({ row }) => <div>{row.original["Issued By"]}</div>,
       size: 120,
       minSize: 120,
     },
     {
       accessorKey: "Connected To",
-      header: ({ column }) => <SortableHeader column={column} title="Connected To" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Connected To" />
+      ),
       cell: ({ row }) => <div>{row.original["Connected To"]}</div>,
       size: 130,
       minSize: 130,
     },
     {
       accessorKey: "Refund Amount",
-      header: ({ column }) => <SortableHeader column={column} title="Refund Amount" />,
+      header: ({ column }) => (
+        <SortableHeader column={column} title="Refund Amount" />
+      ),
       cell: ({ row }) => <div>{row.original["Refund Amount"]}</div>,
       size: 120,
       minSize: 120,
@@ -926,7 +1124,9 @@ const CustomerServiceListView = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuItem onClick={() => setIsMassUpdateModalOpen(true)}>
+                <DropdownMenuItem
+                  onClick={() => setIsMassUpdateModalOpen(true)}
+                >
                   <IconDotsVertical className="mr-2 h-4 w-4" />
                   Mass Update
                 </DropdownMenuItem>
@@ -934,13 +1134,20 @@ const CustomerServiceListView = () => {
                   <IconDownload className="mr-2 h-4 w-4" />
                   Export
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setIsColumnManageDrawerOpen(true)}>
+                <DropdownMenuItem
+                  onClick={() => setIsColumnManageDrawerOpen(true)}
+                >
                   <IconLayoutColumns className="mr-2 h-4 w-4" />
                   Manage Columns
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button className="cursor-pointer" variant="outline" size="sm" onClick={() => navigate("/crm/customerService/create")}>
+            <Button
+              className="cursor-pointer"
+              variant="outline"
+              size="sm"
+              onClick={() => navigate("/crm/customerService/create")}
+            >
               <IconPlus />
               <span className="hidden lg:inline">Create Customer Service</span>
             </Button>
@@ -994,10 +1201,11 @@ const CustomerServiceListView = () => {
                                     <div
                                       onMouseDown={header.getResizeHandler()}
                                       onTouchStart={header.getResizeHandler()}
-                                      className={`absolute right-0 top-0 h-full w-0.5 cursor-col-resize select-none touch-none ${header.column.getIsResizing()
-                                        ? "bg-primary"
-                                        : "bg-border hover:bg-primary/50"
-                                        }`}
+                                      className={`absolute right-0 top-0 h-full w-0.5 cursor-col-resize select-none touch-none ${
+                                        header.column.getIsResizing()
+                                          ? "bg-primary"
+                                          : "bg-border hover:bg-primary/50"
+                                      }`}
                                     />
                                   )}
                                 </>
@@ -1015,7 +1223,11 @@ const CustomerServiceListView = () => {
                         strategy={verticalListSortingStrategy}
                       >
                         {table.getRowModel().rows.map((row) => (
-                          <DraggableRow key={row.id} row={row} navigate={navigate} />
+                          <DraggableRow
+                            key={row.id}
+                            row={row}
+                            navigate={navigate}
+                          />
                         ))}
                       </SortableContext>
                     ) : (
@@ -1060,15 +1272,9 @@ const CustomerServiceListView = () => {
                     table.setPageSize(Number(value));
                   }}
                 >
-                  <SelectTrigger
-                    size="sm"
-                    className="w-20"
-                    id="rows-per-page"
-                  >
+                  <SelectTrigger size="sm" className="w-20" id="rows-per-page">
                     <SelectValue
-                      placeholder={
-                        table.getState().pagination.pageSize
-                      }
+                      placeholder={table.getState().pagination.pageSize}
                     />
                   </SelectTrigger>
                   <SelectContent side="top">
@@ -1159,7 +1365,7 @@ const CustomerServiceListView = () => {
         isOpen={isSearchDrawerOpen}
         onClose={() => setIsSearchDrawerOpen(false)}
         onSearchResults={(searchFields) => {
-          console.log('Search results:', searchFields);
+          console.log("Search results:", searchFields);
           // Implement search logic here
         }}
       />
@@ -1184,9 +1390,11 @@ const CustomerServiceListView = () => {
             toast.error("No rows selected for update");
             return;
           }
-          setData(prevData =>
-            prevData.map(row =>
-              selectedRows.some(selectedRow => selectedRow.original.ROWID === row.ROWID)
+          setData((prevData) =>
+            prevData.map((row) =>
+              selectedRows.some(
+                (selectedRow) => selectedRow.original.ROWID === row.ROWID
+              )
                 ? { ...row, [updateData.field]: updateData.value }
                 : row
             )
