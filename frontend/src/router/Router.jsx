@@ -292,6 +292,13 @@ const CustomerServiceDetailView = lazy(() =>
   import("@/features/crm/pages/customerService/CustomerServiceDetailView")
 );
 
+// POLICY MODULE
+import PolicyLayout from "@/features/Policy/layout/PolicyLayout";
+import InvestmentForm from "@/features/Policy/investment/InvestmentForm";
+const PolicyListView = lazy(() => import("@/features/Policy/PolicyListView"));
+const PolicyForm = lazy(() => import("@/features/Policy/PolicyForm"));
+const PolicyDetailsView = lazy(() => import("@/features/Policy/PolicyDetailsView"));
+
 export default function AppRoutes() {
   return (
     <Suspense fallback={<Loader />}>
@@ -373,6 +380,11 @@ export default function AppRoutes() {
               <Route path="" element={<PartnerContactList />} />
               <Route path="create" element={<PartnerContactForm />} />
               <Route path="details/:id" element={<PartnerContactDetails />} />
+             <Route path="policy" element={<PolicyLayout />}>
+              <Route path="" element={<PolicyListView />} />
+              <Route path="create" element={<PolicyForm />} />
+              <Route path="investment/create" element={<InvestmentForm />} />
+              <Route path="details/:id" element={<PolicyDetailsView />} />
             </Route>
             <Route path="advisor">
               <Route path="" element={<AdvisorsListNew />} />
@@ -531,6 +543,7 @@ export default function AppRoutes() {
               element={<ShipmentsTrackerEmail />}
             />
           </Route>
+        </Route>
         </Route>
         {/* Admin Portal */}
         <Route
