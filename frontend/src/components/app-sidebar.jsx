@@ -104,6 +104,10 @@ const data = {
           title: "Offerings",
           url: "/crm/offerings",
         },
+        {
+          title: "Partner's contact",
+          url: "/crm/partner-contact",
+        },
     //       {
     //       title: "Accounts",
     //       url: "/crm/accounts",

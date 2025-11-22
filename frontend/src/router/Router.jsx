@@ -42,7 +42,6 @@ import ShipmentDetail from "@/features/finance/pages/sales/shipments/ShipmentDet
 
 //Contacts
 
-
 // ACCOUNT MODULE
 const Accounts = lazy(() =>
   import("@/features/crm/pages/accounts/AccountsListView")
@@ -220,8 +219,6 @@ import ContactDetailView from "@/features/crm/pages/contacts/contacts/ContactDet
 import ContactLayout from "@/features/crm/pages/contacts/contacts/layout/ContactLayout";
 import ContactActivityForm from "@/features/crm/pages/contacts/contacts/relatedList/contactActivity/ContactActivityForm";
 
-
-
 // import PurchaseDetailView from "@/features/finance/pages/purchase/PurchaseDetailView";
 
 //Recurring
@@ -271,15 +268,29 @@ const RolesForm = lazy(() =>
   import("@/features/portal/manageUsers/roles/pages/RolesForm")
 );
 import OfferingLayout from "@/features/crm/pages/offerings/layout/OfferingLayout";
+import PartnerContactLayout from "@/features/crm/pages/PartnerContacts/layout/PartnerContactLayout";
+import PartnerContactList from "@/features/crm/pages/PartnerContacts/PartnerContactList";
+import PartnerContactForm from "@/features/crm/pages/PartnerContacts/PartnerContactForm";
+import PartnerContactDetails from "@/features/crm/pages/PartnerContacts/PartnerContactDetails";
 
 // OFFERINGS MODULE
-const OfferingForm = lazy(() => import("@/features/crm/pages/offerings/OfferingForm"));
-const OfferingListView = lazy(() => import("@/features/crm/pages/offerings/OfferingListView"));
-const OfferingDetailsView = lazy(() => import("@/features/crm/pages/offerings/OfferingDetailsView"));
+const OfferingForm = lazy(() =>
+  import("@/features/crm/pages/offerings/OfferingForm")
+);
+const OfferingListView = lazy(() =>
+  import("@/features/crm/pages/offerings/OfferingListView")
+);
+const OfferingDetailsView = lazy(() =>
+  import("@/features/crm/pages/offerings/OfferingDetailsView")
+);
 
 // CUSTOMER SERVICE MODULE
-const CustomerServiceListView = lazy(() => import("@/features/crm/pages/customerService/CustomerServiceListView"));
-const CustomerServiceDetailView = lazy(() => import("@/features/crm/pages/customerService/CustomerServiceDetailView"));
+const CustomerServiceListView = lazy(() =>
+  import("@/features/crm/pages/customerService/CustomerServiceListView")
+);
+const CustomerServiceDetailView = lazy(() =>
+  import("@/features/crm/pages/customerService/CustomerServiceDetailView")
+);
 
 export default function AppRoutes() {
   return (
@@ -297,7 +308,7 @@ export default function AppRoutes() {
           path="/"
           element={
             // <ProtectedRoute>
-              <MainLayout />
+            <MainLayout />
             // </ProtectedRoute>
           }
         >
@@ -310,15 +321,15 @@ export default function AppRoutes() {
               <Route path="create" element={<LeadsForm />} />
               <Route path="details/:id" element={<LeadsDetailsView />} />
               <Route path="update" element={<LeadsForm />} />
-               <Route path="activity" element={<LeadActivityForm />} />
+              <Route path="activity" element={<LeadActivityForm />} />
             </Route>
             {/* <Route path="contacts" element={<Contacts />} /> */}
-            <Route path="contacts" element={<ContactLayout/>}>
-              <Route path="" element={<ContactsListView/>} />
+            <Route path="contacts" element={<ContactLayout />}>
+              <Route path="" element={<ContactsListView />} />
               <Route path="create" element={<ContactClientForm />} />
               {/* <Route path="update" element={<ContactsForm />} /> */}
-              <Route path="details" element={<ContactDetailView/>} />
-               <Route path=" activity" element={<ContactActivityForm />} />
+              <Route path="details" element={<ContactDetailView />} />
+              <Route path=" activity" element={<ContactActivityForm />} />
             </Route>
             {/* <Route path="accounts" element={<Accounts />} /> */}
             <Route path="accounts" element={<AccountLayout />}>
@@ -333,7 +344,7 @@ export default function AppRoutes() {
               <Route path="create" element={<DealsForm />} />
               <Route path="update" element={<DealsForm />} />
               <Route path="details/:id" element={<DealsDetailsView />} />
-               <Route path="activity" element={<DealActivityForm />} />
+              <Route path="activity" element={<DealActivityForm />} />
             </Route>
             <Route path="quotes" element={<QuoteLayout />}>
               <Route path="" element={<QuoteList />} />
@@ -341,19 +352,27 @@ export default function AppRoutes() {
               <Route path="detail" element={<QuoteDetail />} />
               <Route path="email" element={<QuoteEmail />} />
               <Route path="details/:id" element={<DealsDetailsView />} />
-               <Route path="activity" element={<QuoteActivityForm />} />
+              <Route path="activity" element={<QuoteActivityForm />} />
             </Route>
-           <Route path="deliveryChallan" element={<DeliveryChallan />}>
+            <Route path="deliveryChallan" element={<DeliveryChallan />}>
               <Route path="" element={<DeliveryChallanList />} />
               <Route path="create" element={<DeliveryChallanForm />} />
               <Route path="detail" element={<DeliveryChallanDetail />} />
-              <Route path="activity" element={<DeliveryChallanActivityForm />} />
-           </Route>
-              <Route path="offerings" element={<OfferingLayout />}>
+              <Route
+                path="activity"
+                element={<DeliveryChallanActivityForm />}
+              />
+            </Route>
+            <Route path="offerings" element={<OfferingLayout />}>
               <Route path="" element={<OfferingListView />} />
               <Route path="create" element={<OfferingForm />} />
               <Route path="details/:id" element={<OfferingDetailsView />} />
               <Route path="update/:id" element={<OfferingForm />} />
+            </Route>
+            <Route path="partner-contact" element={<PartnerContactLayout />}>
+              <Route path="" element={<PartnerContactList />} />
+              <Route path="create" element={<PartnerContactForm />} />
+              <Route path="details/:id" element={<PartnerContactDetails />} />
             </Route>
             <Route path="advisor">
               <Route path="" element={<AdvisorsListNew />} />
@@ -363,23 +382,26 @@ export default function AppRoutes() {
             <Route path="customerService" element={<CustomerServiceLayout />}>
               <Route path="" element={<CustomerServiceListView />} />
               <Route path="create" element={<CustomerServiceForm />} />
-              <Route path="details/:id" element={<CustomerServiceDetailView />} />
+              <Route
+                path="details/:id"
+                element={<CustomerServiceDetailView />}
+              />
             </Route>
-           <Route path="list" element={<ActivityMasterList />} />
+            <Route path="list" element={<ActivityMasterList />} />
           </Route>
 
           <Route path="jobWork" element={<JobWorkLayout />}>
-          <Route path="jobWorkList" element={<JobWorkList />}/>
-          <Route path="create" element={<JobWorkForm />}/>
-          <Route path="detail" element={<JobWorkDetail/>}/>
+            <Route path="jobWorkList" element={<JobWorkList />} />
+            <Route path="create" element={<JobWorkForm />} />
+            <Route path="detail" element={<JobWorkDetail />} />
           </Route>
 
-           {/* <Route path="activity" element={<ActivityMasterLayout />}> */}
-           {/* <Route index element={<Navigate to="activityMaster" replace />} /> */}
-             {/* <Route path="activityMaster" element={<ActivityMaster/>}> */}
-           
-              {/* <Route path="activityForm" element={<AllActivityForm />} /> */}
-            {/* </Route> */}
+          {/* <Route path="activity" element={<ActivityMasterLayout />}> */}
+          {/* <Route index element={<Navigate to="activityMaster" replace />} /> */}
+          {/* <Route path="activityMaster" element={<ActivityMaster/>}> */}
+
+          {/* <Route path="activityForm" element={<AllActivityForm />} /> */}
+          {/* </Route> */}
           {/* </Route> */}
           <Route path="inventory" element={<InventoryLayout />}>
             <Route path="items" element={<ItemList />} />
@@ -421,7 +443,7 @@ export default function AppRoutes() {
                 path="purchase-detail"
                 element={<PurchaseOrderDetailView />}
               />
-              <Route path="create" element={<PurchaseOrderForm/>} />
+              <Route path="create" element={<PurchaseOrderForm />} />
               <Route path="edit" element={<PurchaseForm />} />
             </Route>
             <Route path="purchase-recieve" element={<PurchaseRecieveLayout />}>
@@ -528,8 +550,8 @@ export default function AppRoutes() {
           </Route>
           <Route path="manage-users" element={<ManageUsersLayout />}>
             <Route path="" element={<UsersListView />} />
-            <Route path="userform" element={<UsersForm/>} />
-            <Route path="userdetail" element={<UsersDetail/>}/>
+            <Route path="userform" element={<UsersForm />} />
+            <Route path="userdetail" element={<UsersDetail />} />
             <Route path="roles" element={<RolesListView />} />
             <Route path="roles/create" element={<RolesForm />} />
             <Route path="roles/update" element={<RolesForm />} />
@@ -549,7 +571,7 @@ export default function AppRoutes() {
             <Route path="" element={<BrandsList />} />
             <Route path="form" element={<BrandsForm />} />
           </Route>
-          <Route path="currency" element={<CurrencyLayout/>}>
+          <Route path="currency" element={<CurrencyLayout />}>
             <Route path="" element={<CurrencyList />} />
             <Route path="form" element={<CurrencyForm />} />
           </Route>
@@ -557,7 +579,7 @@ export default function AppRoutes() {
             <Route path="" element={<CategoryList />} />
             <Route path="form" element={<CategoryForm />} />
           </Route>
-           <Route path="Deliveryterm" element={<DeliveryTermLayout />}>
+          <Route path="Deliveryterm" element={<DeliveryTermLayout />}>
             <Route path="" element={<DeliveryTermList />} />
             <Route path="form" element={<DeliveryTermForm />} />
           </Route>
