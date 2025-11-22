@@ -3,19 +3,20 @@ import { cn } from "@/lib/utils";
 
 const Stepper = ({ steps, currentStep, onStepClick }) => {
   return (
-    <div className="w-full bg-white border rounded-xl p-4 shadow-sm">
-      <div className="flex items-center justify-between relative">
-        {/* Connecting line */}
-        <div className="absolute top-6 left-[calc(5%)] right-[calc(5%)] w-[90%] h-[2px] bg-gray-200">
+    <div className="w-full bg-white border rounded-xl p-6 shadow-sm">
+      <div className="relative flex items-center justify-between">
+
+        {/* Connector Background */}
+        <div className="absolute top-6 left-0 right-0 h-[3px] bg-gray-200 rounded-full">
           <div
-            className="h-[2px] bg-blue-500 transition-all duration-500 ease-in-out rounded-full"
+            className="h-[3px] bg-blue-600 rounded-full transition-all duration-500 ease-out"
             style={{
               width:
                 steps.length > 1
-                  ? `calc(${(currentStep / (steps.length - 1)) * 100}% - 2%)`
+                  ? `${(currentStep / (steps.length - 1)) * 100}%`
                   : "0%",
             }}
-          ></div>
+          />
         </div>
 
         {steps.map((step, index) => {
@@ -27,27 +28,29 @@ const Stepper = ({ steps, currentStep, onStepClick }) => {
               key={index}
               className="relative flex flex-col items-center w-full text-center z-10"
             >
-              {/* Step Button */}
+              {/* Step Circle */}
               <button
                 type="button"
                 onClick={() => onStepClick(index)}
+                aria-current={isActive ? "step" : undefined}
                 className={cn(
-                  "flex items-center justify-center w-10 h-10 rounded-full border-2 font-semibold transition-all duration-300",
+                  "flex items-center justify-center w-7 h-7 rounded-full border-[2.5px] transition-all duration-300",
+
                   isCompleted
-                    ? "bg-blue-500 border-blue-500 text-white"
+                    ? "bg-blue-600 border-blue-600 text-white shadow-sm"
                     : isActive
-                    ? "border-blue-500 text-blue-600 bg-white"
-                    : "border-gray-300 text-gray-400 bg-white"
+                    ? "bg-white border-blue-600 text-blue-600 shadow-sm"
+                    : "bg-white border-gray-300 text-gray-400"
                 )}
               >
                 {isCompleted ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
+                    className="h-4 w-4"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
-                    strokeWidth={2}
+                    strokeWidth="3"
                   >
                     <path
                       strokeLinecap="round"
@@ -56,27 +59,20 @@ const Stepper = ({ steps, currentStep, onStepClick }) => {
                     />
                   </svg>
                 ) : (
-                  index + 1
+                  <span className="sr-only">Step</span>
                 )}
               </button>
 
-              {/* Step Label */}
-              <div className="mt-2 flex flex-col items-center">
+              {/* Labels */}
+              <div className="mt-3 leading-tight">
                 <span
                   className={cn(
-                    "text-sm font-semibold",
-                    isActive || isCompleted
-                      ? "text-gray-900"
-                      : "text-gray-400"
+                    "text-sm font-medium",
+                    isCompleted || isActive ? "text-black" : "text-gray-400"
                   )}
                 >
                   {step.title}
                 </span>
-                {step.subtitle && (
-                  <span className="text-xs text-gray-400">
-                    {step.subtitle}
-                  </span>
-                )}
               </div>
             </div>
           );

@@ -14,6 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -117,6 +118,16 @@ const CustomerServiceDetailView = () => {
     renewalCompleted: "",
     renewalFollowUpDate: "",
     newPolicyPremium: "",
+    offeringOwner: "",
+    offeringCategory: "",
+    offeringType: "",
+    offeringDescription: "",
+    productFYCPercent: "",
+    corporateBonusPercent: "",
+    cancellationChargeType: "",
+    offeringName: "",
+    insurancePartnerName: "",
+    offeringActive: true,
   });
 
   const [showUpdateBtn, setShowUpdateBtn] = useState(false);
@@ -218,10 +229,45 @@ const CustomerServiceDetailView = () => {
   };
 
   const handleClearChanges = () => {
-    setFormData((prev) => ({
-      ...prev,
+    setFormData({
       ...details,
-    }));
+      currency: details.currency ?? "",
+      customerServiceOwner: details.customerServiceOwner ?? "",
+      policyAdvisor: details.policyAdvisor ?? "",
+      taskName: details.taskName ?? "",
+      contactMobile: details.contactMobile ?? "",
+      contacts: details.contacts ?? "",
+      exchangeRate: details.exchangeRate ?? "",
+      policies: details.policies ?? "",
+      description: details.description ?? "",
+      groupInsurance: details.groupInsurance ?? "",
+      status: details.status ?? "",
+      updatedpolicymodulezoho: details.updatedpolicymodulezoho ?? "",
+      commentoncontactprofilezoho: details.commentoncontactprofilezoho ?? "",
+      requestbotemailcompanycancelportal:
+        details.requestbotemailcompanycancelportal ?? "",
+      confirmationreceivedbyus: details.confirmationreceivedbyus ?? "",
+      confirmationtoclient: details.confirmationtoclient ?? "",
+      effectivedatematchesonconfirmation:
+        details.effectivedatematchesonconfirmation ?? "",
+      policyRenewalDate: details.policyRenewalDate ?? "",
+      policyExpiryDate: details.policyExpiryDate ?? "",
+      newPolicyRenewalDate: details.newPolicyRenewalDate ?? "",
+      issuedBy: details.issuedBy ?? "",
+      renewalCompleted: details.renewalCompleted ?? "",
+      renewalFollowUpDate: details.renewalFollowUpDate ?? "",
+      newPolicyPremium: details.newPolicyPremium ?? "",
+      offeringOwner: details.offeringOwner ?? "",
+      offeringCategory: details.offeringCategory ?? "",
+      offeringType: details.offeringType ?? "",
+      offeringDescription: details.offeringDescription ?? "",
+      productFYCPercent: details.productFYCPercent ?? "",
+      corporateBonusPercent: details.corporateBonusPercent ?? "",
+      cancellationChargeType: details.cancellationChargeType ?? "",
+      offeringName: details.offeringName ?? "",
+      insurancePartnerName: details.insurancePartnerName ?? "",
+      offeringActive: details.offeringActive ?? true,
+    });
     setShowUpdateBtn(false);
     setIsDisabled(true);
   };
@@ -434,7 +480,6 @@ const CustomerServiceDetailView = () => {
                 </GridEditableField>
               </div>
             </Card>
-
             {/* Contact Information */}
             <Card className="shadow-background gap-4 mt-5 px-5 py-4">
               <FormSubHeading className="text-primary mb-4">
@@ -502,7 +547,6 @@ const CustomerServiceDetailView = () => {
                 </GridEditableField>
               </div>
             </Card>
-
             {/* Status & Progress */}
             <Card className="shadow-background gap-4 mt-5 px-5 py-4">
               <FormSubHeading className="text-primary mb-4">
@@ -581,7 +625,6 @@ const CustomerServiceDetailView = () => {
                 </GridEditableField>
               </div>
             </Card>
-
             {/* Policy Details */}
             <Card className={`shadow-background gap-4 mt-5 px-5 py-4`}>
               <FormSubHeading className="text-primary mb-4">
@@ -657,6 +700,118 @@ const CustomerServiceDetailView = () => {
                     name="newPolicyPremium"
                     onChange={handleChange}
                     type="number"
+                  />
+                </GridEditableField>
+              </div>
+            </Card>
+            {/* Offering Information */}
+            <Card className={`shadow-background gap-4 mt-5 px-5 py-4`}>
+              <FormSubHeading className="text-primary mb-4">
+                Offering Information
+              </FormSubHeading>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2">
+                <GridEditableField label="Offering Owner">
+                  <EditableField
+                    readOnly={isDisabled}
+                    value={formData.offeringOwner}
+                    name="offeringOwner"
+                    onChange={handleChange}
+                    placeholder="Select Owner"
+                  />
+                </GridEditableField>
+
+                <GridEditableField label="Offering Name">
+                  <EditableField
+                    readOnly={isDisabled}
+                    value={formData.offeringName}
+                    name="offeringName"
+                    onChange={handleChange}
+                    placeholder="Enter Offering Name"
+                  />
+                </GridEditableField>
+
+                <GridEditableField label="Offering Category">
+                  <EditableField
+                    readOnly={isDisabled}
+                    value={formData.offeringCategory}
+                    name="offeringCategory"
+                    onChange={handleChange}
+                    placeholder="Select Category"
+                  />
+                </GridEditableField>
+
+                <GridEditableField label="Offering Type">
+                  <EditableField
+                    readOnly={isDisabled}
+                    value={formData.offeringType}
+                    name="offeringType"
+                    onChange={handleChange}
+                    placeholder="Select Type"
+                  />
+                </GridEditableField>
+
+                <GridEditableField label="Insurance Partner Name">
+                  <EditableField
+                    readOnly={isDisabled}
+                    value={formData.insurancePartnerName}
+                    name="insurancePartnerName"
+                    onChange={handleChange}
+                    placeholder="Enter Partner Name"
+                  />
+                </GridEditableField>
+
+                <GridEditableField label="Product FYC Percent">
+                  <EditableField
+                    readOnly={isDisabled}
+                    value={formData.productFYCPercent}
+                    name="productFYCPercent"
+                    onChange={handleChange}
+                    type="number"
+                    placeholder="0.00"
+                  />
+                </GridEditableField>
+
+                <GridEditableField label="Corporate Bonus Percent">
+                  <EditableField
+                    readOnly={isDisabled}
+                    value={formData.corporateBonusPercent}
+                    name="corporateBonusPercent"
+                    onChange={handleChange}
+                    type="number"
+                    placeholder="0.00"
+                  />
+                </GridEditableField>
+
+                <GridEditableField label="Cancellation Charge Type">
+                  <EditableField
+                    readOnly={isDisabled}
+                    value={formData.cancellationChargeType}
+                    name="cancellationChargeType"
+                    onChange={handleChange}
+                    placeholder="Select Type"
+                  />
+                </GridEditableField>
+
+                <GridEditableField label="Offering Active">
+                  <Checkbox
+                    checked={formData.offeringActive}
+                    onCheckedChange={(checked) =>
+                      handleChange({ name: "offeringActive", value: checked })
+                    }
+                    disabled={isDisabled}
+                  />
+                </GridEditableField>
+              </div>
+              <div className="grid grid-cols-1 gap-4 mt-3">
+                <GridEditableField label="Offering Description">
+                  <EditableField
+                    readOnly={isDisabled}
+                    className="w-full"
+                    onChange={handleChange}
+                    name="offeringDescription"
+                    component={Textarea}
+                    value={formData.offeringDescription}
+                    placeholder="Enter Offering Description"
                   />
                 </GridEditableField>
               </div>
