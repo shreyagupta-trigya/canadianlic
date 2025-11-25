@@ -113,6 +113,14 @@ const data = {
           title: "Partner's contact",
           url: "/crm/partner-contact",
         },
+        {
+          title: "Vendor",
+          url: "/vendors/vendors-list",
+        },
+        {
+          title: "Locations",
+          url: "/location/locations-list",
+        },
     //       {
     //       title: "Accounts",
     //       url: "/crm/accounts",

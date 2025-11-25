@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Label } from "@/components/ui/label";
 import {
@@ -12,77 +12,97 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import Notes from "@/utils/commonRelatedList/notes/Notes";
 import Attachment from "@/utils/commonRelatedList/comms/Attachments";
 import Whatsapp from "@/utils/commonRelatedList/comms/Whatsapp";
 import SMS from "@/utils/commonRelatedList/comms/SMS";
 import Email from "@/utils/commonRelatedList/comms/Email";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Mail, Phone, Smartphone, MapPin, Users } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const PartnerContactDetailsView = () => {
   const location = useLocation();
   const details = location.state;
   const isMobile = useIsMobile();
 
+  const partnerContactOptions = [
+    { ROWID: 1, firstName: "John Doe" },
+    { ROWID: 2, firstName: "Alice Smith" },
+    { ROWID: 3, firstName: "Bob Johnson" },
+  ];
+
   const [activeTab, setActiveTab] = useState("overview");
   const [selectedActionTab, setSelectedActionTab] = useState("whatsapp");
-  const [contactData, setContactData] = useState({
-    main: details || {},
-    user: details?.user || {},
+  const [formData, setFormData] = useState({
+    partnerContact: "John Doe",
+    email: "johndoe@gmail.com",
+    partnerContactOwner: "ABC",
+    parentPartner: "XYZ",
+    street: "Newcastle",
+    shipmentStreet: "England",
   });
-  const [currentStep, setCurrentStep] = useState(0);
-
-  // Dummy example data for initial state
-  const initialFormData = {
-    leadName: "Peter Antony",
-    email: "peter.antony@example.com",
-    status: "Active",
-    currency: "USD",
-    customerServiceOwner: "Sophia Carter",
-    policyAdvisor: "John Dorsey",
-    taskName: "Renewal",
-    contactMobile: "+91 99999 88888",
-    contacts: "alice.smith@example.com",
-    exchangeRate: "83.5",
-    policies: "Health, Motor",
-    groupInsurance: "Yes",
-    description: "Long-standing client, key contact for renewal business.",
-    birthDate: "1990-02-05",
-    createdTime: "2023-01-15",
-  };
-
-  const [formData, setFormData] = useState(initialFormData);
   const [isDisabled, setIsDisabled] = useState(true);
   const [showUpdateBtn, setShowUpdateBtn] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
 
-  const handleChange = (e) => {
+  // Standardized handleChange taking name and value
+  const handleChange = (name, value) => {
     setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }));
+    if (errors[name]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "",
+      }));
+    }
     setShowUpdateBtn(true);
   };
 
   const handleUpdate = () => {
+    const validationErrors = {};
+    if (!formData.partnerContact || formData.partnerContact === "") {
+      validationErrors.partnerContact = "Partner Contact is required";
+    }
+    if (!formData.email || formData.email === "") {
+      validationErrors.email = "Email is required";
+    }
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
     setLoading(true);
     setTimeout(() => {
       setIsDisabled(true);
       setShowUpdateBtn(false);
       setLoading(false);
-      // Optionally call API here
+      setErrors({});
+      // optionally call API here
     }, 800);
   };
 
   const handleClearChanges = () => {
-    setFormData(initialFormData);
+    setFormData({
+      partnerContact: "John Doe",
+      email: "johndoe@gmail.com",
+      partnerContactOwner: "ABC",
+      parentPartner: "XYZ",
+      street: "Newcastle",
+      shipmentStreet: "England",
+    });
     setIsDisabled(true);
     setShowUpdateBtn(false);
+    setErrors({});
   };
-
-  // If fetching API for detail:
-  // useEffect(() => { ... });
 
   return (
     <div className="flex h-full">
@@ -154,268 +174,195 @@ const PartnerContactDetailsView = () => {
                 </Badge>
               </TabsTrigger>
             </TabsList>
+            {/* Edit/Save buttons */}
+            <div className="flex gap-2 ml-4">
+              {!showUpdateBtn ? (
+                <>
+                  <Button onClick={() => setIsDisabled(false)}>Edit</Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setIsDisabled(true);
+                      handleClearChanges();
+                    }}
+                    disabled={loading}
+                  >
+                    Cancel
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button onClick={handleUpdate} disabled={loading}>
+                    Save
+                  </Button>
+                  <Button variant="outline" onClick={handleClearChanges}>
+                    Cancel
+                  </Button>
+                </>
+              )}
+            </div>
           </div>
 
           {/* OVERVIEW */}
           <TabsContent value="overview" className="flex flex-col px-2 lg:px-2">
-            {/* --- Stepper --- */}
-            <div className="w-full bg-white rounded-2xl border px-6 py-5 flex flex-col">
-              <div className="relative flex items-center w-full min-h-[48px]">
-                {/* The connector line now runs ONLY between the circles */}
-                <div
-                  className="absolute left-[calc(50%/steps.length)] right-[calc(50%/steps.length)] top-1/2 h-0.5 bg-gray-300 z-0"
-                  style={{
-                    left: "calc(50%/2 + 16px)", // Adjust 16px if circle size is different (for w-8 it’s 16px radius)
-                    right: "calc(50%/2 + 16px)",
-                  }}
-                />
-                <div className="flex w-full justify-between z-10">
-                  {["Partner Information", "Address Information"].map(
-                    (step, idx) => (
-                      <div
-                        className="flex flex-col items-center flex-1 min-w-0"
-                        key={typeof step === "string" ? step : step.title}
-                      >
-                        <div
-                          className={`w-8 h-8 flex items-center justify-center rounded-full border-2 transition-all bg-white
-              ${
-                currentStep === idx
-                  ? "border-blue-500 text-blue-600 font-bold"
-                  : "border-gray-300 text-gray-400"
-              }
-            `}
-                          style={{ background: "white" }}
-                        >
-                          <span className="text-base">{idx + 1}</span>
-                        </div>
-                        <span
-                          className={`mt-2 text-xs text-center font-medium
-              ${currentStep === idx ? "text-black" : "text-gray-400"}
-            `}
-                          style={{ width: "max-content" }}
-                        >
-                          {typeof step === "string" ? step : step.title}
-                        </span>
-                      </div>
-                    )
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* --- Step Content --- */}
-            {currentStep === 0 && (
-              <Card className="shadow-background gap-4 mt-5 px-5 py-4">
-                <div className="text-primary mb-4 font-bold text-lg">
+            <Accordion
+              type="multiple"
+              className="w-full"
+              defaultValue={["partner-info"]}
+            >
+              <AccordionItem value="partner-info" className="mb-2">
+                <AccordionTrigger className="text-xl font-semibold">
                   Partner Contact Information
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2">
-                  <div className="flex flex-col">
-                    <label className="text-xs mb-1 text-muted-foreground">
-                      Partner Name
-                    </label>
-                    <input
-                      readOnly={isDisabled}
-                      className="border p-1 rounded"
-                      name="leadName"
-                      value={formData.leadName}
-                      onChange={handleChange}
-                      placeholder="Enter Partner Name"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label className="text-xs mb-1 text-muted-foreground">
-                      Email
-                    </label>
-                    <input
-                      readOnly={isDisabled}
-                      className="border p-1 rounded"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="Enter Email"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label className="text-xs mb-1 text-muted-foreground">
-                      Status
-                    </label>
-                    <input
-                      readOnly={isDisabled}
-                      className="border p-1 rounded"
-                      name="status"
-                      value={formData.status}
-                      onChange={handleChange}
-                      placeholder="Active/Inactive"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label className="text-xs mb-1 text-muted-foreground">
-                      Contact Mobile
-                    </label>
-                    <input
-                      readOnly={isDisabled}
-                      className="border p-1 rounded"
-                      name="contactMobile"
-                      value={formData.contactMobile}
-                      onChange={handleChange}
-                      placeholder="Enter Mobile"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label className="text-xs mb-1 text-muted-foreground">
-                      Assigned Owner
-                    </label>
-                    <input
-                      readOnly={isDisabled}
-                      className="border p-1 rounded"
-                      name="customerServiceOwner"
-                      value={formData.customerServiceOwner}
-                      onChange={handleChange}
-                      placeholder="Assigned Owner"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label className="text-xs mb-1 text-muted-foreground">
-                      Group Insurance
-                    </label>
-                    <input
-                      readOnly={isDisabled}
-                      className="border p-1 rounded"
-                      name="groupInsurance"
-                      value={formData.groupInsurance}
-                      onChange={handleChange}
-                      placeholder="Yes/No"
-                    />
-                  </div>
-                  <div className="flex flex-col col-span-full">
-                    <label className="text-xs mb-1 text-muted-foreground">
-                      Description
-                    </label>
-                    <textarea
-                      readOnly={isDisabled}
-                      rows={3}
-                      className="border p-1 rounded resize-none"
-                      name="description"
-                      value={formData.description}
-                      onChange={handleChange}
-                      placeholder="Description"
-                    />
-                  </div>
-                </div>
-              </Card>
-            )}
+                </AccordionTrigger>
+                <AccordionContent>
+                  <Card className="shadow-background gap-4 mt-3 px-5 py-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Partner Contact */}
+                      <div>
+                        <label className="block mb-1 font-medium">
+                          Partner Contact <span className="text-red-500">*</span>
+                        </label>
+                        <Select
+                          value={formData.partnerContact || ""}
+                          onValueChange={(value) =>
+                            handleChange("partnerContact", value)
+                          }
+                          disabled={isDisabled}
+                        >
+                          <SelectTrigger
+                            className={`w-full ${
+                              errors.partnerContact ? "border-red-500" : ""
+                            }`}
+                          >
+                            <SelectValue placeholder="Select Partner Contact" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {partnerContactOptions.map((user) => (
+                              <SelectItem
+                                key={user.ROWID}
+                                value={user.firstName}
+                              >
+                                {user.firstName}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        {errors.partnerContact && (
+                          <p className="text-red-500 text-sm">
+                            {errors.partnerContact}
+                          </p>
+                        )}
+                      </div>
 
-            {currentStep === 1 && (
-              <Card className="shadow-background gap-4 mt-5 px-5 py-4">
-                <div className="text-primary mb-4 font-bold text-lg">
+                      {/* Email */}
+                      <div>
+                        <label className="block mb-1 font-medium">
+                          Email <span className="text-red-500">*</span>
+                        </label>
+                        <Input
+                          name="email"
+                          value={formData.email || ""}
+                          onChange={(e) =>
+                            handleChange(e.target.name, e.target.value)
+                          }
+                          placeholder="Enter Email"
+                          type="email"
+                          className={errors.email ? "border-red-500" : ""}
+                          disabled={isDisabled}
+                        />
+                        {errors.email && (
+                          <p className="text-red-500 text-sm">{errors.email}</p>
+                        )}
+                      </div>
+
+                      {/* Partner Contact Owner */}
+                      <div>
+                        <label className="block mb-1 font-medium">
+                          Partner Contact Owner
+                        </label>
+                        <Input
+                          name="partnerContactOwner"
+                          value={formData.partnerContactOwner || ""}
+                          onChange={(e) =>
+                            handleChange(e.target.name, e.target.value)
+                          }
+                          placeholder="Enter Owner"
+                          disabled={isDisabled}
+                        />
+                      </div>
+
+                      {/* Parent Partner */}
+                      <div>
+                        <label className="block mb-1 font-medium">
+                          Parent Partner
+                        </label>
+                        <Input
+                          name="parentPartner"
+                          value={formData.parentPartner || ""}
+                          onChange={(e) =>
+                            handleChange(e.target.name, e.target.value)
+                          }
+                          placeholder="Enter Parent Partner"
+                          disabled={isDisabled}
+                        />
+                      </div>
+                    </div>
+                  </Card>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="address-info" className="mb-2">
+                <AccordionTrigger className="text-xl font-semibold">
                   Address Information
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-2">
-                  <div className="flex flex-col">
-                    <label className="text-xs mb-1 text-muted-foreground">
-                      Street
-                    </label>
-                    <input
-                      readOnly={isDisabled}
-                      className="border p-1 rounded"
-                      name="street"
-                      value={formData.street}
-                      onChange={handleChange}
-                      placeholder="Street"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label className="text-xs mb-1 text-muted-foreground">
-                      City
-                    </label>
-                    <input
-                      readOnly={isDisabled}
-                      className="border p-1 rounded"
-                      name="city"
-                      value={formData.city}
-                      onChange={handleChange}
-                      placeholder="City"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label className="text-xs mb-1 text-muted-foreground">
-                      State
-                    </label>
-                    <input
-                      readOnly={isDisabled}
-                      className="border p-1 rounded"
-                      name="state"
-                      value={formData.state}
-                      onChange={handleChange}
-                      placeholder="State"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label className="text-xs mb-1 text-muted-foreground">
-                      Country
-                    </label>
-                    <input
-                      readOnly={isDisabled}
-                      className="border p-1 rounded"
-                      name="country"
-                      value={formData.country}
-                      onChange={handleChange}
-                      placeholder="Country"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <label className="text-xs mb-1 text-muted-foreground">
-                      Zip Code
-                    </label>
-                    <input
-                      readOnly={isDisabled}
-                      className="border p-1 rounded"
-                      name="zipCode"
-                      value={formData.zipCode}
-                      onChange={handleChange}
-                      placeholder="Zip Code"
-                    />
-                  </div>
-                </div>
-              </Card>
-            )}
-
-            {/* Navigation Buttons */}
-            <div className="flex justify-center mt-8 gap-3">
-              {currentStep === 1 && (
-                <button
-                  type="button"
-                  onClick={() => setCurrentStep(0)}
-                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded"
-                >
-                  Previous
-                </button>
-              )}
-              <button
-                type="button"
-                onClick={() => {
-                  if (currentStep === 0) setCurrentStep(1);
-                  else handleUpdate();
-                }}
-                className="px-4 py-2 bg-blue-500 text-white rounded"
-              >
-                {currentStep === 0 ? "Next" : "Submit"}
-              </button>
-            </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <Card className="shadow-background gap-4 mt-3 px-5 py-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block mb-1 font-medium">
+                          Billing Street
+                        </label>
+                        <input
+                          name="street"
+                          value={formData.street || ""}
+                          onChange={(e) =>
+                            handleChange(e.target.name, e.target.value)
+                          }
+                          placeholder="Billing Street"
+                          readOnly={isDisabled}
+                          className="border p-1 rounded w-full"
+                        />
+                      </div>
+                      <div>
+                        <label className="block mb-1 font-medium">
+                          Shipping Street
+                        </label>
+                        <input
+                          name="shipmentStreet"
+                          value={formData.shipmentStreet || ""}
+                          onChange={(e) =>
+                            handleChange(e.target.name, e.target.value)
+                          }
+                          placeholder="Shipping Street"
+                          readOnly={isDisabled}
+                          className="border p-1 rounded w-full"
+                        />
+                      </div>
+                    </div>
+                  </Card>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </TabsContent>
 
           {/* NOTES */}
           <TabsContent value="notes" className="flex flex-col px-2 lg:px-2">
-            <Notes id={contactData.main.ROWID} />
+            <Notes id={details?.ROWID} />
           </TabsContent>
 
           {/* ATTACHMENTS */}
-          <TabsContent
-            value="attachments"
-            className="flex flex-col px-2 lg:px-2"
-          >
-            <Attachment id={contactData.main.ROWID} />
+          <TabsContent value="attachments" className="flex flex-col px-2 lg:px-2">
+            <Attachment id={details?.ROWID} />
           </TabsContent>
 
           {/* COMMS */}

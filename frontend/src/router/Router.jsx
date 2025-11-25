@@ -27,7 +27,7 @@ import ShipmentLayout from "@/features/finance/pages/sales/shipments/Layout/Ship
 import PackageLayout from "@/features/Packages/Layout/PackageLayout";
 import LeadActivityForm from "@/features/crm/pages/leads/relatedList/leadActivity/LeadActivityForm";
 import PurchaseRecieveLayout from "@/features/finance/pages/purchase/purchaseReceive/layout/PurchaseRecieveLayout";
-import VendorLayout from "@/features/finance/pages/vendors/layouts/VendorLayout";
+// import VendorLayout from "@/features/finance/pages/vendors/layouts/VendorLayout";
 import RecurringBillsLayout from "@/features/finance/pages/bills/pages/recurringbills/layout/RecurringBillsLayout";
 const Home = lazy(() => import("@/features/home/pages/Home"));
 const LoginPage = lazy(() => import("@/features/login/LoginPage"));
@@ -67,15 +67,6 @@ const PurchaseReceiveDetail = lazy(() =>
     "@/features/finance/pages/purchase/purchaseReceive/PurchaseReceiveDetail"
   )
 );
-//VENDORS
-const VendorsList = lazy(() =>
-  import("@/features/finance/pages/vendors/VendorsList")
-);
-
-const VendorForm = lazy(() =>
-  import("@/features/finance/pages/vendors/VendorForm")
-);
-//DEAL MODULE
 const Deals = lazy(() => import("@/features/crm/pages/deals/DealsListView"));
 const DealsForm = lazy(() => import("@/features/crm/pages/deals/DealsForm"));
 const DealsDetailsView = lazy(() =>
@@ -295,6 +286,14 @@ const CustomerServiceDetailView = lazy(() =>
 // POLICY MODULE
 import PolicyLayout from "@/features/Policy/layout/PolicyLayout";
 import InvestmentForm from "@/features/Policy/investment/InvestmentForm";
+import VendorList from "@/features/finance/pages/vendors/VendorList";
+import VendorForm from "@/features/finance/pages/vendors/VendorForm";
+import VendorLayout from "@/features/finance/pages/vendors/layout/VendorLayout";
+import VendorDetailView from "@/features/finance/pages/vendors/VendorDetailView";
+import LocationLayout from "@/features/locations/layout/LocationLayout";
+import LocationList from "@/features/locations/LocationList";
+import LocationForm from "@/features/locations/LocationForm";
+import LocationDetailView from "@/features/locations/LocationDetailView";
 const PolicyListView = lazy(() => import("@/features/Policy/PolicyListView"));
 const PolicyForm = lazy(() => import("@/features/Policy/PolicyForm"));
 const PolicyDetailsView = lazy(() => import("@/features/Policy/PolicyDetailsView"));
@@ -380,7 +379,8 @@ export default function AppRoutes() {
               <Route path="" element={<PartnerContactList />} />
               <Route path="create" element={<PartnerContactForm />} />
               <Route path="details/:id" element={<PartnerContactDetails />} />
-             <Route path="policy" element={<PolicyLayout />}>
+            </Route>
+            <Route path="policy" element={<PolicyLayout />}>
               <Route path="" element={<PolicyListView />} />
               <Route path="create" element={<PolicyForm />} />
               <Route path="investment/create" element={<InvestmentForm />} />
@@ -408,6 +408,13 @@ export default function AppRoutes() {
             <Route path="detail" element={<JobWorkDetail />} />
           </Route>
 
+          <Route path="location" element={<LocationLayout />}>
+            <Route path="locations-list" element={<LocationList />} />
+            <Route path="create" element={<LocationForm />} />
+            <Route path="details/:id" element={<LocationDetailView />} />
+            <Route path="details" element={<LocationDetailView />} />
+          </Route>
+
           {/* <Route path="activity" element={<ActivityMasterLayout />}> */}
           {/* <Route index element={<Navigate to="activityMaster" replace />} /> */}
           {/* <Route path="activityMaster" element={<ActivityMaster/>}> */}
@@ -431,8 +438,9 @@ export default function AppRoutes() {
           </Route>
           <Route path="" element={<FinanceLayout />}>
             <Route path="vendors" element={<VendorLayout />}>
-              <Route path="vendors-list" element={<VendorsList />} />
+              <Route path="vendors-list" element={<VendorList />} />
               <Route path="create" element={<VendorForm />} />
+              <Route path="details/:id" element={<VendorDetailView />} />
             </Route>
             <Route
               path="material-requisition"
@@ -543,7 +551,6 @@ export default function AppRoutes() {
               element={<ShipmentsTrackerEmail />}
             />
           </Route>
-        </Route>
         </Route>
         {/* Admin Portal */}
         <Route

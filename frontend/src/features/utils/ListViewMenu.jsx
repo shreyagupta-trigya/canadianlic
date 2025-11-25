@@ -1,5 +1,5 @@
 import { Download, Trash2 } from "lucide-react";
-import VendorList from "../finance/pages/vendors/VendorsList";
+
 
 export const moreOptions = [
   {

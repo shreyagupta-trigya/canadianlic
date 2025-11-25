@@ -10,7 +10,6 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import Stepper from "@/components/ui/stepper";
 
 const partnerContactOptions = [
   { ROWID: 1, firstName: "John Doe" },
@@ -27,7 +26,6 @@ const PartnerContactForm = ({ id }) => {
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
 
-  // Model state for form data
   const [formData, setFormData] = useState({
     partnerContact: "",
     email: "",
@@ -39,18 +37,16 @@ const PartnerContactForm = ({ id }) => {
     city: "",
     zipCode: "",
     description: "",
+    shipmentStreet: "",
   });
 
-  // Error state for validation messages
   const [errors, setErrors] = useState({});
 
-  // Update formData model and clear errors as user edits
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (errors[field]) setErrors((prev) => ({ ...prev, [field]: "" }));
   };
 
-  // Validate only current step fields before moving forward
   const validateStep = () => {
     const newErrors = {};
     if (currentStep === 0) {
@@ -61,19 +57,6 @@ const PartnerContactForm = ({ id }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // On Next button click: validate then increment step
-  const handleNext = () => {
-    if (!validateStep()) {
-      toast.error("Please fill all required fields");
-      return;
-    }
-    setCurrentStep(1);
-  };
-
-  // On Previous button click: go back to step 0
-  const handlePrevious = () => setCurrentStep(0);
-
-  // Validate all fields before final submission
   const validateAll = () => {
     const newErrors = {};
     if (!formData.partnerContact) newErrors.partnerContact = "Required";
@@ -82,7 +65,16 @@ const PartnerContactForm = ({ id }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Submit form data after full validation
+  const handleNext = () => {
+    if (!validateStep()) {
+      toast.error("Please fill all required fields");
+      return;
+    }
+    setCurrentStep(1);
+  };
+
+  const handlePrevious = () => setCurrentStep(0);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateAll()) {
@@ -91,7 +83,6 @@ const PartnerContactForm = ({ id }) => {
     }
     setLoading(true);
     try {
-      // Simulated API call or actual fetch/axios here
       await new Promise((resolve) => setTimeout(resolve, 1000));
       toast.success(
         id
@@ -106,7 +97,6 @@ const PartnerContactForm = ({ id }) => {
     }
   };
 
-  // Cancel handler navigates back
   const onCancel = () => navigate(-1);
 
   return (
@@ -122,12 +112,62 @@ const PartnerContactForm = ({ id }) => {
       submitButtonClass="text-sm px-3 py-1 md:text-base md:px-5 md:py-2"
       cancelButtonClass="text-sm px-3 py-1 md:text-base md:px-5 md:py-2"
     >
-      <div className="mb-6">
-        <Stepper
-          steps={steps}
-          currentStep={currentStep}
-          onStepClick={setCurrentStep}
-        />
+      {/* Custom Stepper */}
+      <div className="p-4">
+        <div className="flex items-center justify-center mb-8">
+          {steps.map((step, index) => (
+            <React.Fragment key={index}>
+              <div
+                className="flex flex-col items-center cursor-pointer transition-all duration-300 hover:scale-105"
+                onClick={() => {
+                  if (index <= currentStep) {
+                    // Allow going back or same step
+                    setCurrentStep(index);
+                  } else {
+                    // Going forward, validate current step before allowing
+                    if (index === 1) {
+                      if (validateStep()) {
+                        setCurrentStep(index);
+                      } else {
+                        toast.error(
+                          "Please fill all required fields on the current step"
+                        );
+                      }
+                    }
+                  }
+                }}
+              >
+                <div
+                  className={`w-4 h-4 rounded-full text-white font-semibold transition-all duration-300 ${
+                    index === currentStep
+                      ? "bg-blue-500 shadow-lg"
+                      : index < currentStep
+                      ? "bg-green-500"
+                      : "bg-gray-300"
+                  }`}
+                ></div>
+                <span
+                  className={`text-sm transition-colors m-0 p-0 duration-300 ${
+                    index === currentStep
+                      ? "text-blue-500 font-medium"
+                      : index < currentStep
+                      ? "text-green-500"
+                      : "text-gray-500"
+                  }`}
+                >
+                  {step.title}
+                </span>
+              </div>
+              {index < steps.length - 1 && (
+                <div
+                  className={`h-[2px] flex-1 mb-5 transition-colors duration-300 ${
+                    index < currentStep ? "bg-green-500" : "bg-gray-300"
+                  }`}
+                ></div>
+              )}
+            </React.Fragment>
+          ))}
+        </div>
       </div>
 
       {/* Step 0 - Contact Info */}
@@ -182,9 +222,7 @@ const PartnerContactForm = ({ id }) => {
 
             {/* Partner Contact Owner */}
             <div>
-              <label className="block mb-1 font-medium">
-                Partner Contact Owner
-              </label>
+              <label className="block mb-1 font-medium">Partner Contact Owner</label>
               <Input
                 value={formData.partnerContactOwner || ""}
                 onChange={(e) =>
@@ -211,9 +249,7 @@ const PartnerContactForm = ({ id }) => {
       {currentStep === 1 && (
         <div className="w-full rounded-2xl border mt-4 px-6 py-5 flex flex-col">
           <div className="rounded-2xl px-6 py-6">
-            <div className="text-lg font-semibold mb-4">
-              Address Information
-            </div>
+            <div className="text-lg font-semibold mb-4">Address Information</div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block mb-1 font-medium">Billing Street</label>
@@ -225,15 +261,11 @@ const PartnerContactForm = ({ id }) => {
                 />
               </div>
               <div>
-                <label className="block mb-1 font-medium">
-                  Shipping Street
-                </label>
+                <label className="block mb-1 font-medium">Shipping Street</label>
                 <Input
                   name="shipmentStreet"
                   value={formData.shipmentStreet || ""}
-                  onChange={(e) =>
-                    handleChange("shipmentStreet", e.target.value)
-                  }
+                  onChange={(e) => handleChange("shipmentStreet", e.target.value)}
                   placeholder="Shipping Street"
                   className={errors.shipmentStreet ? "border-red-500" : ""}
                 />
@@ -247,36 +279,6 @@ const PartnerContactForm = ({ id }) => {
           </div>
         </div>
       )}
-
-      {/* Navigation Buttons */}
-      {/* <div className="flex justify-center mt-6 gap-3">
-        {currentStep === 1 && (
-          <button
-            type="button"
-            onClick={handlePrevious}
-            className="px-4 py-2 bg-gray-300 text-gray-700 rounded"
-          >
-            Previous
-          </button>
-        )}
-        <button
-          type="submit"
-          disabled={loading}
-          className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
-        >
-          {loading
-            ? id
-              ? "Updating..."
-              : currentStep === 1
-              ? "Submitting..."
-              : "Next..."
-            : id
-            ? "Update"
-            : currentStep === 1
-            ? "Submit"
-            : "Next"}
-        </button>
-      </div> */}
     </FormPageLayout>
   );
 };
